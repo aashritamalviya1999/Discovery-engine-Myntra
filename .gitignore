@@ -1,0 +1,6 @@
+*.log
+*.zip
+latest_url.txt
+pinggy_url.txt
+__pycache__/
+.venv/
