@@ -347,20 +347,22 @@ header {
     color: var(--text-title);
 }
 
-.sources-table {
+.sources-table, .metric-tree-table, .interview-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 12.5px;
     margin-top: 10px;
 }
 
-.sources-table th, .sources-table td {
-    padding: 8px 12px;
+.sources-table th, .sources-table td,
+.metric-tree-table th, .metric-tree-table td,
+.interview-table th, .interview-table td {
+    padding: 10px 12px;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
 }
 
-.sources-table th {
+.sources-table th, .metric-tree-table th, .interview-table th {
     font-weight: 600;
     color: var(--text-muted);
     background-color: var(--card-bg);
@@ -678,4 +680,37 @@ header {
 .load-more-btn:hover {
     background-color: var(--primary);
     color: white;
+}
+
+/* Metric Tree & Problem Definition Custom Styles */
+.metric-tree-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 12px;
+}
+
+.problem-def-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.problem-def-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px 20px;
+}
+
+.problem-def-card h4 {
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }

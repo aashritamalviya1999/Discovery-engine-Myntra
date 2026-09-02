@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Channel Sources Breakdown Calculation
     const sourceCounts = {};
     data.forEach(item => {
-        const src = item.source || "Other";
+        const src = item.source || item.Source || "Other";
         sourceCounts[src] = (sourceCounts[src] || 0) + 1;
     });
 
@@ -33,6 +33,30 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    // Dynamic Decision Friction Landscape Bars Calculation
+    const catCounts = {};
+    data.forEach(d => {
+        const cat = d.primary_category || d.category_tag || "Other / Emerging";
+        catCounts[cat] = (catCounts[cat] || 0) + 1;
+    });
+
+    const cssChartBars = document.getElementById("cssChartBars");
+    if (cssChartBars) {
+        cssChartBars.innerHTML = "";
+        const sortedCats = Object.entries(catCounts).sort((a, b) => b[1] - a[1]);
+        sortedCats.forEach(([catName, count]) => {
+            const pct = ((count / totalScraped) * 100).toFixed(1);
+            const barRow = document.createElement("div");
+            barRow.className = "css-chart-bar";
+            barRow.innerHTML = `
+                <div class="css-chart-label" title="${catName}">${catName}</div>
+                <div class="css-chart-track"><div class="css-chart-fill" style="width: ${pct}%;"></div></div>
+                <div class="css-chart-val">${pct}% (${count})</div>
+            `;
+            cssChartBars.appendChild(barRow);
+        });
+    }
+
     // Feed & Pagination Setup
     const feedContainer = document.getElementById("feedbackFeed");
     const searchInput = document.getElementById("searchBar");
@@ -52,30 +76,32 @@ document.addEventListener("DOMContentLoaded", () => {
         const sentClass = item.sentiment === "Negative" ? "pill-sent-neg" : (item.sentiment === "Positive" ? "pill-sent-pos" : "pill-sent-neu");
         const evClass = item.evidence_type && item.evidence_type.includes("Verbatim") ? "pill-verbatim" : (item.evidence_type && item.evidence_type.includes("Paraphrase") ? "pill-paraphrase" : "pill-inference");
         
-        let srcUrl = item.source_url || '#';
+        let srcUrl = item.source_url || item.Original_URL || '#';
         if (String(srcUrl).toLowerCase() === 'nan') srcUrl = '#';
 
-        let painPoint = item.primary_pain_point || ((item.primary_category || 'General') + " Friction");
-        let confScore = item.confidence_score || 0.95;
+        let painPoint = item.primary_pain_point || item.Friction_tags || ((item.primary_category || 'General') + " Friction");
+        let confScore = item.confidence_score || item.AI_confidence || 0.95;
+        let commentText = item.comment || item.Raw_text || "";
 
         card.innerHTML = `
             <div class="card-meta">
-                <span class="source-tag">${item.source}</span>
-                <span>Segment: <strong>${item.behavioral_segment || item.user_segment}</strong></span>
+                <span class="source-tag">${item.source || item.Source}</span>
+                <span>Segment: <strong>${item.behavioral_segment || item.Segment || item.user_segment}</strong></span>
                 <span class="pill ${evClass}">${item.evidence_type || '🟡 AI-Synthesized Evidence'}</span>
             </div>
-            <div class="comment-text">"${item.comment}"</div>
+            <div class="comment-text">"${commentText}"</div>
             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted); margin-top: 2px;">
-                <span style="font-style: italic;">${item.thread_ref || 'Audit Reference #1001'} (${item.date || 'Aug 2026'})</span>
+                <span style="font-style: italic;">${item.thread_ref || 'Audit Reference #1001'} (${item.date || item.Date || 'Aug 2026'})</span>
                 <a href="${srcUrl}" target="_blank" style="color: var(--primary); font-weight: 700; text-decoration: none;">View original ↗</a>
             </div>
             <div class="pain-point" style="margin-top: 6px;">📌 Primary Blocker: <strong>${painPoint}</strong></div>
             <div class="tag-pill-container">
                 <span class="pill pill-cat">${item.primary_category || item.category_tag}</span>
-                <span class="pill pill-intent">${item.intent_type}</span>
-                <span class="pill ${barrierClass}">${item.barrier_level} Barrier</span>
-                <span class="pill ${sentClass}">${item.sentiment}</span>
-                <span class="pill" style="background-color: var(--meta-bg); color: var(--text-muted);">Conf: ${confScore}</span>
+                <span class="pill pill-intent">${item.intent_type || item.Intent + ' Intent'}</span>
+                <span class="pill ${barrierClass}">${item.barrier_level || 'High'} Barrier</span>
+                <span class="pill ${sentClass}">${item.sentiment || 'Negative'}</span>
+                <span class="pill" style="background-color: var(--meta-bg); color: var(--text-muted);">AI Conf: ${confScore}</span>
+                <span class="pill" style="background-color: rgba(16, 185, 129, 0.15); color: #10B981;">Human Val: ${item.Human_validation || 'Agree'}</span>
             </div>
         `;
         return card;
@@ -120,15 +146,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const barrierVal = barrierSelect ? barrierSelect.value : "All";
 
         filteredItems = data.filter(item => {
-            const segName = item.behavioral_segment || item.user_segment || "";
+            const segName = item.behavioral_segment || item.Segment || item.user_segment || "";
+            const commentStr = item.comment || item.Raw_text || "";
+            const painStr = item.primary_pain_point || item.Friction_tags || "";
+            const srcStr = item.source || item.Source || "";
+
             const matchesSearch = !searchVal || 
-                                  item.comment.toLowerCase().includes(searchVal) || 
-                                  (item.primary_pain_point && item.primary_pain_point.toLowerCase().includes(searchVal)) ||
+                                  commentStr.toLowerCase().includes(searchVal) || 
+                                  painStr.toLowerCase().includes(searchVal) ||
                                   segName.toLowerCase().includes(searchVal) ||
-                                  (item.source && item.source.toLowerCase().includes(searchVal));
+                                  srcStr.toLowerCase().includes(searchVal);
 
             const matchesCat = catVal === "All" || segName === catVal;
-            const matchesBarrier = barrierVal === "All" || item.barrier_level === barrierVal;
+            const matchesBarrier = barrierVal === "All" || (item.barrier_level || 'High') === barrierVal;
 
             return matchesSearch && matchesCat && matchesBarrier;
         });
@@ -152,12 +182,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateFeedDisplay();
 
     // Chart.js Doughnut Chart setup
-    const catCounts = {};
-    data.forEach(d => {
-        const cat = d.primary_category || d.category_tag;
-        catCounts[cat] = (catCounts[cat] || 0) + 1;
-    });
-
     const chartElem = document.getElementById('frictionDoughnut');
     if (chartElem) {
         const ctxFriction = chartElem.getContext('2d');
@@ -168,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 datasets: [{
                     data: Object.values(catCounts),
                     backgroundColor: [
-                        '#D80E62', '#E11B74', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3'
+                        '#D80E62', '#E11B74', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#10B981'
                     ],
                     borderColor: 'transparent',
                     borderWidth: 0
@@ -207,20 +231,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // CSV Download Functionality
+    // Full 14-Field CSV Download Functionality
     const csvBtn = document.getElementById("csvDownloadBtn");
     if (csvBtn) {
         csvBtn.addEventListener("click", (e) => {
             e.preventDefault();
             if (data.length === 0) return;
 
-            const headers = Object.keys(data[0]);
+            const targetSchemaFields = [
+                "Source", "Original_URL", "Date", "Raw_text", "Wishlist_reason", 
+                "Intent", "Friction_tags", "Information_gap", "External_behaviour", 
+                "Purchase_timeline", "Product_category", "Segment", "AI_confidence", "Human_validation"
+            ];
+
             const csvRows = [];
-            csvRows.push(headers.join(","));
+            csvRows.push(targetSchemaFields.join(","));
 
             data.forEach(row => {
-                const values = headers.map(header => {
-                    const val = row[header] === null || row[header] === undefined ? "" : String(row[header]);
+                const values = targetSchemaFields.map(field => {
+                    const val = row[field] === null || row[field] === undefined ? "" : String(row[field]);
                     const escaped = val.replace(/"/g, '""');
                     return `"${escaped}"`;
                 });

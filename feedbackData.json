@@ -1,4 +1,4 @@
-const feedbackData = [
+[
   {
     "id": 1001,
     "Source": "Reddit (r/IndianFashionAddicts)",
@@ -53999,4 +53999,4 @@ const feedbackData = [
     "user_segment": "High-Intent Comparer",
     "secondary_categories_str": "Comparison Friction, Comparison Friction"
   }
-];
+]
