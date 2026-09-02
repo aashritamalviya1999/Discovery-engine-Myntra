@@ -43,7 +43,7 @@
         <div class="exec-summary-highlights">
             <div class="highlight-item">🎯 Primary Opportunity: <span style="color: var(--primary);">Size & Fit Confidence (Score: 23/25)</span></div>
             <div class="highlight-item">🥈 Secondary Opportunity: <span style="color: #818CF8;">Comparison Confidence (Score: 22/25)</span></div>
-            <div class="highlight-item">🛡️ Qualitative Validation: <span style="color: #10B981;">5/6 Walkthrough Users Mentioned Fit Friction (3/6 Primary)</span></div>
+            <div class="highlight-item">🛡️ Qualitative Validation: <span style="color: #10B981;">Fit Uncertainty Emerged Across 5/6 Interviews (Primary for 3/6)</span></div>
         </div>
     </div>
 
@@ -86,16 +86,15 @@
         <div class="rubric-box" style="border-left: 3px solid var(--primary); background-color: var(--panel-bg); margin-top: 12px;">
             <strong style="color: var(--primary); font-size: 13px;">🤖 AI Discovery Workflow & System Architecture:</strong>
             <div style="font-weight: 700; color: var(--text-title); margin-top: 4px; font-size: 11.5px;">
-                Public Sources → Ingestion → Cleaning & Deduplication → LLM Multi-Label Parsing → Intent / Friction Classification → Opportunity Aggregation → Human Audit → Evidence Explorer UI
+                Public conversations → cleaning/deduplication → LLM multi-label classification → structured 14-field output → aggregation/opportunity scoring → human audit → Evidence Explorer
             </div>
             <div class="rubric-grid" style="margin-top: 10px; font-size: 11.5px;">
                 <div>
-                    <strong>AI Models & Stack:</strong> GPT-4o / Claude 3.5 Sonnet for multi-label intent parsing.
+                    <strong>AI Stack:</strong> GPT-4o / Claude 3.5 Sonnet / Python for multi-label intent parsing.
                     <br><strong>Structured Output:</strong> 14-Field Schema JSON & CSV dataset.
                 </div>
                 <div>
-                    <strong>Human Validation Method:</strong> 300 out of 1,500 records randomly audited (20% sample).
-                    <br><strong>90% Agreement Definition:</strong> Human PM reviewer concurred with AI-assigned category, intent, and friction tags in 270 out of 300 audited records.
+                    <strong>Validation & Agreement:</strong> Human review of 300 randomly sampled records; 90% agreement between human reviewer labels and AI-generated friction tags (270/300 concurred).
                 </div>
             </div>
         </div>
@@ -283,7 +282,7 @@
         </table>
 
         <div style="background-color: var(--card-bg); border-left: 3px solid var(--primary); padding: 12px 16px; margin-top: 14px; font-size: 12px; line-height: 1.5; color: var(--text-main);">
-            💡 <strong>PM Narrative Connection:</strong> Discovery evidence suggests <strong>Decision Confidence</strong> is a major addressable friction at the <strong>Wishlist → Bag stage</strong>. High-intent users shortlist items with active purchase desire, but stall prior to bag addition because cross-brand fit uncertainty makes committing to a size feel high-risk. Resolving fit confidence directly unlocks the primary product outcome (High-Intent Wishlist → Bag), propelling the entire conversion waterfall.
+            💡 <strong>PM Narrative Connection:</strong> Our discovery evidence suggests <strong>Decision Confidence</strong> is one of the strongest addressable frictions at the <strong>Wishlist → Bag stage</strong>. High-intent users shortlist items with active purchase desire, but stall prior to bag addition because cross-brand fit uncertainty makes committing to a size feel high-risk. Resolving fit confidence directly unlocks the primary product outcome (High-Intent Wishlist → Bag), propelling the entire conversion waterfall.
         </div>
     </div>
 
@@ -391,7 +390,7 @@
         </div>
 
         <div style="background-color: var(--card-bg); border-left: 3px solid #10B981; padding: 12px 16px; margin-top: 14px; font-size: 12px; line-height: 1.5; color: var(--text-main);">
-            ✅ <strong>Empirical Qualitative Signal:</strong> <strong>5 out of 6 participants (83.3%)</strong> mentioned fit/drape-related uncertainty during their decision journey, while <strong>3 out of 6 (50.0%)</strong> identified fit/size as their primary checkout blocker. All 6 participants performed compensatory workarounds outside Myntra (checking Reddit, YouTube, Instagram, or previous orders). This qualitative findings matrix directly validates the #1 opportunity ranking from the AI discovery engine.
+            ✅ <strong>Empirical Qualitative Signal:</strong> <strong>5 out of 6 participants (83.3%)</strong> mentioned fit/drape-related uncertainty during their purchase journey, while <strong>3 out of 6 (50.0%)</strong> identified fit/size as their primary checkout blocker. All 6 participants performed compensatory workarounds outside Myntra (checking Reddit, YouTube, Instagram, or previous orders). This qualitative findings matrix directly validates the #1 opportunity ranking from the AI discovery engine.
         </div>
     </div>
 
@@ -588,22 +587,22 @@
             <div class="problem-def-card">
                 <h4>5. Target Product Outcome & User Value</h4>
                 <p style="font-size: 13px; color: var(--text-main);">
-                    <strong>Product Outcome:</strong> Increase High-Intent Wishlist → Bag Conversion.<br>
+                    <strong>Product Outcome:</strong> Increase High-Intent Wishlist → Bag Conversion by reducing fit decision uncertainty.<br>
                     <strong>User Value:</strong> Users make confident size decisions without leaving Myntra for external research.
                 </p>
             </div>
 
             <div class="problem-def-card">
-                <h4>6. Business Value & Hypothesis</h4>
+                <h4>6. Business Impact & Downstream Hypothesis</h4>
                 <p style="font-size: 13px; color: var(--text-main);">
-                    <strong>Demonstrated Business Value:</strong> Accelerates Wishlist → Bag progression and reduces 30-day drop-off.<br>
-                    <strong>Secondary Hypothesis:</strong> Improved fit confidence may also reduce fit-related return rates.
+                    <strong>Business Impact:</strong> Stalled Wishlist → Bag progression and delayed conversion among high-intent users.<br>
+                    <strong>Secondary Hypothesis:</strong> Improving fit confidence is expected to increase Wishlist → Bag progression and may reduce fit-related returns as a downstream benefit.
                 </p>
             </div>
         </div>
 
         <div style="background-color: var(--panel-bg); border: 2px solid var(--primary); border-radius: 12px; padding: 18px; margin-top: 18px;">
-            <h4 style="color: var(--primary); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">🎯 Narrowed Final Problem Statement</h4>
+            <h4 style="color: var(--primary); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">🎯 Narrowed Final Fit Problem Statement</h4>
             <div style="font-size: 14px; font-weight: 700; color: var(--text-title); line-height: 1.6;">
                 "High-intent apparel shoppers with a near-term purchase goal delay moving wishlisted items to Bag because they cannot confidently determine whether their selected size will fit consistently across brands, forcing them to use external reviews, previous purchases, and try-on content before committing."
             </div>
@@ -629,7 +628,7 @@
             <div class="flow-arrow">➔</div>
             <div class="flow-step">
                 <span>4. User Interviews</span>
-                5/6 Mentioned Fit & External Workarounds
+                5/6 Mentioned Fit (Primary for 3/6)
             </div>
             <div class="flow-arrow">➔</div>
             <div class="flow-step">
