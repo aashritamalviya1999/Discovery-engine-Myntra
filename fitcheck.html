@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Myntra Smart Wishlist — Ready When You Are (Part 5 MVP)</title>
+<title>Myntra Smart Wishlist — "Ready When You Are" (Part 5 MVP)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -146,6 +146,22 @@
     margin-bottom: 12px;
   }
 
+  /* Interactive Demo Guide Banner */
+  .demo-guide-box {
+    background: linear-gradient(135deg, rgba(216, 14, 98, 0.12), rgba(26, 29, 46, 0.9));
+    border: 1.5px solid var(--primary);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .demo-guide-title { font-size: 13px; font-weight: 800; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .demo-steps-grid { display: flex; gap: 10px; flex-wrap: wrap; justify-content: space-between; }
+  .demo-step-pill {
+    flex: 1; min-width: 140px; background: var(--ink-panel); border: 1px solid var(--line);
+    padding: 8px 12px; border-radius: 8px; font-size: 11.5px; color: var(--text-main);
+  }
+  .demo-step-pill strong { color: var(--text-title); display: block; margin-bottom: 2px; }
+
   /* Fit Anchor & Intent Panel */
   .panel {
     background: var(--ink-panel);
@@ -277,8 +293,8 @@
   .ready-banner {
     background: linear-gradient(90deg, #10B981, #059669);
     color: white; font-size: 11px; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 0.5px; padding: 4px 12px; border-radius: 4px; display: inline-block;
-    align-self: flex-start; margin-bottom: 2px;
+    letter-spacing: 0.5px; padding: 5px 12px; border-radius: 6px; display: flex;
+    align-items: center; justify-content: space-between; margin-bottom: 2px;
   }
 
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
@@ -290,24 +306,32 @@
 
   .card-meta { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 10px; }
 
-  /* Stock Watch / Target Price Widget */
-  .stock-watch-box {
+  /* "What Are You Waiting For?" Selector Box */
+  .waiting-reason-box {
     background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 10px;
-    padding: 14px; display: flex; flex-direction: column; gap: 10px;
+    padding: 12px; display: flex; flex-direction: column; gap: 8px;
   }
-  .stock-watch-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: var(--text-title); }
-  
+  .waiting-reason-title { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gold); }
+  .waiting-options { display: flex; gap: 6px; }
+  .waiting-opt-btn {
+    flex: 1; padding: 6px 8px; border: 1px solid var(--line); background: var(--ink);
+    color: var(--ink-soft); font-size: 11px; font-weight: 700; border-radius: 6px; cursor: pointer; text-align: center;
+  }
+  .waiting-opt-btn.active { background: var(--primary-glow); border-color: var(--primary); color: var(--primary); }
+
+  /* Target Price Widget */
+  .price-watch-box {
+    background: rgba(255,255,255,0.02); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px; display: flex; flex-direction: column; gap: 10px;
+  }
   .target-price-input-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
   .target-price-input-group label { font-size: 11px; color: var(--ink-soft); text-transform: uppercase; font-weight: 700; }
   .target-price-input-group input[type=number] { width: 110px; padding: 6px 10px; font-size: 13.5px; font-weight: 700; color: var(--gold); border: 1px solid var(--gold); background: var(--ink); }
   
-  .preset-btn-group {
-    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;
-  }
+  .preset-btn-group { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
   .preset-btn {
     background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--text-main);
     padding: 4px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 700; cursor: pointer;
-    transition: all 0.2s;
   }
   .preset-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
 
@@ -316,20 +340,13 @@
     padding: 2px 8px; border-radius: 4px; margin-left: auto;
   }
 
-  .price-distance-bar-track {
-    height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; position: relative;
-  }
-  .price-distance-bar-fill {
-    height: 100%; background: linear-gradient(90deg, #F59E0B, #10B981); border-radius: 4px; transition: width 0.4s ease;
-  }
-
+  .price-distance-bar-track { height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; }
+  .price-distance-bar-fill { height: 100%; background: linear-gradient(90deg, #F59E0B, #10B981); border-radius: 4px; transition: width 0.4s ease; }
   .distance-status-text { font-size: 11.5px; font-weight: 600; color: var(--ink-soft); display: flex; justify-content: space-between; }
-  .distance-status-text strong { color: var(--sage); }
 
   .sim-drop-btn {
     background: rgba(245, 158, 11, 0.15); border: 1px dashed var(--gold); color: var(--gold);
     padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; text-align: center;
-    transition: all 0.2s;
   }
   .sim-drop-btn:hover { background: var(--gold); color: var(--ink); }
 
@@ -358,7 +375,7 @@
   .check-btn.loading .spinner { display: inline-block; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* Result Output Card */
+  /* Result Output Card with Explanation Layer */
   .result {
     display: none; margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 16px;
   }
@@ -382,6 +399,7 @@
   .rec-size { font-size: 12.5px; color: var(--ink-soft); }
   .rec-size b { color: var(--text-title); font-weight: 800; }
 
+  .explanation-section-title { font-size: 11px; font-weight: 800; text-transform: uppercase; color: var(--primary); margin-top: 8px; margin-bottom: 4px; }
   .reasons { list-style: none; margin: 0 0 10px; display: flex; flex-direction: column; gap: 6px; }
   .reasons li { font-size: 12px; line-height: 1.5; padding-left: 14px; position: relative; color: var(--text-main); }
   .reasons li::before { content: '•'; position: absolute; left: 2px; color: var(--primary); font-size: 14px; }
@@ -392,15 +410,14 @@
   }
   .watchout b { color: #F59E0B; font-weight: 800; }
 
-  .action-row {
-    display: flex; gap: 10px; margin-top: 12px;
-  }
+  .action-row { display: flex; gap: 10px; margin-top: 12px; }
   .move-bag-btn {
-    flex: 1; padding: 10px 14px; background: var(--sage); color: white; border: none;
-    font-family: inherit; font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
+    flex: 1; padding: 12px 16px; background: var(--sage); color: white; border: none;
+    font-family: inherit; font-size: 13px; font-weight: 800; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
   }
-  .move-bag-btn:hover { background: #059669; }
+  .move-bag-btn:hover { background: #059669; transform: translateY(-2px); }
 
   /* Verdict Color Variations */
   .v-great .gauge-fill { stroke: var(--sage); }
@@ -436,13 +453,40 @@
       </div>
       <div class="ruler" id="ruler"></div>
       <h1 class="wordmark">Smart <em>Wishlist</em> &amp; FitCheck</h1>
-      <p class="subhead">Transforming wishlists from passive bookmarks into an active Decision Management System. Tell Myntra your exact <strong>Target Price</strong> and <strong>Fit Anchor</strong> — items automatically progress to "Ready to Buy" when your conditions are met.</p>
+      <p class="subhead">Transforming wishlists from passive bookmarks into an active Decision Management System. Tell Myntra what condition prevents your purchase — <strong>Fit Confidence (#1 Research Wedge)</strong>, <strong>Target Price Watch</strong>, or <strong>Both</strong>. Items become 🎯 Ready to Buy when your conditions resolve.</p>
     </header>
+
+    <!-- DEMO JOURNEY GUIDE BANNER -->
+    <div class="demo-guide-box">
+      <div class="demo-guide-title">💡 Interactive Demo Funnel Guide</div>
+      <div class="demo-steps-grid">
+        <div class="demo-step-pill">
+          <strong>1. Set Fit Anchor</strong>
+          Pick brand/size you kept below
+        </div>
+        <div class="demo-step-pill">
+          <strong>2. Pick Waiting Reason</strong>
+          Select Price, Fit, or Both on card
+        </div>
+        <div class="demo-step-pill">
+          <strong>3. Test Condition Event</strong>
+          Check Fit or simulate Price Drop
+        </div>
+        <div class="demo-step-pill">
+          <strong>4. Ready to Buy Trigger</strong>
+          Card enters 🎯 Ready to Buy state
+        </div>
+        <div class="demo-step-pill">
+          <strong>5. User Taps Move to Bag</strong>
+          User controls conversion to Bag
+        </div>
+      </div>
+    </div>
 
     <!-- STEP 1: FIT ANCHOR & PROFILE -->
     <section class="panel">
       <p class="panel-title">Step 1 — Set your Fit Anchor & Profile</p>
-      <p class="panel-desc">Pick one brand and size you've kept and worn. Add your height so FitCheck can predict dress hemlines and sleeve fits accurately.</p>
+      <p class="panel-desc">Tell us one size you've kept and worn. This anchor is used by FitCheck to evaluate cross-brand sizing variations and body drape.</p>
       
       <div class="anchor-grid">
         <div class="field">
@@ -521,7 +565,7 @@
 
         <!-- Step 2 -->
         <div class="flow-node node-beige">
-          <strong>Fit confidence badge & Target Price Watch</strong>
+          <strong>Fit confidence badge & Price Target Watch</strong>
           <span>auto-shown on every wishlisted item card</span>
         </div>
         <div class="flow-arrow-down">↓</div>
@@ -538,7 +582,7 @@
           <div class="flow-branch-item">
             <div class="flow-node node-green">
               <strong>High confidence / Target Met</strong>
-              <span>size confirmed & price hit ➔ moves to Bag</span>
+              <span>size confirmed & price hit ➔ 🎯 Ready to Buy</span>
             </div>
           </div>
           <div class="flow-branch-item">
@@ -552,8 +596,8 @@
 
         <!-- Final Converging Node -->
         <div class="flow-node node-mint">
-          <strong>Converts within 30 days</strong>
-          <span>wishlist to bag to purchase</span>
+          <strong>User Taps "Move to Bag" ➔ Converts within 30 days</strong>
+          <span>wishlist to ready-to-buy to bag to purchase</span>
         </div>
       </div>
     </section>
@@ -562,7 +606,7 @@
     <div class="section-head">
       <div>
         <h2>Step 2 — Wishlist Decision Management System</h2>
-        <p>Set your target buy price or simulate live stock-market price drops for wishlisted items.</p>
+        <p>Select what you are waiting for on each item, check fit, or simulate product price changes.</p>
       </div>
       
       <div class="filter-tabs">
@@ -574,7 +618,7 @@
     <div class="grid" id="itemGrid"></div>
 
     <footer>
-      <p><strong>FitCheck & Intent Wishlist MVP (Part 5 Solution Prototype):</strong> Combines Opportunity #1 (Fit Uncertainty, 23/25) with Intent-Based Price Target Watch ("Stock Watch"). Features deterministic multi-signal fit reasoning and simulated live price triggers to propel Wishlist → Bag conversion without discounts.</p>
+      <p><strong>FitCheck & Intent Wishlist MVP (Part 5 Solution Prototype):</strong> Fit Confidence is the primary research-backed wedge (#1 Opportunity, 23/25). Price Target Watch is an adjacent intent signal demonstrating the broader Decision Management System concept ("Ready When You Are"). Evaluates per-item buy conditions to propel Wishlist → Ready to Buy → Bag conversion without generic discounts.</p>
     </footer>
 
   </div>
@@ -588,11 +632,13 @@ const ITEMS = [
     currentPriceNum: 1499,
     originalPriceNum: 2499,
     targetPriceNum: 1299,
+    waitingReason: 'both', // 'price', 'fit', 'both'
+    fitResolved: false,
     category: 'Jeans',
     meta: 'Denim (98% Cotton, 2% Elastane) · Mid-rise slim fit · Waist runs narrow',
     signals: 'Community fit notes (n=340 reviews): Waist consistently runs ~0.5 size smaller than Zara/H&M; length is true.',
     matrix: {
-      "Zara_L": { verdict: "Likely Fit", recSize: "32 (Size Up)", conf: 82, reasons: ["Roadster waist is cut 0.6 inch narrower than Zara L", "Elastane blend provides 3% flex after break-in"], watchOut: "If you prefer a relaxed waist fit, choose 32 instead of 30." },
+      "Zara_L": { verdict: "Likely Fit", recSize: "32 (Size Up)", conf: 82, reasons: ["Your anchor is Zara L (true to size). Roadster waist is cut 0.6 inch narrower than Zara L", "Elastane blend provides 3% flex after break-in"], watchOut: "If you prefer a relaxed waist fit, choose 32 instead of 30." },
       "default": { verdict: "Likely Fit", recSize: "Size Up 1", conf: 80, reasons: ["Roadster runs narrower at waistband than standard catalog chart"], watchOut: "Size up 1 waist size for comfortable movement." }
     }
   },
@@ -603,6 +649,8 @@ const ITEMS = [
     currentPriceNum: 2199,
     originalPriceNum: 3499,
     targetPriceNum: 1999,
+    waitingReason: 'fit',
+    fitResolved: false,
     category: 'Dress',
     meta: 'Cotton-Blend · Model is 5\'9" · Hemline sits above ankle on model',
     signals: 'Community fit notes (n=210 reviews): On wearers under 5\'4", hemline falls at floor length; bust/shoulder fits true.',
@@ -618,6 +666,8 @@ const ITEMS = [
     currentPriceNum: 2999,
     originalPriceNum: 4499,
     targetPriceNum: 2499,
+    waitingReason: 'price',
+    fitResolved: true,
     category: 'Shoes',
     meta: 'Knit upper · Standard width · Sizing compared to Nike/Adidas',
     signals: 'Community fit notes (n=290 reviews): Length matches Nike, but toe box is narrower.',
@@ -631,7 +681,9 @@ const ITEMS = [
     name: 'Tailored Fit Blazer',
     currentPriceNum: 3499,
     originalPriceNum: 5999,
-    targetPriceNum: 3499, // Target met by default!
+    targetPriceNum: 3499, // Target met!
+    waitingReason: 'fit',
+    fitResolved: true, // Fit resolved!
     category: 'Blazer',
     meta: 'Poly-viscose blend (220 GSM) · Structured padded shoulder · Lined',
     signals: 'Community fit notes (n=150 reviews): Structured shoulder; sleeve length runs ~1cm long.',
@@ -646,6 +698,8 @@ const ITEMS = [
     currentPriceNum: 1299,
     originalPriceNum: 2199,
     targetPriceNum: 999,
+    waitingReason: 'both',
+    fitResolved: false,
     category: 'Kurti',
     meta: '100% Pure Cotton · Machine wash · Shrinkage expected',
     signals: 'Community fit notes (n=260 reviews): Shrinks ~4-6% in chest and length after first machine wash.',
@@ -679,9 +733,15 @@ document.getElementById('saveAnchor').addEventListener('click', () => {
   status.textContent = `Anchor profile saved: ${anchor.brand} ${anchor.size} (${anchor.fit === 'true' ? 'True to size' : anchor.fit}) · Height: ${anchor.height}. FitCheck active!`;
   status.classList.add('show');
 
-  // Re-run predictions across cards
   ITEMS.forEach(item => checkFit(item.id, true));
 });
+
+function setWaitingReason(id, reason) {
+  const item = ITEMS.find(i => i.id === id);
+  if (!item) return;
+  item.waitingReason = reason;
+  renderGrid();
+}
 
 function renderGrid() {
   const grid = document.getElementById('itemGrid');
@@ -689,8 +749,18 @@ function renderGrid() {
 
   grid.innerHTML = ITEMS.map(item => {
     const isPriceMet = item.currentPriceNum <= item.targetPriceNum;
+    const isFitMet = item.fitResolved;
     const priceDiff = item.currentPriceNum - item.targetPriceNum;
-    const isReady = isPriceMet;
+
+    // Evaluate Ready-to-Buy status strictly based on item's chosen waitingReason
+    let isReady = false;
+    if (item.waitingReason === 'price') {
+      isReady = isPriceMet;
+    } else if (item.waitingReason === 'fit') {
+      isReady = isFitMet;
+    } else if (item.waitingReason === 'both') {
+      isReady = isPriceMet && isFitMet;
+    }
 
     if (isReady) readyCount++;
 
@@ -702,7 +772,12 @@ function renderGrid() {
 
     return `
       <div class="card ${isReady ? 'ready-to-buy' : ''}" id="card-${item.id}">
-        ${isReady ? `<div class="ready-banner">🎯 READY TO BUY — TARGET PRICE MET</div>` : ''}
+        ${isReady ? `
+          <div class="ready-banner">
+            <span>🎯 READY TO BUY — ALL CONDITIONS MET</span>
+            <span style="font-size:10px; background:rgba(0,0,0,0.2); padding:2px 6px; border-radius:4px;">Ready for Bag</span>
+          </div>
+        ` : ''}
         
         <div class="card-top">
           <div>
@@ -717,67 +792,90 @@ function renderGrid() {
 
         <div class="card-meta">${item.meta}</div>
 
-        <!-- Stock Watch / Price Target Widget -->
-        <div class="stock-watch-box">
-          <div class="stock-watch-header">
-            <span>🎯 Customer Price Target ("Stock Watch")</span>
-            <span style="color: ${isPriceMet ? 'var(--sage)' : 'var(--amber)'};">
-              ${isPriceMet ? '✓ Target Hit!' : '₹' + priceDiff + ' away'}
-            </span>
+        <!-- "What Are You Waiting For?" Per-Item Selector -->
+        <div class="waiting-reason-box">
+          <div class="waiting-reason-title">❓ What are you waiting for before buying?</div>
+          <div class="waiting-options">
+            <button class="waiting-opt-btn ${item.waitingReason === 'price' ? 'active' : ''}" onclick="setWaitingReason('${item.id}', 'price')">💰 Price Only</button>
+            <button class="waiting-opt-btn ${item.waitingReason === 'fit' ? 'active' : ''}" onclick="setWaitingReason('${item.id}', 'fit')">📏 Fit Only</button>
+            <button class="waiting-opt-btn ${item.waitingReason === 'both' ? 'active' : ''}" onclick="setWaitingReason('${item.id}', 'both')">💰+📏 Both</button>
           </div>
+        </div>
 
-          <div class="target-price-input-group">
-            <label for="targetInput-${item.id}">My Target Price:</label>
-            <span>₹</span>
-            <input type="number" id="targetInput-${item.id}" value="${item.targetPriceNum}" min="100" max="${item.currentPriceNum}" onchange="updateTargetPrice('${item.id}', this.value)">
-            
-            ${item.currentPriceNum > item.targetPriceNum ? `
-              <span class="savings-tag">Saves ₹${item.currentPriceNum - item.targetPriceNum} (${Math.round(((item.currentPriceNum - item.targetPriceNum)/item.currentPriceNum)*100)}% OFF)</span>
-            ` : `<span class="savings-tag" style="color:var(--sage);">Target Met!</span>`}
+        <!-- Price Watch Widget (Shown if waiting on Price or Both) -->
+        ${(item.waitingReason === 'price' || item.waitingReason === 'both') ? `
+          <div class="price-watch-box">
+            <div class="target-price-input-group">
+              <label for="targetInput-${item.id}">My Target Price:</label>
+              <span>₹</span>
+              <input type="number" id="targetInput-${item.id}" value="${item.targetPriceNum}" min="100" max="${item.currentPriceNum}" onchange="updateTargetPrice('${item.id}', this.value)">
+              
+              ${item.currentPriceNum > item.targetPriceNum ? `
+                <span class="savings-tag">Saves ₹${item.currentPriceNum - item.targetPriceNum} (${Math.round(((item.currentPriceNum - item.targetPriceNum)/item.currentPriceNum)*100)}% OFF)</span>
+              ` : `<span class="savings-tag" style="color:var(--sage);">Target Met!</span>`}
+            </div>
+
+            <!-- Quick Preset Discount Buttons -->
+            <div class="preset-btn-group">
+              <span style="font-size: 10px; color: var(--ink-soft); align-self: center;">Quick Targets:</span>
+              <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.95)})">5% OFF (₹${Math.round(item.currentPriceNum * 0.95)})</button>
+              <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.90)})">10% OFF (₹${Math.round(item.currentPriceNum * 0.90)})</button>
+              <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.80)})">20% OFF (₹${Math.round(item.currentPriceNum * 0.80)})</button>
+              <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${item.currentPriceNum})">Buy Now (₹${item.currentPriceNum})</button>
+            </div>
+
+            <div class="price-distance-bar-track" style="margin-top: 6px;">
+              <div class="price-distance-bar-fill" style="width: ${pctProgress}%;"></div>
+            </div>
+
+            <div class="distance-status-text">
+              <span>Current: ₹${item.currentPriceNum}</span>
+              <span>Target: ₹${item.targetPriceNum}</span>
+            </div>
+
+            ${!isPriceMet ? `
+              <button class="sim-drop-btn" onclick="simulatePriceDrop('${item.id}')">
+                ⚡ Simulate Product Price Change (₹${item.currentPriceNum} ➔ ₹${item.targetPriceNum})
+              </button>
+            ` : ''}
           </div>
+        ` : ''}
 
-          <!-- Quick Preset Target Price Buttons -->
-          <div class="preset-btn-group">
-            <span style="font-size: 10px; color: var(--ink-soft); align-self: center;">Quick Targets:</span>
-            <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.95)})">5% OFF (₹${Math.round(item.currentPriceNum * 0.95)})</button>
-            <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.90)})">10% OFF (₹${Math.round(item.currentPriceNum * 0.90)})</button>
-            <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.80)})">20% OFF (₹${Math.round(item.currentPriceNum * 0.80)})</button>
-            <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${item.currentPriceNum})">Buy Now (₹${item.currentPriceNum})</button>
+        <!-- Per-Item Buy Conditions Checklist -->
+        <div class="conditions-checklist">
+          <div style="font-size: 11px; font-weight: 800; color: var(--text-title); margin-bottom: 2px;">
+            📋 Item Buy Conditions (${item.waitingReason === 'both' ? 'Price + Fit Required' : (item.waitingReason === 'price' ? 'Price Required' : 'Fit Required')})
           </div>
+          
+          ${(item.waitingReason === 'price' || item.waitingReason === 'both') ? `
+            <div class="condition-item ${isPriceMet ? 'met' : 'unmet'}">
+              <span>${isPriceMet ? '✓' : '⏳'}</span>
+              <span>Target Price ≤ ₹${item.targetPriceNum} (${isPriceMet ? 'MET' : '₹' + priceDiff + ' away'})</span>
+            </div>
+          ` : ''}
 
-          <div class="price-distance-bar-track" style="margin-top: 6px;">
-            <div class="price-distance-bar-fill" style="width: ${pctProgress}%;"></div>
-          </div>
-
-          <div class="distance-status-text">
-            <span>Current: ₹${item.currentPriceNum}</span>
-            <span>Target: ₹${item.targetPriceNum}</span>
-          </div>
-
-          ${!isPriceMet ? `
-            <button class="sim-drop-btn" onclick="simulatePriceDrop('${item.id}')">
-              ⚡ Simulate Live Flash Price Drop to My Target (₹${item.currentPriceNum} ➔ ₹${item.targetPriceNum})
-            </button>
+          ${(item.waitingReason === 'fit' || item.waitingReason === 'both') ? `
+            <div class="condition-item ${isFitMet ? 'met' : 'unmet'}">
+              <span>${isFitMet ? '✓' : '⏳'}</span>
+              <span>Fit Confidence Confirmed (${isFitMet ? 'RESOLVED' : 'Click Check Fit below'})</span>
+            </div>
           ` : ''}
         </div>
 
-        <!-- Buy Conditions Checklist -->
-        <div class="conditions-checklist">
-          <div class="condition-item ${isPriceMet ? 'met' : 'unmet'}">
-            <span>${isPriceMet ? '✓' : '○'}</span>
-            <span>Target Price: ≤ ₹${item.targetPriceNum} (${isPriceMet ? 'MET' : '₹' + priceDiff + ' away'})</span>
-          </div>
-          <div class="condition-item met">
-            <span>✓</span>
-            <span>Size Availability: Size In Stock</span>
-          </div>
-        </div>
-
         <button class="check-btn" data-id="${item.id}" onclick="checkFit('${item.id}')">
-          <span class="spinner"></span><span class="btn-label">✨ Check Fit &amp; Buy Readiness</span>
+          <span class="spinner"></span><span class="btn-label">✨ Evaluate Fit &amp; Conditions</span>
         </button>
 
         <div class="result" id="result-${item.id}"></div>
+
+        <!-- USER-CONTROLLED MOVE TO BAG BUTTON -->
+        ${isReady ? `
+          <div style="margin-top: 6px;">
+            <button class="move-bag-btn" onclick="moveToBag('${item.id}')">
+              🛍️ Move to Bag (Ready to Buy)
+            </button>
+          </div>
+        ` : ''}
       </div>
     `;
   }).join('');
@@ -799,7 +897,6 @@ function simulatePriceDrop(id) {
   if (!item) return;
   item.currentPriceNum = item.targetPriceNum;
   renderGrid();
-  checkFit(id);
 }
 
 function filterItems(type) {
@@ -818,7 +915,7 @@ function checkFit(id, silent = false) {
   if (!silent) {
     btn.disabled = true;
     btn.classList.add('loading');
-    btn.querySelector('.btn-label').textContent = 'Evaluating Fit Anchor & Price Signals...';
+    btn.querySelector('.btn-label').textContent = 'Evaluating Fit Anchor & Sizing Signals...';
     resultBox.classList.remove('show');
   }
 
@@ -837,11 +934,16 @@ function checkFit(id, silent = false) {
       prediction = item.matrix[key] || item.matrix[anchor.size] || item.matrix["default"];
     }
 
+    // Mark fit as resolved for this item
+    item.fitResolved = true;
+
     renderResult(id, prediction);
+    renderGrid(); // Refresh card state to evaluate Ready to Buy trigger!
+
     if (!silent) {
       btn.disabled = false;
       btn.classList.remove('loading');
-      btn.querySelector('.btn-label').textContent = '🔄 Re-evaluate Fit & Readiness';
+      btn.querySelector('.btn-label').textContent = '🔄 Re-evaluate Fit';
     }
   }, silent ? 0 : 500);
 }
@@ -855,7 +957,6 @@ function renderResult(id, r) {
   const conf = Number(r.conf) || 80;
   const circumference = 2 * Math.PI * 26;
   const offset = circumference - (conf / 100) * circumference;
-  const isPriceMet = item.currentPriceNum <= item.targetPriceNum;
 
   resultBox.className = `result show ${vClass}`;
   resultBox.innerHTML = `
@@ -874,18 +975,13 @@ function renderResult(id, r) {
       </div>
     </div>
     
+    <div class="explanation-section-title">💡 Why This Recommendation?</div>
     <ul class="reasons">
       ${(r.reasons || []).map(x => `<li>${x}</li>`).join('')}
     </ul>
 
     <div class="watchout">
-      <b>Watch Out:</b> ${r.watchOut || ''}
-    </div>
-
-    <div class="action-row">
-      <button class="move-bag-btn" onclick="addToBag('${id}', '${r.recSize}')">
-        🛍️ ${isPriceMet ? 'Target Price Met! Move to Bag' : 'Add Size ' + r.recSize.split(' ')[0] + ' to Bag'}
-      </button>
+      <b>Remaining Fit Risk:</b> ${r.watchOut || ''}
     </div>
   `;
 
@@ -895,13 +991,14 @@ function renderResult(id, r) {
   });
 }
 
-function addToBag(id, recSize) {
+function moveToBag(id) {
+  const item = ITEMS.find(i => i.id === id);
   bagCount++;
   const badge = document.getElementById('bagCounter');
   badge.textContent = `🛍️ Bag (${bagCount} items)`;
   badge.style.transform = 'scale(1.1)';
   setTimeout(() => badge.style.transform = 'scale(1)', 200);
-  alert(`✨ Item added to Bag! Wishlist → Bag progression successful for size ${recSize}.`);
+  alert(`✨ ${item ? item.name : 'Item'} moved to Bag by user! Conversion funnel step: Ready to Buy ➔ Bag complete.`);
 }
 </script>
 

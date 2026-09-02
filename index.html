@@ -640,41 +640,37 @@
                 <span class="meta-badge" style="background-color: var(--primary); color: white; margin-bottom: 8px;">🚀 PART 5 — SOLUTION MVP PROTOTYPE</span>
                 <h3 style="font-size: 22px; font-weight: 800; color: var(--text-title); margin-top: 6px;">Smart Wishlist &amp; FitCheck Engine — "Ready When You Are"</h3>
                 <p style="font-size: 13.5px; color: var(--text-main); margin-top: 4px; max-width: 680px; line-height: 1.6;">
-                    Transforms wishlists into an active <strong>Decision Management System</strong>. Combines Opportunity #1 (Fit Uncertainty) with stock-market style Intent Target Price Watch ("Buy Conditions"). Items automatically progress to <strong>"🎯 Ready to Buy"</strong> when fit and price conditions are met.
+                    Transforms wishlists into an active <strong>Decision Management System</strong>. Fit Confidence is our primary research-backed wedge (#1 Opportunity, 23/25); Price Target Watch is an adjacent intent signal. Allows users to choose <em>"What are you waiting for?"</em> (Price / Fit / Both). Items transition to <strong>🎯 Ready to Buy</strong> when conditions resolve, allowing user-controlled progression to Bag.
                 </p>
             </div>
-            <a href="fitcheck.html?v=3" style="background: linear-gradient(135deg, #EC008C, #D80E62); color: white; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 15px var(--primary-glow); display: inline-flex; align-items: center; gap: 8px;">
+            <a href="fitcheck.html?v=4" style="background: linear-gradient(135deg, #EC008C, #D80E62); color: white; text-decoration: none; padding: 14px 28px; border-radius: 10px; font-weight: 800; font-size: 14px; box-shadow: 0 4px 15px var(--primary-glow); display: inline-flex; align-items: center; gap: 8px;">
                 ✨ Launch Smart Wishlist MVP ↗
             </a>
         </div>
 
         <!-- Embedded User Journey Flowchart -->
         <div style="margin-top: 24px; border-top: 1px solid var(--border-color); padding-top: 20px; text-align: center;">
-            <h4 style="font-size: 14px; color: var(--text-title); font-weight: 700; margin-bottom: 14px;">🗺️ Solution Architecture &amp; User Journey Flow</h4>
+            <h4 style="font-size: 14px; color: var(--text-title); font-weight: 700; margin-bottom: 14px;">🗺️ Solution Architecture &amp; Measurable Funnel Flow</h4>
             <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; max-width: 500px; margin: 0 auto;">
                 <div style="background: #F5F2EB; border: 1px solid #D8D0C0; color: #15161C; width: 100%; padding: 10px 16px; border-radius: 8px; font-size: 13px;">
-                    <strong>Wishlist tab</strong><br><span style="font-size: 11px; color: #525360;">user revisits saved items</span>
-                </div>
-                <div style="color: var(--primary); font-weight: 800;">↓</div>
-                <div style="background: #F5F2EB; border: 1px solid #D8D0C0; color: #15161C; width: 100%; padding: 10px 16px; border-radius: 8px; font-size: 13px;">
-                    <strong>Fit confidence badge &amp; Target Price Watch</strong><br><span style="font-size: 11px; color: #525360;">auto-shown on every wishlisted item card</span>
+                    <strong>Wishlist tab</strong><br><span style="font-size: 11px; color: #525360;">user declares purchase blocker (Price / Fit / Both)</span>
                 </div>
                 <div style="color: var(--primary); font-weight: 800;">↓</div>
                 <div style="background: #EEF2FF; border: 1px solid #C7D2FE; color: #3730A3; width: 100%; padding: 10px 16px; border-radius: 8px; font-size: 13px;">
-                    <strong>AI fit check &amp; Intent Conditions Evaluator</strong><br><span style="font-size: 11px; color: #4338CA;">checks item vs saved size + target buy price</span>
+                    <strong>AI FitCheck &amp; Price Target Watch</strong><br><span style="font-size: 11px; color: #4338CA;">evaluates fit anchor reasoning &amp; target buy price</span>
                 </div>
                 <div style="color: var(--primary); font-weight: 800;">↓</div>
                 <div style="display: flex; gap: 12px; width: 100%;">
                     <div style="flex: 1; background: #ECFDF5; border: 1px solid #A7F3D0; color: #14532D; padding: 10px; border-radius: 8px; font-size: 12px;">
-                        <strong style="color: #14532D;">High confidence / Target Met</strong><br><span style="font-size: 10.5px; color: #166534;">size confirmed &amp; price hit ➔ moves to Bag</span>
+                        <strong style="color: #14532D;">🎯 Ready to Buy State</strong><br><span style="font-size: 10.5px; color: #166534;">conditions resolved, user notified</span>
                     </div>
                     <div style="flex: 1; background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; padding: 10px; border-radius: 8px; font-size: 12px;">
-                        <strong style="color: #78350F;">Low confidence / Price Gap</strong><br><span style="font-size: 10.5px; color: #92400E;">alt size recommended + day-3 nudge sent</span>
+                        <strong style="color: #78350F;">Unresolved Blocker</strong><br><span style="font-size: 10.5px; color: #92400E;">alt size recommended + day-3 nudge</span>
                     </div>
                 </div>
                 <div style="color: var(--primary); font-weight: 800;">↓</div>
                 <div style="background: #E6F4EA; border: 1px solid #A7F3D0; color: #047857; width: 100%; padding: 10px 16px; border-radius: 8px; font-size: 13px;">
-                    <strong style="color: #047857;">Converts within 30 days</strong><br><span style="font-size: 11px; color: #065F46;">wishlist to bag to purchase</span>
+                    <strong style="color: #047857;">User Taps "Move to Bag" ➔ Converts within 30 Days</strong><br><span style="font-size: 11px; color: #065F46;">wishlist ➔ condition met ➔ ready to buy ➔ bag ➔ purchase</span>
                 </div>
             </div>
         </div>
