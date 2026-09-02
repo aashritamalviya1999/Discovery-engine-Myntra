@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FitCheck — Wishlist Fit Confidence Engine (Part 5 MVP)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #121420;
+    --ink-panel: #1A1D2E;
+    --ink-soft: #9CA3AF;
+    --paper: #EFE9DF;
+    --paper-raised: #F8F4EC;
+    --line: #2D3250;
+    --line-light: #D8D0C0;
+    --primary: #D80E62;
+    --primary-glow: rgba(216, 14, 98, 0.2);
+    --gold: #F59E0B;
+    --sage: #10B981;
+    --sage-bg: rgba(16, 185, 129, 0.15);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245, 158, 11, 0.15);
+    --risk: #EF4444;
+    --risk-bg: rgba(239, 68, 68, 0.15);
+    --text-main: #F3F4F6;
+    --text-title: #FFFFFF;
+  }
+
+  body.light-theme {
+    --ink: #F3F4F6;
+    --ink-panel: #FFFFFF;
+    --ink-soft: #6B7280;
+    --paper: #1F2937;
+    --paper-raised: #FFFFFF;
+    --line: #E5E7EB;
+    --line-light: #E5E7EB;
+    --text-main: #1F2937;
+    --text-title: #111827;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.25s ease, border-color 0.25s ease; }
+  body {
+    background: var(--ink);
+    color: var(--text-main);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 80px;
+  }
+
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(18, 20, 32, 0.85);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-title);
+  }
+
+  .nav-logo {
+    background: linear-gradient(135deg, #EC008C, #FC6767);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 18px;
+    color: white;
+  }
+
+  .nav-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  .nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .bag-badge {
+    background-color: var(--primary-glow);
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .back-link {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .back-link:hover { color: var(--primary); }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  /* Ruler motif */
+  .ruler {
+    display: flex; align-items: flex-end; gap: 0; height: 14px; margin: 24px 0 10px; overflow: hidden;
+  }
+  .ruler span { flex: 1; border-left: 1px solid rgba(255,255,255,0.15); height: 6px; }
+  .ruler span:nth-child(5n+1) { height: 14px; border-left: 1px solid var(--primary); }
+
+  header { padding: 32px 0 24px; }
+  .eyebrow-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 12px; }
+  .wordmark { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(36px, 5vw, 56px); color: var(--text-title); line-height: 1.1; margin-bottom: 12px; }
+  .wordmark em { color: var(--gold); font-style: italic; }
+  .subhead { max-width: 620px; font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
+  
+  .part5-tag {
+    display: inline-block;
+    background: linear-gradient(90deg, #D80E62, #9C27B0);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+
+  /* Fit Anchor Panel */
+  .panel {
+    background: var(--ink-panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 28px 0;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+  .panel-title { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--text-title); margin-bottom: 6px; }
+  .panel-desc { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 22px; max-width: 600px; line-height: 1.5; }
+  
+  .anchor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; align-items: end; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-soft); font-weight: 700; }
+  select, input[type=text] {
+    font-family: inherit; font-size: 14px; padding: 10px 14px;
+    border: 1px solid var(--line); background: var(--ink); color: var(--text-title);
+    border-radius: 8px; outline: none;
+  }
+  select:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 8px var(--primary-glow); }
+  
+  .anchor-fit-toggle { display: flex; gap: 6px; }
+  .toggle-btn {
+    flex: 1; padding: 9px 10px; border: 1px solid var(--line); background: var(--ink);
+    font-size: 12px; font-weight: 600; cursor: pointer; color: var(--ink-soft); border-radius: 6px; text-align: center;
+  }
+  .toggle-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .save-btn {
+    padding: 12px 24px; background: var(--primary); color: white; border: none;
+    font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer; border-radius: 8px;
+    box-shadow: 0 4px 12px var(--primary-glow); transition: transform 0.2s;
+  }
+  .save-btn:hover { transform: translateY(-2px); }
+
+  .anchor-status {
+    margin-top: 18px; padding: 10px 16px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 8px; font-size: 12.5px; color: var(--sage); display: none;
+  }
+  .anchor-status.show { display: block; }
+
+  /* Item Section */
+  .section-head { margin: 40px 0 20px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
+  .section-head h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 28px; color: var(--text-title); }
+  .section-head p { font-size: 13.5px; color: var(--ink-soft); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+
+  .card {
+    background: var(--ink-panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 24px; display: flex; flex-direction: column; gap: 14px; position: relative;
+    overflow: hidden;
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+  .card-brand { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 800; }
+  .card-name { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; color: var(--text-title); margin-top: 2px; }
+  .card-price { font-size: 15px; font-weight: 800; color: var(--gold); white-space: nowrap; }
+  .card-meta { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 12px; }
+  
+  .check-btn {
+    padding: 12px 18px; background: linear-gradient(135deg, #EC008C, #D80E62); color: white;
+    border: none; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
+    border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px;
+    box-shadow: 0 4px 15px var(--primary-glow); transition: all 0.2s;
+  }
+  .check-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+  .check-btn:disabled { background: var(--line); cursor: not-allowed; transform: none; box-shadow: none; }
+  
+  .spinner {
+    width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white;
+    border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
+  }
+  .check-btn.loading .spinner { display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Result Output Card */
+  .result {
+    display: none; margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 18px;
+  }
+  .result.show { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  .result-header { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  
+  /* SVG Circular Gauge */
+  .gauge { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
+  .gauge svg { transform: rotate(-90deg); }
+  .gauge-track { fill: none; stroke: var(--line); stroke-width: 6; }
+  .gauge-fill { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1); }
+  .gauge-num {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 15px; color: var(--text-title);
+  }
+
+  .verdict-block { flex: 1; }
+  .verdict { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; margin-bottom: 2px; }
+  .rec-size { font-size: 13px; color: var(--ink-soft); }
+  .rec-size b { color: var(--text-title); font-weight: 800; }
+
+  .reasons { list-style: none; margin: 0 0 12px; display: flex; flex-direction: column; gap: 6px; }
+  .reasons li { font-size: 12.5px; line-height: 1.5; padding-left: 16px; position: relative; color: var(--text-main); }
+  .reasons li::before { content: '•'; position: absolute; left: 4px; color: var(--primary); font-size: 14px; }
+
+  .watchout {
+    font-size: 12px; padding: 10px 14px; border-radius: 8px; line-height: 1.5;
+    background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+  .watchout b { color: #F59E0B; font-weight: 800; }
+
+  .action-row {
+    display: flex; gap: 10px; margin-top: 14px;
+  }
+  .move-bag-btn {
+    flex: 1; padding: 10px 14px; background: var(--sage); color: white; border: none;
+    font-family: inherit; font-size: 12px; font-weight: 700; border-radius: 6px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s;
+  }
+  .move-bag-btn:hover { background: #059669; }
+
+  /* Verdict Color Variations */
+  .v-great .gauge-fill { stroke: var(--sage); }
+  .v-great .verdict { color: var(--sage); }
+  .v-likely .gauge-fill { stroke: var(--amber); }
+  .v-likely .verdict { color: var(--amber); }
+  .v-risk .gauge-fill { stroke: var(--risk); }
+  .v-risk .verdict { color: var(--risk); }
+
+  footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; }
+</style>
+</head>
+<body>
+
+  <div class="top-nav">
+    <a href="index.html" class="nav-brand">
+      <div class="nav-logo">M</div>
+      <div class="nav-title">Myntra Discovery Engine</div>
+    </a>
+    <div class="nav-actions">
+      <a href="index.html" class="back-link">← Back to Discovery Dashboard (Parts 1–4)</a>
+      <div class="bag-badge" id="bagCounter">🛍️ Bag (0 items)</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    
+    <header>
+      <div class="part5-tag">Part 5 — Solution MVP Prototype</div>
+      <div class="eyebrow-row">
+        <span>Non-Monetary Conversion Feature</span>
+        <span>Target Outcome: Wishlist → Bag Progression</span>
+      </div>
+      <div class="ruler" id="ruler"></div>
+      <h1 class="wordmark">Fit<em>Check</em></h1>
+      <p class="subhead">Tell us one size that already fits you. FitCheck cross-maps brand size charts, fabric shrinkage, and community fit signals to predict your exact fit — before items sit unbought in your wishlist for weeks.</p>
+    </header>
+
+    <!-- STEP 1: FIT ANCHOR & PROFILE -->
+    <section class="panel">
+      <p class="panel-title">Step 1 — Set your Fit Anchor & Profile</p>
+      <p class="panel-desc">Pick one brand and size you've kept and worn. Add your height so FitCheck can predict dress hemlines and sleeve fits accurately.</p>
+      
+      <div class="anchor-grid">
+        <div class="field">
+          <label for="anchorBrand">Brand you know fits</label>
+          <select id="anchorBrand">
+            <option value="Zara">Zara</option>
+            <option value="H&M">H&M</option>
+            <option value="Roadster">Roadster</option>
+            <option value="Levi's">Levi's</option>
+            <option value="Marks & Spencer">Marks & Spencer</option>
+            <option value="Uniqlo">Uniqlo</option>
+            <option value="Allen Solly">Allen Solly</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="anchorSize">Size you kept</label>
+          <select id="anchorSize">
+            <option value="XS">XS</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L" selected>L</option>
+            <option value="XL">XL</option>
+            <option value="30">30 Waist</option>
+            <option value="32">32 Waist</option>
+            <option value="34">34 Waist</option>
+            <option value="UK 7">UK 7 (Shoes)</option>
+            <option value="UK 8">UK 8 (Shoes)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="userHeight">Your Height</label>
+          <select id="userHeight">
+            <option value="5'0">5'0" (Petite)</option>
+            <option value="5'2" selected>5'2" (Short/Petite)</option>
+            <option value="5'5">5'5" (Average)</option>
+            <option value="5'8">5'8" (Tall)</option>
+            <option value="6'0">6'0" (Very Tall)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>How did it fit?</label>
+          <div class="anchor-fit-toggle" id="fitToggle">
+            <button type="button" class="toggle-btn" data-val="snug">Snug</button>
+            <button type="button" class="toggle-btn active" data-val="true">True to Size</button>
+            <button type="button" class="toggle-btn" data-val="loose">Loose</button>
+          </div>
+        </div>
+
+        <button class="save-btn" id="saveAnchor">Save Anchor Profile</button>
+      </div>
+
+      <div class="anchor-status" id="anchorStatus">
+        Anchor profile active! FitCheck will reason against your anchor for all items below.
+      </div>
+    </section>
+
+    <!-- STEP 2: WISHLIST ITEM SHOWCASE -->
+    <div class="section-head">
+      <div>
+        <h2>Step 2 — Test Wishlisted Items</h2>
+        <p>The 5 exact wishlisted items real users in our walkthrough interviews left unbought due to fit doubts.</p>
+      </div>
+    </div>
+
+    <div class="grid" id="itemGrid"></div>
+
+    <footer>
+      <p><strong>FitCheck MVP (Part 5 Solution Prototype):</strong> Fit predictions are generated by cross-mapping brand sizing matrices, fabric elastane/cotton composition, and community review signals (n=1,500 scraped dataset). Designed to resolve decision friction at the Wishlist → Bag stage without discounts or coupons.</p>
+    </footer>
+
+  </div>
+
+<script>
+const ITEMS = [
+  {
+    id: 'jeans',
+    brand: 'Roadster',
+    name: 'Slim Fit Mid-Rise Jeans',
+    price: '₹1,499',
+    category: 'Jeans',
+    meta: 'Denim (98% Cotton, 2% Elastane) · Mid-rise slim fit · Waist runs narrow',
+    signals: 'Community fit notes (n=340 reviews): Waist consistently runs ~0.5 size smaller than Zara/H&M; length is true; elastane stretch eases ~3% after 2 wears.',
+    matrix: {
+      "Zara_L": { verdict: "Likely Fit", recSize: "32 (Size Up)", conf: 82, reasons: ["Roadster waist is cut 0.6 inch narrower than Zara L", "Elastane blend provides 3% flex after break-in"], watchOut: "If you prefer a relaxed waist fit, choose 32 instead of 30." },
+      "Zara_M": { verdict: "Great Fit", recSize: "30", conf: 91, reasons: ["Aligns with your Zara M waist profile", "Inseam length fits 5'2 to 5'6 frames well"], watchOut: "Denim stretches slightly after 2 wears; do not size up further." },
+      "default": { verdict: "Likely Fit", recSize: "Size Up 1", conf: 80, reasons: ["Roadster runs narrower at waistband than standard catalog chart", "98% cotton construction holds rigid waist structure"], watchOut: "Size up 1 waist size for comfortable movement." }
+    }
+  },
+  {
+    id: 'dress',
+    brand: 'Anouk',
+    name: 'Ethnic A-Line Midi Dress',
+    price: '₹2,199',
+    category: 'Dress',
+    meta: 'Cotton-Blend · Model is 5\'9" · Hemline sits above ankle on model',
+    signals: 'Community fit notes (n=210 reviews): On wearers under 5\'4", hemline falls at floor length; bust/shoulder fits true; fabric has crisp A-line drape.',
+    matrix: {
+      "5'2": { verdict: "Fit Risk", recSize: "L (Needs Alteration)", conf: 64, reasons: ["Bust and waist fit true to size chart", "Height alert: Catalog model is 5'9\", but for your 5'2\" height, hemline falls at floor length"], watchOut: "Will require 2-inch hemline alteration or heels to avoid floor drag." },
+      "5'8": { verdict: "Great Fit", recSize: "L", conf: 94, reasons: ["Hemline hits perfectly at mid-calf for tall frames", "Bust darts align naturally"], watchOut: "Minimal fabric stretch; verify bust measurement." },
+      "default": { verdict: "Likely Fit", recSize: "L", conf: 78, reasons: ["True to size at bust and shoulders", "Crisp cotton-blend holds structural A-line shape"], watchOut: "Check hemline length against your height." }
+    }
+  },
+  {
+    id: 'shoes',
+    brand: 'HRX',
+    name: 'Reactive Running Shoes',
+    price: '₹2,999',
+    category: 'Shoes',
+    meta: 'Knit upper · Standard width · Comparison to Nike/Adidas sizing',
+    signals: 'Community fit notes (n=290 reviews): Sizing runs true in length, but toe box is narrower than Nike Revolution; wide-footed wearers size up by 0.5.',
+    matrix: {
+      "UK 8": { verdict: "Great Fit", recSize: "UK 8", conf: 88, reasons: ["Length matches standard UK 8 athletic lasts", "Engineered knit upper stretches comfortably over foot arch"], watchOut: "Narrower toe box than Nike; wear thin athletic socks." },
+      "default": { verdict: "Likely Fit", recSize: "Same as Anchor", conf: 84, reasons: ["Footbed length aligns with standard athletic sizing", "Flexible knit upper accommodates medium foot widths"], watchOut: "If you have wide feet, order half a size larger." }
+    }
+  },
+  {
+    id: 'blazer',
+    brand: 'Allen Solly',
+    name: 'Tailored Fit Blazer',
+    price: '₹3,499',
+    category: 'Blazer',
+    meta: 'Poly-viscose blend (220 GSM) · Structured padded shoulder · Lined',
+    signals: 'Community fit notes (n=150 reviews): Shoulder seam sits slightly forward; sleeve length runs ~1cm long; fabric holds structured shape with zero stretch.',
+    matrix: {
+      "default": { verdict: "Great Fit", recSize: "L (True to Size)", conf: 90, reasons: ["Structured 220 GSM fabric maintains sharp shoulder posture", "Chest and waist circumference align with formal suiting charts"], watchOut: "Sleeves run slightly long (~1cm); may need minor sleeve cuff tuck." }
+    }
+  },
+  {
+    id: 'kurti',
+    brand: 'Libas',
+    name: 'Cotton Straight Kurti Set',
+    price: '₹1,299',
+    category: 'Kurti',
+    meta: '100% Pure Cotton · Machine wash · Shrinkage expected',
+    signals: 'Community fit notes (n=260 reviews): Shrinks ~4-6% in chest and length after first machine wash; buyers recommend sizing up if machine washing.',
+    matrix: {
+      "default": { verdict: "Fit Risk", recSize: "XL (Size Up for Shrinkage)", conf: 72, reasons: ["100% pure un-preshrunk cotton construction", "Shrinks 4% to 6% in chest and armholes after initial warm wash"], watchOut: "Order 1 size up (XL) so post-wash shrinkage yields your ideal L fit." }
+    }
+  }
+];
+
+// Draw ruler lines
+document.getElementById('ruler').innerHTML = Array(70).fill('<span></span>').join('');
+
+let anchor = { brand: 'Zara', size: 'L', height: "5'2", fit: 'true' };
+let bagCount = 0;
+
+document.getElementById('fitToggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('.toggle-btn');
+  if(!btn) return;
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+});
+
+document.getElementById('saveAnchor').addEventListener('click', () => {
+  anchor.brand = document.getElementById('anchorBrand').value;
+  anchor.size = document.getElementById('anchorSize').value;
+  anchor.height = document.getElementById('userHeight').value;
+  anchor.fit = document.querySelector('.toggle-btn.active').dataset.val;
+
+  const status = document.getElementById('anchorStatus');
+  status.textContent = `Anchor profile saved: ${anchor.brand} ${anchor.size} (${anchor.fit === 'true' ? 'True to size' : anchor.fit}) · Height: ${anchor.height}. FitCheck is ready!`;
+  status.classList.add('show');
+});
+
+function renderGrid() {
+  const grid = document.getElementById('itemGrid');
+  grid.innerHTML = ITEMS.map(item => `
+    <div class="card" id="card-${item.id}">
+      <div class="card-top">
+        <div>
+          <div class="card-brand">${item.brand}</div>
+          <div class="card-name">${item.name}</div>
+        </div>
+        <div class="card-price">${item.price}</div>
+      </div>
+      <div class="card-meta">${item.meta}</div>
+      <button class="check-btn" data-id="${item.id}" onclick="checkFit('${item.id}')">
+        <span class="spinner"></span><span class="btn-label">✨ Check My Fit</span>
+      </button>
+      <div class="result" id="result-${item.id}"></div>
+    </div>
+  `).join('');
+}
+
+renderGrid();
+
+function checkFit(id) {
+  const item = ITEMS.find(i => i.id === id);
+  const btn = document.querySelector(`.check-btn[data-id="${id}"]`);
+  const resultBox = document.getElementById(`result-${id}`);
+  
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.querySelector('.btn-label').textContent = 'Reasoning over size charts & fit signals...';
+  resultBox.classList.remove('show');
+
+  setTimeout(() => {
+    let prediction;
+    
+    // Check specific matrix rules
+    if (id === 'dress' && anchor.height === "5'2") {
+      prediction = item.matrix["5'2"];
+    } else if (id === 'dress' && (anchor.height === "5'8" || anchor.height === "6'0")) {
+      prediction = item.matrix["5'8"];
+    } else {
+      const key = `${anchor.brand}_${anchor.size}`;
+      prediction = item.matrix[key] || item.matrix[anchor.size] || item.matrix["default"];
+    }
+
+    renderResult(id, prediction);
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    btn.querySelector('.btn-label').textContent = '🔄 Re-check Fit';
+  }, 600);
+}
+
+function renderResult(id, r) {
+  const resultBox = document.getElementById(`result-${id}`);
+  const vClass = r.verdict === 'Great Fit' ? 'v-great' : (r.verdict === 'Fit Risk' ? 'v-risk' : 'v-likely');
+  const conf = Number(r.conf) || 80;
+  const circumference = 2 * Math.PI * 26;
+  const offset = circumference - (conf / 100) * circumference;
+
+  resultBox.className = `result show ${vClass}`;
+  resultBox.innerHTML = `
+    <div class="result-header">
+      <div class="gauge">
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle class="gauge-track" cx="32" cy="32" r="26"></circle>
+          <circle class="gauge-fill" cx="32" cy="32" r="26"
+            stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}"></circle>
+        </svg>
+        <div class="gauge-num">${conf}%</div>
+      </div>
+      <div class="verdict-block">
+        <p class="verdict">${r.verdict}</p>
+        <p class="rec-size">Recommended: <b>${r.recSize}</b></p>
+      </div>
+    </div>
+    
+    <ul class="reasons">
+      ${(r.reasons || []).map(x => `<li>${x}</li>`).join('')}
+    </ul>
+
+    <div class="watchout">
+      <b>Watch Out:</b> ${r.watchOut || ''}
+    </div>
+
+    <div class="action-row">
+      <button class="move-bag-btn" onclick="addToBag('${id}')">
+        🛍️ Add Size ${r.recSize.split(' ')[0]} to Bag
+      </button>
+    </div>
+  `;
+
+  requestAnimationFrame(() => {
+    const fill = resultBox.querySelector('.gauge-fill');
+    if (fill) fill.style.strokeDashoffset = offset;
+  });
+}
+
+function addToBag(id) {
+  bagCount++;
+  const badge = document.getElementById('bagCounter');
+  badge.textContent = `🛍️ Bag (${bagCount} items)`;
+  badge.style.transform = 'scale(1.1)';
+  setTimeout(() => badge.style.transform = 'scale(1)', 200);
+  alert('✨ Item added to Bag! Wishlist → Bag progression successful.');
+}
+</script>
+
+</body>
+</html>
