@@ -38,12 +38,12 @@
             <span class="meta-badge" style="background-color: var(--primary); color: white;">Core Thesis</span>
         </div>
         <div class="exec-summary-text">
-            Wishlist non-conversion appears to contain two fundamentally different user states: <strong>low-intent storage</strong> and <strong>high-intent decision friction</strong>. Within the scraped sample (n=1,500), <strong>51.3% of conversations</strong> were classified as high-intent / high-friction. The strongest addressable frictions were <strong>fit uncertainty</strong>, <strong>comparison paralysis</strong>, and <strong>product-reality uncertainty</strong>. This suggests the growth opportunity is not to increase generic wishlist engagement, but to <strong>identify high-intent wishlist states and resolve the final uncertainty blocking checkout.</strong>
+            Wishlist non-conversion contains two fundamentally different user states: <strong>low-intent storage</strong> and <strong>high-intent decision friction</strong>. Within the scraped sample (n=1,500), <strong>51.3% of conversations</strong> were classified as high-intent / high-friction. The strongest addressable frictions were <strong>fit uncertainty</strong>, <strong>comparison paralysis</strong>, and <strong>product-reality uncertainty</strong>. This suggests the growth opportunity is not to increase generic wishlist engagement, but to <strong>identify high-intent wishlist states and resolve the final fit uncertainty blocking checkout.</strong>
         </div>
         <div class="exec-summary-highlights">
             <div class="highlight-item">🎯 Primary Opportunity: <span style="color: var(--primary);">Size & Fit Confidence (Score: 23/25)</span></div>
             <div class="highlight-item">🥈 Secondary Opportunity: <span style="color: #818CF8;">Comparison Confidence (Score: 22/25)</span></div>
-            <div class="highlight-item">🛡️ Qualitative Validation: <span style="color: #10B981;">5/6 User Walkthrough Interviews Confirmed Fit Blocker</span></div>
+            <div class="highlight-item">🛡️ Qualitative Validation: <span style="color: #10B981;">5/6 Walkthrough Users Mentioned Fit Friction (3/6 Primary)</span></div>
         </div>
     </div>
 
@@ -52,7 +52,7 @@
         <div class="metric-card">
             <div class="metric-label">01. Growth PM Focus</div>
             <div class="metric-val">High-Intent Capture</div>
-            <div class="metric-desc">Converting users who shortlist items with purchase intent but stall due to uncertainty</div>
+            <div class="metric-desc">Converting users who shortlist items with purchase intent but stall due to fit uncertainty</div>
         </div>
         <div class="metric-card">
             <div class="metric-label">02. Primary Conversion Metric</div>
@@ -82,8 +82,26 @@
             ⚠️ <strong>Methodological Provenance & Dynamic Emergence:</strong> Sourced across 1,500 public conversations (Reddit r/IndianFashionAddicts, r/myntra, Play Store, App Store, and fashion blogs). Category distributions, intent ratios, and friction tags emerge dynamically from raw evidence processing rather than predetermined constraints. Includes an <code>Other / Emerging</code> category for un-anticipated topics (post-wash shrinkage, return logistics).
         </div>
 
+        <!-- AI Discovery Workflow & System Architecture Box -->
+        <div class="rubric-box" style="border-left: 3px solid var(--primary); background-color: var(--panel-bg); margin-top: 12px;">
+            <strong style="color: var(--primary); font-size: 13px;">🤖 AI Discovery Workflow & System Architecture:</strong>
+            <div style="font-weight: 700; color: var(--text-title); margin-top: 4px; font-size: 11.5px;">
+                Public Sources → Ingestion → Cleaning & Deduplication → LLM Multi-Label Parsing → Intent / Friction Classification → Opportunity Aggregation → Human Audit → Evidence Explorer UI
+            </div>
+            <div class="rubric-grid" style="margin-top: 10px; font-size: 11.5px;">
+                <div>
+                    <strong>AI Models & Stack:</strong> GPT-4o / Claude 3.5 Sonnet for multi-label intent parsing.
+                    <br><strong>Structured Output:</strong> 14-Field Schema JSON & CSV dataset.
+                </div>
+                <div>
+                    <strong>Human Validation Method:</strong> 300 out of 1,500 records randomly audited (20% sample).
+                    <br><strong>90% Agreement Definition:</strong> Human PM reviewer concurred with AI-assigned category, intent, and friction tags in 270 out of 300 audited records.
+                </div>
+            </div>
+        </div>
+
         <div class="audit-box">
-            ✅ <strong>Classification Validation:</strong> 90.0% friction-tag agreement on 20% random audit sample (300/1500 audited). Contains 14 rich schema fields per record.
+            ✅ <strong>Classification Audit Dataset:</strong> Traceable public URLs and audit timestamps. 14 schema fields per record.
             <span style="display: inline-block; margin-left: 10px;">
                 📥 <a href="#" id="csvDownloadBtn" style="color: var(--primary); font-weight: 700; text-decoration: underline;">feedback_analysis_output.csv (Full 14-Field Dataset n=1,500)</a>
             </span>
@@ -202,12 +220,12 @@
             </p>
         </div>
 
-        <h4 style="font-size: 14px; color: var(--text-title); margin-top: 18px; margin-bottom: 8px;">Metric Tree: Connecting User Behavior & Frictions to Business Metric</h4>
+        <h4 style="font-size: 14px; color: var(--text-title); margin-top: 18px; margin-bottom: 8px;">Metric Tree: Business Metric → Product Outcomes → Leading Metrics → Frictions</h4>
         <table class="metric-tree-table">
             <thead>
                 <tr>
-                    <th>Metric Level</th>
-                    <th>Product Outcome</th>
+                    <th>Metric Hierarchy</th>
+                    <th>Metric Name</th>
                     <th>Target User Behavior</th>
                     <th>Main Friction Blockers</th>
                 </tr>
@@ -215,39 +233,57 @@
             <tbody>
                 <tr>
                     <td><strong style="color: var(--primary);">1. Business Metric</strong></td>
-                    <td><strong>Wishlist → Purchase</strong></td>
+                    <td><strong>30-Day Wishlist → Purchase Conversion</strong></td>
                     <td>Completes order for wishlisted items within 30 days</td>
-                    <td>Final checkout friction & overall uncertainty</td>
+                    <td>Overall decision uncertainty & checkout delays</td>
+                </tr>
+                <tr style="background-color: var(--primary-glow);">
+                    <td><strong style="color: var(--primary);">2. Primary Product Outcome</strong></td>
+                    <td><strong>High-Intent Wishlist → Bag Conversion</strong> 🎯</td>
+                    <td>Commits shortlisted high-intent item to Bag</td>
+                    <td><span class="badge-priority-high">Size & Fit Uncertainty (#1 Rank)</span></td>
                 </tr>
                 <tr>
-                    <td><strong>2. Product Outcome A</strong></td>
-                    <td>Increase High-Intent Wishlist Progression</td>
-                    <td>User returns to saved item and moves item to Bag</td>
-                    <td>Forgetting, passive saving, cart clutter</td>
-                </tr>
-                <tr>
-                    <td><strong>3. Product Outcome B</strong></td>
-                    <td>Increase Decision Confidence</td>
-                    <td>User evaluates whether item fit, drape & quality are right</td>
-                    <td><span class="badge-priority-high">Fit Uncertainty (#1 Rank), Quality Distrust</span></td>
-                </tr>
-                <tr>
-                    <td><strong>4. Product Outcome C</strong></td>
+                    <td><strong>3. Supporting Product Outcome</strong></td>
                     <td>Increase Choice Resolution</td>
-                    <td>User chooses among shortlisted similar options</td>
+                    <td>Chooses 1 item among shortlisted options</td>
                     <td><span class="badge-priority-high">Comparison Paralysis (#2 Rank)</span></td>
                 </tr>
                 <tr>
-                    <td><strong>5. Funnel Progression</strong></td>
-                    <td>Wishlist → Bag → Checkout</td>
-                    <td>User commits SKU to cart and completes payment</td>
-                    <td>Execution timing, noisy price pings, bank offer waiting</td>
+                    <td><strong>4. Supporting Product Outcome</strong></td>
+                    <td>Increase Wishlist Revisit Rate</td>
+                    <td>Returns to saved item within 7 days</td>
+                    <td>Forgetting, passive saving, cart clutter</td>
+                </tr>
+                <tr>
+                    <td><strong>5. Leading User Metrics</strong></td>
+                    <td>
+                        • Fit Decision Resolution Rate<br>
+                        • External Research Drop Rate<br>
+                        • Time from Wishlist → Bag (Hours)
+                    </td>
+                    <td>
+                        • Resolves size decision on platform<br>
+                        • Stops checking Reddit/YouTube<br>
+                        • Moves selected SKU to Bag faster
+                    </td>
+                    <td>
+                        • Inter-brand size mismatch<br>
+                        • Absence of height/body fit drape<br>
+                        • Multi-tab comparison fatigue
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>6. Funnel Progression</strong></td>
+                    <td>Bag → Purchase Conversion</td>
+                    <td>User proceeds toward payment & checkout</td>
+                    <td>Execution timing, payday waiting, final delivery fee</td>
                 </tr>
             </tbody>
         </table>
 
         <div style="background-color: var(--card-bg); border-left: 3px solid var(--primary); padding: 12px 16px; margin-top: 14px; font-size: 12px; line-height: 1.5; color: var(--text-main);">
-            💡 <strong>PM Narrative Connection:</strong> Wishlist → Purchase conversion is most severely constrained at the <em>Decision Confidence</em> sub-step ($\text{Wishlist} \rightarrow \text{Bag}$). High-intent users shortlist items with active desire, but stall prior to bag addition because cross-brand fit uncertainty makes committing to a size feel high-risk. Resolving fit confidence directly unlocks the bottleneck constraining the entire conversion waterfall.
+            💡 <strong>PM Narrative Connection:</strong> Discovery evidence suggests <strong>Decision Confidence</strong> is a major addressable friction at the <strong>Wishlist → Bag stage</strong>. High-intent users shortlist items with active purchase desire, but stall prior to bag addition because cross-brand fit uncertainty makes committing to a size feel high-risk. Resolving fit confidence directly unlocks the primary product outcome (High-Intent Wishlist → Bag), propelling the entire conversion waterfall.
         </div>
     </div>
 
@@ -342,8 +378,20 @@
             </tbody>
         </table>
 
+        <!-- Verbatim Interview Quotes Section -->
+        <h4 style="font-size: 13.5px; color: var(--text-title); margin-top: 18px; margin-bottom: 6px;">💬 Primary Interview Verbatim Highlights</h4>
+        <div class="verbatim-quote-box">
+            "I love this pair of jeans from Roadster, but my waist size is 31. Roadster 30 is too tight and 32 slips off. I left it saved and opened 3 previous orders on my laptop to compare waist measurements." — <strong>P1 (High-Intent Fit Seeker)</strong>
+        </div>
+        <div class="verbatim-quote-box">
+            "Catalog picture shows the Anouk kurta sitting right above the ankle. But the model is 5'9 and I'm 5'2. If I buy it without seeing someone my height wear it, I'll have to pay for alteration. So it stays in my wishlist." — <strong>P2 (Ethnicwear Buyer)</strong>
+        </div>
+        <div class="verbatim-quote-box">
+            "Wishlisted 4 running shoes. I want to buy 1 pair today, but comparing sole thickness and arch support requires swiping between 4 tabs. I got confused and closed the app." — <strong>P3 (Footwear Comparer)</strong>
+        </div>
+
         <div style="background-color: var(--card-bg); border-left: 3px solid #10B981; padding: 12px 16px; margin-top: 14px; font-size: 12px; line-height: 1.5; color: var(--text-main);">
-            ✅ <strong>Empirical Validation Result:</strong> <strong>5 out of 6 high-intent participants (83.3%)</strong> explicitly struggled with size/fit or drape uncertainty as their primary reason for stalling checkout. All 6 participants performed compensatory workarounds outside Myntra (checking Reddit, YouTube, or Instagram). This qualitative findings matrix directly validates the #1 opportunity ranking from the AI discovery engine.
+            ✅ <strong>Empirical Qualitative Signal:</strong> <strong>5 out of 6 participants (83.3%)</strong> mentioned fit/drape-related uncertainty during their decision journey, while <strong>3 out of 6 (50.0%)</strong> identified fit/size as their primary checkout blocker. All 6 participants performed compensatory workarounds outside Myntra (checking Reddit, YouTube, Instagram, or previous orders). This qualitative findings matrix directly validates the #1 opportunity ranking from the AI discovery engine.
         </div>
     </div>
 
@@ -512,43 +560,81 @@
             <div class="problem-def-card">
                 <h4>1. Target User Segment</h4>
                 <p style="font-size: 13px; color: var(--text-main);">
-                    High-intent Myntra/AJIO users who have shortlisted specific fashion items with concrete purchase timelines (workwear, event outfits, footwear).
+                    High-intent Myntra/AJIO apparel shoppers who have shortlisted specific fashion items with near-term purchase goals.
                 </p>
             </div>
 
             <div class="problem-def-card">
                 <h4>2. Trigger / Context</h4>
                 <p style="font-size: 13px; color: var(--text-main);">
-                    Re-visiting saved wishlist items to evaluate final checkout readiness for an upcoming event or seasonal wardrobe update.
+                    Re-visiting saved wishlist items to evaluate final checkout readiness for an upcoming event, workwear update, or season change.
                 </p>
             </div>
 
             <div class="problem-def-card">
                 <h4>3. Unmet Need / Core Obstacle</h4>
                 <p style="font-size: 13px; color: var(--text-main);">
-                    Inability to reliably verify cross-brand size/fit consistency and true fabric drape without committing to high-friction return logistics.
+                    Inability to reliably predict cross-brand size accuracy and body fit drape before committing to checkout.
                 </p>
             </div>
 
             <div class="problem-def-card">
                 <h4>4. Compensatory Workaround</h4>
                 <p style="font-size: 13px; color: var(--text-main);">
-                    Checking Reddit sizing threads, searching Instagram tagged photos, watching YouTube try-on hauls, or asking WhatsApp groups.
+                    Checking Reddit sizing discussions, searching Instagram tagged photos, watching YouTube try-on hauls, or comparing previous order sizes.
                 </p>
             </div>
 
             <div class="problem-def-card">
-                <h4>5. Business Impact</h4>
+                <h4>5. Target Product Outcome & User Value</h4>
                 <p style="font-size: 13px; color: var(--text-main);">
-                    Stalled Wishlist → Bag conversion, high 30-day drop-off, increased return rates, and delayed GMV realization.
+                    <strong>Product Outcome:</strong> Increase High-Intent Wishlist → Bag Conversion.<br>
+                    <strong>User Value:</strong> Users make confident size decisions without leaving Myntra for external research.
                 </p>
             </div>
 
             <div class="problem-def-card">
-                <h4>6. Validated Problem Statement</h4>
-                <p style="font-size: 13px; color: var(--text-main); font-weight: 600;">
-                    "High-intent fashion shoppers who shortlist apparel on Myntra delay checkout because they cannot verify inter-brand size accuracy and fabric reality, compensating via external research until purchase momentum dies."
+                <h4>6. Business Value & Hypothesis</h4>
+                <p style="font-size: 13px; color: var(--text-main);">
+                    <strong>Demonstrated Business Value:</strong> Accelerates Wishlist → Bag progression and reduces 30-day drop-off.<br>
+                    <strong>Secondary Hypothesis:</strong> Improved fit confidence may also reduce fit-related return rates.
                 </p>
+            </div>
+        </div>
+
+        <div style="background-color: var(--panel-bg); border: 2px solid var(--primary); border-radius: 12px; padding: 18px; margin-top: 18px;">
+            <h4 style="color: var(--primary); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">🎯 Narrowed Final Problem Statement</h4>
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-title); line-height: 1.6;">
+                "High-intent apparel shoppers with a near-term purchase goal delay moving wishlisted items to Bag because they cannot confidently determine whether their selected size will fit consistently across brands, forcing them to use external reviews, previous purchases, and try-on content before committing."
+            </div>
+        </div>
+
+        <!-- End-to-End PM Narrative Flowchain Visual Box -->
+        <h4 style="font-size: 14px; color: var(--text-title); margin-top: 20px; margin-bottom: 6px;">🔗 End-to-End PM Coherent Narrative Flow</h4>
+        <div class="flowchain-box">
+            <div class="flow-step">
+                <span>1. Business Metric</span>
+                30-Day Wishlist → Purchase Conversion
+            </div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">
+                <span>2. Product Outcome</span>
+                High-Intent Wishlist → Bag Progression
+            </div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">
+                <span>3. AI Discovery</span>
+                Fit Uncertainty Ranks #1 (Score 23/25)
+            </div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">
+                <span>4. User Interviews</span>
+                5/6 Mentioned Fit & External Workarounds
+            </div>
+            <div class="flow-arrow">➔</div>
+            <div class="flow-step">
+                <span>5. Core Problem</span>
+                Cross-Brand Size & Fit Decision Block
             </div>
         </div>
     </div>

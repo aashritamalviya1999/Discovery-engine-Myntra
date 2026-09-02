@@ -714,3 +714,52 @@ header {
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
+.verbatim-quote-box {
+    background-color: rgba(216, 14, 98, 0.05);
+    border-left: 3px solid var(--primary);
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 10px;
+    font-size: 12.5px;
+    font-style: italic;
+}
+
+.flowchain-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    background: linear-gradient(135deg, rgba(216, 14, 98, 0.1), rgba(26, 29, 46, 0.8));
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 16px;
+}
+
+.flow-step {
+    flex: 1;
+    min-width: 140px;
+    background-color: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.flow-step span {
+    display: block;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 800;
+    margin-bottom: 2px;
+}
+
+.flow-arrow {
+    color: var(--text-muted);
+    font-weight: 800;
+    font-size: 16px;
+}
