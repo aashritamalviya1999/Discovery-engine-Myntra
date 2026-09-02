@@ -273,6 +273,68 @@
   .v-risk .gauge-fill { stroke: var(--risk); }
   .v-risk .verdict { color: var(--risk); }
 
+  /* Flowchart Section Styles */
+  .flowchart-panel {
+    background: var(--ink-panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    margin: 32px 0;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+  
+  .flow-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 24px;
+    max-width: 680px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .flow-node {
+    width: 100%;
+    max-width: 440px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .flow-node strong { font-size: 14px; font-weight: 700; }
+  .flow-node span { font-size: 12px; font-weight: 500; }
+
+  .node-beige { background: #F5F2EB; border: 1px solid #D8D0C0; color: #15161C; }
+  .node-beige span { color: #525360; }
+
+  .node-purple { background: #EEF2FF; border: 1px solid #C7D2FE; color: #3730A3; }
+  .node-purple span { color: #4338CA; }
+
+  .node-green { background: #ECFDF5; border: 1px solid #A7F3D0; color: #14532D; }
+  .node-green span { color: #166534; }
+
+  .node-amber { background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; }
+  .node-amber span { color: #92400E; }
+
+  .node-mint { background: #E6F4EA; border: 1px solid #A7F3D0; color: #047857; }
+  .node-mint span { color: #065F46; }
+
+  .flow-arrow-down { font-size: 18px; color: var(--ink-soft); font-weight: 800; }
+
+  .flow-branches {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    max-width: 580px;
+    justify-content: center;
+  }
+  .flow-branch-item { flex: 1; }
+
   footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; }
 </style>
 </head>
@@ -362,6 +424,62 @@
 
       <div class="anchor-status" id="anchorStatus">
         Anchor profile active! FitCheck will reason against your anchor for all items below.
+      </div>
+    </section>
+
+    <!-- PRODUCT ARCHITECTURE & USER JOURNEY FLOWCHART -->
+    <section class="flowchart-panel">
+      <h3 style="font-family: 'Fraunces', serif; font-size: 22px; color: var(--text-title); margin-bottom: 6px;">
+        🗺️ FitCheck Product Architecture & User Journey Flow
+      </h3>
+      <p style="font-size: 13px; color: var(--ink-soft); max-width: 580px; margin: 0 auto 16px;">
+        How FitCheck resolves decision uncertainty at the Wishlist stage to drive 30-day Wishlist → Purchase conversion.
+      </p>
+
+      <div class="flow-container">
+        <!-- Step 1 -->
+        <div class="flow-node node-beige">
+          <strong>Wishlist tab</strong>
+          <span>user revisits saved items</span>
+        </div>
+        <div class="flow-arrow-down">↓</div>
+
+        <!-- Step 2 -->
+        <div class="flow-node node-beige">
+          <strong>Fit confidence badge</strong>
+          <span>auto-shown on every card</span>
+        </div>
+        <div class="flow-arrow-down">↓</div>
+
+        <!-- Step 3 -->
+        <div class="flow-node node-purple">
+          <strong>AI fit check</strong>
+          <span>checks item vs saved size</span>
+        </div>
+        <div class="flow-arrow-down">↓</div>
+
+        <!-- Split Branch -->
+        <div class="flow-branches">
+          <div class="flow-branch-item">
+            <div class="flow-node node-green">
+              <strong>High confidence</strong>
+              <span>size confirmed, moves to Bag</span>
+            </div>
+          </div>
+          <div class="flow-branch-item">
+            <div class="flow-node node-amber">
+              <strong>Low confidence</strong>
+              <span>alt size + day-3 nudge sent</span>
+            </div>
+          </div>
+        </div>
+        <div class="flow-arrow-down">↓</div>
+
+        <!-- Final Converging Node -->
+        <div class="flow-node node-mint">
+          <strong>Converts within 30 days</strong>
+          <span>wishlist to bag to purchase</span>
+        </div>
       </div>
     </section>
 
