@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra Wishlist Discovery Engine - Final Frozen Edition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-title">
+            <div class="logo">M</div>
+            <div>
+                <h1>Myntra Wishlist <span>Discovery Engine</span></h1>
+                <p>Growth Strategy & Multi-Label Intent Pipeline (Sampled Conversations n=1500+)</p>
+            </div>
+        </div>
+        <div class="controls-header">
+            <div class="meta-badge">
+                Scraped Volume: <span id="scrapedTotal">1500</span> Conversations
+            </div>
+            <button class="theme-btn" id="themeToggle">
+                ☀️ Light Mode
+            </button>
+        </div>
+    </header>
+
+    <!-- 🔎 Executive Discovery Summary Box -->
+    <div class="exec-summary-box">
+        <div class="exec-summary-header">
+            <h3>🔎 Executive Discovery Summary</h3>
+            <span class="meta-badge" style="background-color: var(--primary); color: white;">Core Thesis</span>
+        </div>
+        <div class="exec-summary-text">
+            Wishlist non-conversion appears to contain two fundamentally different user states: <strong>low-intent storage</strong> and <strong>high-intent decision friction</strong>. Within the analyzed sample (n=1500), <strong>51.3% of conversations</strong> were classified as high-intent / high-friction. The strongest addressable frictions were <strong>fit uncertainty</strong>, <strong>comparison paralysis</strong>, and <strong>product-reality uncertainty</strong>. This suggests the growth opportunity is not to increase generic wishlist engagement, but to <strong>identify high-intent wishlist states and resolve the final uncertainty blocking checkout.</strong>
+        </div>
+        <div class="exec-summary-highlights">
+            <div class="highlight-item">🎯 Primary Opportunity: <span style="color: var(--primary);">Size & Fit Confidence (Score: 23/25)</span></div>
+            <div class="highlight-item">🥈 Secondary Opportunity: <span style="color: #818CF8;">Comparison Confidence (Score: 22/25)</span></div>
+            <div class="highlight-item">🛡️ AI Validation: <span style="color: #10B981;">90% friction-tag agreement on 20% random audit sample (n=300)</span></div>
+        </div>
+    </div>
+
+    <!-- 01 - Business Question & Metric Grid -->
+    <div class="metrics-grid">
+        <div class="metric-card">
+            <div class="metric-label">01. Growth PM Focus</div>
+            <div class="metric-val">High-Intent Capture</div>
+            <div class="metric-desc">Converting users who shortlist items with purchase intent but stall due to uncertainty</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">02. North Star Metric</div>
+            <div class="metric-val">% Wishlist Buyers</div>
+            <div class="metric-desc">% of users purchasing ≥1 wishlisted item within 30 days of saving</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">03. Solution Constraint</div>
+            <div class="metric-val">No Discounts / Coupons</div>
+            <div class="metric-desc">Strictly non-monetary product features to resolve decision friction</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-label">04. Experiment Target</div>
+            <div class="metric-val">+20%–30% Rel. Uplift</div>
+            <div class="metric-desc">Illustrative experiment benchmark for non-monetary conversion features</div>
+        </div>
+    </div>
+
+    <!-- 02 - Discovery Methodology & Provenance -->
+    <div class="methodology-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            <h3 style="font-size: 15px; color: var(--text-title);">🔬 02 — Discovery Engine Methodology & Research Provenance</h3>
+            <span class="meta-badge" style="font-size: 10px;">Multi-Label Classification Pipeline</span>
+        </div>
+
+        <div class="disclaimer-box">
+            ⚠️ <strong>Methodological Disclaimer (Directional, Not Population-Representative):</strong> Public social conversations on Reddit, Play Store, App Store, and fashion blogs are self-selected and cannot estimate exact population incidence across Myntra’s entire user base. Percentages represent prevalence within the analyzed sample (<strong>n=1500</strong>) to compare relative signals and friction density, not infer population incidence.
+        </div>
+
+        <div class="audit-box">
+            ✅ <strong>Classification Validation:</strong> 90.0% friction-tag agreement on 20% random audit sample (300/1500 audited). All evidence items feature traceable public URLs and audit timestamps.
+            <span style="display: inline-block; margin-left: 10px;">
+                📥 <a href="#" id="csvDownloadBtn" style="color: var(--primary); font-weight: 700; text-decoration: underline;">feedback_analysis_output.csv (Audit Dataset n=1500)</a>
+            </span>
+        </div>
+
+        <div class="methodology-grid">
+            <div class="method-card">
+                <strong>1. Data Ingestion</strong>
+                1,500 public conversations extracted across r/IndianFashionAddicts, r/myntra, App/Play Store reviews & blogs.
+            </div>
+            <div class="method-card">
+                <strong>2. Multi-Label Classification</strong>
+                Conversations tagged across non-mutually exclusive themes (e.g. Size doubt + Comparison friction).
+            </div>
+            <div class="method-card">
+                <strong>3. Evidence Provenance</strong>
+                Explicit separation between 🟡 AI-Synthesized Evidence, 🟢 Verbatim Community Posts, and 🔵 Model Inferences.
+            </div>
+            <div class="method-card">
+                <strong>4. Traceable Source URLs</strong>
+                Every verbatim quote includes direct <code>View original ↗</code> links to source threads & store reviews.
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Layout -->
+    <div class="dashboard-layout">
+        
+        <!-- Left Panel: Sources & Multi-Label Friction Landscape -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2>📈 Scraped Sources & Friction Landscape</h2>
+            </div>
+
+            <div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Multi-channel conversation breakdown (Sample n=1500)</p>
+                <table class="sources-table" id="sourcesTable">
+                    <thead>
+                        <tr>
+                            <th>Channel Source</th>
+                            <th>Count</th>
+                            <th>Volume Bar</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sourcesTableBody">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <h4 style="font-size: 13px; color: var(--text-title); margin-bottom: 6px;">04 — Decision Friction Landscape (Multi-Label Prevalence n=1500)</h4>
+                <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">*Conversations tagged with multiple themes; categories do not sum to 100%.</p>
+                
+                <div class="chart-container">
+                    <canvas id="frictionDoughnut"></canvas>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <div class="css-chart-bar">
+                        <div class="css-chart-label">Quality Trust Void</div>
+                        <div class="css-chart-track"><div class="css-chart-fill" style="width: 34.0%;"></div></div>
+                        <div class="css-chart-val">34.0% (510)</div>
+                    </div>
+                    <div class="css-chart-bar">
+                        <div class="css-chart-label">Comparison Friction</div>
+                        <div class="css-chart-track"><div class="css-chart-fill" style="width: 33.3%;"></div></div>
+                        <div class="css-chart-val">33.3% (500)</div>
+                    </div>
+                    <div class="css-chart-bar">
+                        <div class="css-chart-label">Size & Fit Doubts</div>
+                        <div class="css-chart-track"><div class="css-chart-fill" style="width: 29.3%;"></div></div>
+                        <div class="css-chart-val">29.3% (440)</div>
+                    </div>
+                    <div class="css-chart-bar">
+                        <div class="css-chart-label">Styling & OOTD Match</div>
+                        <div class="css-chart-track"><div class="css-chart-fill" style="width: 28.0%;"></div></div>
+                        <div class="css-chart-val">28.0% (420)</div>
+                    </div>
+                    <div class="css-chart-bar">
+                        <div class="css-chart-label">Price/Value Delay</div>
+                        <div class="css-chart-track"><div class="css-chart-fill" style="width: 27.3%;"></div></div>
+                        <div class="css-chart-val">27.3% (410)</div>
+                    </div>
+                    <div class="css-chart-bar">
+                        <div class="css-chart-label">Platform Bookmarking</div>
+                        <div class="css-chart-track"><div class="css-chart-fill" style="width: 26.7%;"></div></div>
+                        <div class="css-chart-val">26.7% (400)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Evidence Explorer Feed -->
+        <div class="panel">
+            <div class="panel-header">
+                <h2>💬 09 — Evidence Explorer (AI Classified Feed)</h2>
+                <span class="meta-badge" id="resultsCount">Showing 1500 items</span>
+            </div>
+
+            <div class="search-filter-box">
+                <input type="text" class="search-bar" id="searchBar" placeholder="Search conversations (e.g. Roadster, fabric, fit, compare)...">
+                
+                <select class="filter-select" id="catFilter">
+                    <option value="All">All Behavioral Segments</option>
+                    <option value="Fit & Size Validator">Fit & Size Validator</option>
+                    <option value="High-Intent Comparer">High-Intent Comparer</option>
+                    <option value="Quality & Fabric Verifier">Quality & Fabric Verifier</option>
+                    <option value="Style & Outfit Planner">Style & Outfit Planner</option>
+                    <option value="Price & Timing Watcher">Price & Timing Watcher</option>
+                    <option value="Passive Bookmarker">Passive Bookmarker</option>
+                </select>
+
+                <select class="filter-select" id="barrierFilter">
+                    <option value="All">All Barrier Levels</option>
+                    <option value="High">High Barrier</option>
+                    <option value="Medium">Medium Barrier</option>
+                    <option value="Low">Low Barrier</option>
+                </select>
+            </div>
+
+            <div class="feedback-feed" id="feedbackFeed">
+                <!-- Feed cards populated dynamically -->
+            </div>
+            
+            <button class="load-more-btn" id="loadMoreBtn">Load More Evidence Cards (+30)</button>
+        </div>
+
+    </div>
+
+    <!-- 06 - Intent x Friction 2x2 Matrix & Intent Rubric Box -->
+    <div class="methodology-box">
+        <h3 style="font-size: 16px; color: var(--text-title); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            🧭 06 — Decision Journey & Intent × Friction 2×2 Matrix (Sums to 100.0%)
+        </h3>
+        
+        <div class="rubric-box">
+            <strong>📋 How Intent & Friction are Classified Independently (Rubric):</strong>
+            <div class="rubric-grid">
+                <div>
+                    <strong style="color: #10B981;">High Intent Purchase Proximity Signals (≥1 Signal):</strong>
+                    <ul style="margin-left: 16px; margin-top: 4px; color: var(--text-muted);">
+                        <li>Explicitly states intent, plan, or desire to purchase</li>
+                        <li>Identified concrete purchase occasion/timeline (sangeet, wedding, interview)</li>
+                        <li>Has narrowed consideration to specific products/brands</li>
+                        <li>Has selected SKU attributes (specific size/color selected)</li>
+                        <li>Describes active checkout/purchase consideration</li>
+                    </ul>
+                </div>
+                <div>
+                    <strong style="color: #EF4444;">Friction Classification (X-Axis):</strong>
+                    <ul style="margin-left: 16px; margin-top: 4px; color: var(--text-muted);">
+                        <li><strong>High Friction:</strong> Evidence of unresolved decision barrier(s) preventing checkout (fit uncertainty, comparison paralysis, quality distrust).</li>
+                        <li><strong>Low Friction:</strong> Unblocked checkout execution or passive bookmarking without decision doubts.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2x2">
+            <div class="box-2x2 box-target">
+                <div class="qa-badge" style="background-color: var(--primary); color: white;">🎯 PRIMARY GROWTH TARGET (51.3% of Sample, n=770)</div>
+                <h4 style="font-size: 14px; margin-top: 4px; color: var(--text-title);">High Purchase Intent / High Decision Friction</h4>
+                <p style="font-size: 12px; color: var(--text-main); margin-top: 6px;">
+                    Users who have selected size/color and want to buy, but stall due to fit doubts, comparison paralysis, or unedited fabric photo skepticism.
+                </p>
+            </div>
+            
+            <div class="box-2x2">
+                <div class="qa-badge">HIGH INTENT / LOW DECISION FRICTION (16.7% of Sample, n=250)</div>
+                <h4 style="font-size: 14px; margin-top: 4px; color: var(--text-title);">High Purchase Intent / Low Decision Friction</h4>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+                    Users with active purchase intent waiting for routine execution (e.g. salary credit or scheduled shopping day) without decision doubts.
+                </p>
+            </div>
+
+            <div class="box-2x2">
+                <div class="qa-badge">PASSIVE BROWSING (22.0% of Sample, n=330)</div>
+                <h4 style="font-size: 14px; margin-top: 4px; color: var(--text-title);">Low Purchase Intent / High Friction</h4>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+                    Casual browsing or aesthetic outfit saving with no immediate timeline.
+                </p>
+            </div>
+
+            <div class="box-2x2">
+                <div class="qa-badge">MOOD BOARD ARCHIVE (10.0% of Sample, n=150)</div>
+                <h4 style="font-size: 14px; margin-top: 4px; color: var(--text-title);">Low Purchase Intent / Low Friction</h4>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">
+                    Long-term bookmarking to declutter cart.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 07 - Transparent 5-Dimension Opportunity Scoring Matrix -->
+    <div class="methodology-box">
+        <h3 style="font-size: 16px; color: var(--text-title); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">
+            🎯 07 — Opportunity Landscape & Transparent Scoring Matrix (Max 25)
+        </h3>
+        <p style="font-size: 13px; color: var(--text-muted); margin-top: 8px;">
+            Scored across 5 transparent dimensions (1–5 each): <code>Score = Prevalence (P) + Intent Proximity (I) + Severity (S) + Addressability (A) + Confidence (C)</code>.
+        </p>
+
+        <table class="matrix-table">
+            <thead>
+                <tr>
+                    <th>Opportunity Area</th>
+                    <th>P /5</th>
+                    <th>I /5</th>
+                    <th>S /5</th>
+                    <th>A /5</th>
+                    <th>C /5</th>
+                    <th>Formula</th>
+                    <th>Score & Priority Rank</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Size & Fit Uncertainty</strong></td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td><code>4+5+5+5+4</code></td>
+                    <td><span class="badge-priority-high">RANK #1 (23/25)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>2. Comparison Paralysis</strong></td>
+                    <td>5</td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>5</td>
+                    <td>3</td>
+                    <td><code>5+5+4+5+3</code></td>
+                    <td><span class="badge-priority-high">RANK #2 (22/25)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>3. Product Quality / Real-Photo Void</strong></td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td><code>5+4+3+4+3</code></td>
+                    <td><span class="badge-priority-med">RANK #3 (19/25)</span></td>
+                </tr>
+                <tr>
+                    <td><strong>4. Price Volatility & Context</strong></td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>4</td>
+                    <td>2*</td>
+                    <td>3</td>
+                    <td><code>4+4+4+2+3</code></td>
+                    <td><span class="badge-priority-med">RANK #4 (17/25)*</span></td>
+                </tr>
+                <tr>
+                    <td><strong>5. Styling & Wardrobe Match</strong></td>
+                    <td>4</td>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>2</td>
+                    <td><code>4+3+3+4+2</code></td>
+                    <td><span class="badge-priority-med">RANK #5 (16/25)</span></td>
+                </tr>
+                <tr style="opacity: 0.6;">
+                    <td><strong>6. Passive Bookmarking</strong></td>
+                    <td>3</td>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td>2</td>
+                    <td><code>3+1+1+3+2</code></td>
+                    <td><span class="badge-priority-low">RANK #6 (10/25)</span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="background-color: var(--card-bg); border-left: 3px solid var(--primary); padding: 12px 16px; margin-top: 14px; font-size: 12px; line-height: 1.5; color: var(--text-main);">
+            📌 <strong>Key PM Insight (Frequency ≠ Priority):</strong> Although Comparison Friction appears in slightly more sampled conversations (33.3%) than Fit Uncertainty (29.3%), <strong>Fit ranks higher (#1)</strong> because affected conversations exhibit stronger purchase intent (I=5/5), greater severity (S=5/5), and higher non-monetary addressability (A=5/5).<br>
+            *<em>Price Addressability Nuance: Direct price reduction is prohibited by constraint (A=1/5), but non-monetary price/value context (transparency, noise-free price alert thresholding) is partially addressable (A=2/5), placing it cleanly at Rank #4 (17/25) above Styling (16/25).</em>
+        </div>
+    </div>
+
+    <!-- 08 - Unmet Needs & Opportunity Spaces -->
+    <div class="qa-container">
+        <div class="panel-header" style="border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 15px;">
+            <h2>💡 08 — Unmet Needs & Opportunity Spaces (Discovery Findings)</h2>
+            <span class="meta-badge" style="color: var(--primary);">Problem Formulation before Solutioning</span>
+        </div>
+
+        <div class="qa-grid">
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('u1', this)">
+                    <span>Need 1 — Fit & Size Confidence</span>
+                    <span class="accordion-arrow">▼</span>
+                </div>
+                <div class="accordion-content" id="u1">
+                    <div class="qa-badge">Fit & Size Validator Need</div>
+                    <p><em>"Help me predict whether this specific brand item will fit my body before I commit to ordering."</em></p>
+                    <p style="margin-top: 6px; color: var(--text-muted);">
+                        Users encounter inter-brand sizing variations (e.g. Roadster M vs HRX L) and abandon wishlists to avoid return logistics.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('u2', this)">
+                    <span>Need 2 — Decision & Choice Confidence</span>
+                    <span class="accordion-arrow">▼</span>
+                </div>
+                <div class="accordion-content" id="u2">
+                    <div class="qa-badge">High-Intent Comparer Need</div>
+                    <p><em>"Help me evaluate and choose between multiple similar items I've already shortlisted."</em></p>
+                    <p style="margin-top: 6px; color: var(--text-muted);">
+                        Users wishlist 3–5 items (e.g. black heels) but experience choice paralysis without side-by-side spec comparison.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('u3', this)">
+                    <span>Need 3 — Product Reality & Fabric Confidence</span>
+                    <span class="accordion-arrow">▼</span>
+                </div>
+                <div class="accordion-content" id="u3">
+                    <div class="qa-badge">Quality Verifier Need</div>
+                    <p><em>"Help me understand what this product will actually look, drape, and feel like in real life."</em></p>
+                    <p style="margin-top: 6px; color: var(--text-muted);">
+                        Users distrust studio photos and hold items in wishlist waiting for unedited customer review pictures.
+                    </p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header" onclick="toggleAccordion('u4', this)">
+                    <span>Need 4 — Styling & Wardrobe Confidence</span>
+                    <span class="accordion-arrow">▼</span>
+                </div>
+                <div class="accordion-content" id="u4">
+                    <div class="qa-badge">Style Planner Need</div>
+                    <p><em>"Help me understand whether this item works with my existing wardrobe or occasion."</em></p>
+                    <p style="margin-top: 6px; color: var(--text-muted);">
+                        Users hesitate to buy standalone items without knowing how to style them in multiple outfit combinations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script imports -->
+    <script src="dataset.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
