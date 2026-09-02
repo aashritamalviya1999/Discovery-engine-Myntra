@@ -30,18 +30,77 @@
   }
 
   body.light-theme {
-    --ink: #F3F4F6;
+    --ink: #F8FAFC;
     --ink-panel: #FFFFFF;
-    --ink-soft: #6B7280;
-    --paper: #1F2937;
+    --ink-soft: #475569;
+    --paper: #F1F5F9;
     --paper-raised: #FFFFFF;
-    --line: #E5E7EB;
-    --line-light: #E5E7EB;
-    --text-main: #1F2937;
-    --text-title: #111827;
+    --line: #E2E8F0;
+    --line-light: #CBD5E1;
+    --primary: #D80E62;
+    --primary-glow: rgba(216, 14, 98, 0.12);
+    --gold: #B45309;
+    --sage: #059669;
+    --sage-bg: rgba(16, 185, 129, 0.12);
+    --amber: #D97706;
+    --amber-bg: rgba(245, 158, 11, 0.12);
+    --risk: #DC2626;
+    --risk-bg: rgba(239, 68, 68, 0.12);
+    --text-main: #334155;
+    --text-title: #0F172A;
+    --purple: #7C3AED;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.25s ease, border-color 0.25s ease; }
+  body.light-theme .top-nav {
+    background: rgba(255, 255, 255, 0.92);
+    border-bottom: 1px solid #E2E8F0;
+  }
+
+  body.light-theme .panel,
+  body.light-theme .flowchart-panel,
+  body.light-theme .card,
+  body.light-theme .demo-guide-box {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border-color: #E2E8F0;
+  }
+
+  body.light-theme select, 
+  body.light-theme input[type=number], 
+  body.light-theme input[type=text] {
+    background: #FFFFFF;
+    color: #0F172A;
+    border-color: #CBD5E1;
+  }
+
+  body.light-theme .toggle-btn,
+  body.light-theme .waiting-opt-btn {
+    background: #F1F5F9;
+    color: #475569;
+    border-color: #E2E8F0;
+  }
+
+  body.light-theme .toggle-btn.active,
+  body.light-theme .waiting-opt-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  body.light-theme .preset-btn {
+    background: #F1F5F9;
+    color: #334155;
+    border-color: #CBD5E1;
+  }
+
+  body.light-theme .conditions-checklist,
+  body.light-theme .waiting-reason-box,
+  body.light-theme .price-watch-box,
+  body.light-theme .demo-step-pill {
+    background: #F8FAFC;
+    border-color: #E2E8F0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease; }
   body {
     background: var(--ink);
     color: var(--text-main);
@@ -94,7 +153,27 @@
   .nav-actions {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
+  }
+
+  .theme-btn {
+    background: var(--ink-panel);
+    border: 1px solid var(--line);
+    color: var(--text-title);
+    padding: 7px 14px;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .theme-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
   }
 
   .bag-badge {
@@ -438,6 +517,7 @@
       <div class="nav-title">Myntra Discovery Engine</div>
     </a>
     <div class="nav-actions">
+      <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">☀️ Light Mode</button>
       <a href="index.html" class="back-link">← Back to Discovery Dashboard (Parts 1–4)</a>
       <div class="bag-badge" id="bagCounter">🛍️ Bag (0 items)</div>
     </div>
@@ -542,7 +622,7 @@
       </div>
 
       <div class="anchor-status" id="anchorStatus">
-        Anchor profile active! FitCheck will reason against your anchor for all items below.
+        Anchor profile saved! FitCheck will reason against your anchor for all items below.
       </div>
     </section>
 
@@ -632,7 +712,7 @@ const ITEMS = [
     currentPriceNum: 1499,
     originalPriceNum: 2499,
     targetPriceNum: 1299,
-    waitingReason: 'both', // 'price', 'fit', 'both'
+    waitingReason: 'both',
     fitResolved: false,
     category: 'Jeans',
     meta: 'Denim (98% Cotton, 2% Elastane) · Mid-rise slim fit · Waist runs narrow',
@@ -681,9 +761,9 @@ const ITEMS = [
     name: 'Tailored Fit Blazer',
     currentPriceNum: 3499,
     originalPriceNum: 5999,
-    targetPriceNum: 3499, // Target met!
+    targetPriceNum: 3499,
     waitingReason: 'fit',
-    fitResolved: true, // Fit resolved!
+    fitResolved: true,
     category: 'Blazer',
     meta: 'Poly-viscose blend (220 GSM) · Structured padded shoulder · Lined',
     signals: 'Community fit notes (n=150 reviews): Structured shoulder; sleeve length runs ~1cm long.',
@@ -708,6 +788,28 @@ const ITEMS = [
     }
   }
 ];
+
+// Theme Toggle Functionality
+function toggleTheme() {
+  const body = document.body;
+  const btn = document.getElementById('themeToggle');
+  if (body.classList.contains('light-theme')) {
+    body.classList.remove('light-theme');
+    if (btn) btn.innerHTML = '☀️ Light Mode';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    body.classList.add('light-theme');
+    if (btn) btn.innerHTML = '🌙 Dark Mode';
+    localStorage.setItem('theme', 'light');
+  }
+}
+
+// Load saved theme on boot
+if (localStorage.getItem('theme') === 'light') {
+  document.body.classList.add('light-theme');
+  const btn = document.getElementById('themeToggle');
+  if (btn) btn.innerHTML = '🌙 Dark Mode';
+}
 
 // Draw ruler lines
 document.getElementById('ruler').innerHTML = Array(70).fill('<span></span>').join('');

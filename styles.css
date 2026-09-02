@@ -22,15 +22,32 @@
 }
 
 body.light-theme {
-    --bg-dark: #F3F4F6;
+    --bg-dark: #F8FAFC;
     --panel-bg: #FFFFFF;
-    --border-color: #E5E7EB;
-    --text-main: #1F2937;
-    --text-muted: #6B7280;
-    --text-title: #111827;
-    --card-bg: #F9FAFB;
-    --meta-bg: #E5E7EB;
-    --accordion-header: #F3F4F6;
+    --border-color: #E2E8F0;
+    --text-main: #334155;
+    --text-muted: #64748B;
+    --text-title: #0F172A;
+    --card-bg: #F1F5F9;
+    --meta-bg: #E2E8F0;
+    --accordion-header: #F1F5F9;
+}
+
+body.light-theme .exec-summary-box,
+body.light-theme .metric-card,
+body.light-theme .qa-container,
+body.light-theme .table-container,
+body.light-theme .methodology-box {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-color: #E2E8F0;
+}
+
+body.light-theme select,
+body.light-theme input[type=text],
+body.light-theme input[type=number] {
+    background: #FFFFFF;
+    color: #0F172A;
+    border-color: #CBD5E1;
 }
 
 * {
