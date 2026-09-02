@@ -262,7 +262,7 @@ with open("feedbackData.json", "w", encoding="utf-8") as f:
 
 # Save dataset JS file
 with open("dataset.js", "w", encoding="utf-8") as f:
-    f.write("const feedbackData = " + json.dumps(dataset, indent=2, ensure_ascii=False) + ";\n")
+    f.write("window.feedbackData = " + json.dumps(dataset, indent=2, ensure_ascii=False) + ";\n")
 
 # Save CSV file for download
 fieldnames = list(dataset[0].keys())

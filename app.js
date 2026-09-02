@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const data = window.feedbackData || [];
+    const data = window.feedbackData || (typeof feedbackData !== "undefined" ? feedbackData : []);
     const totalScraped = data.length || 1500;
 
     // Update Header Badge

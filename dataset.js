@@ -1,4 +1,4 @@
-const feedbackData = [
+window.feedbackData = [
   {
     "id": 1001,
     "Source": "Reddit (r/IndianFashionAddicts)",
