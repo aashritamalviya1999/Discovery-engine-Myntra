@@ -692,6 +692,7 @@
       <div class="filter-tabs">
         <button class="filter-tab-btn active" id="tabAll" onclick="filterItems('all')">All Wishlist Items (5)</button>
         <button class="filter-tab-btn" id="tabReady" onclick="filterItems('ready')">🎯 Ready to Buy Only (<span id="readyCount">0</span>)</button>
+        <button class="filter-tab-btn" style="background: rgba(16, 185, 129, 0.15); border-color: var(--sage); color: var(--sage);" onclick="resolveAllDemoItems()">⚡ Resolve All Items (Demo Mode)</button>
       </div>
     </div>
 
@@ -924,7 +925,12 @@ function renderGrid() {
             <span>🎯 READY TO BUY — ALL CONDITIONS MET</span>
             <span style="font-size:10px; background:rgba(0,0,0,0.2); padding:2px 6px; border-radius:4px;">Ready for Bag</span>
           </div>
-        ` : ''}
+        ` : `
+          <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); color: var(--gold); font-size: 11px; font-weight: 700; padding: 5px 10px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center;">
+            <span>⏳ Conditions Pending (${item.waitingReason === 'both' ? 'Price + Fit' : (item.waitingReason === 'price' ? 'Price Target' : 'Fit Check')})</span>
+            <button onclick="resolveSingleItem('${item.id}')" style="background: var(--gold); color: var(--ink); border: none; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; cursor: pointer;">⚡ Quick Resolve</button>
+          </div>
+        `}
         
         <div class="card-top">
           <div>
@@ -1031,6 +1037,24 @@ function renderGrid() {
 }
 
 renderGrid();
+
+function resolveSingleItem(id) {
+  const item = ITEMS.find(i => i.id === id);
+  if (!item) return;
+  item.currentPriceNum = item.targetPriceNum;
+  item.fitResolved = true;
+  checkFit(id, true);
+  renderGrid();
+}
+
+function resolveAllDemoItems() {
+  ITEMS.forEach(item => {
+    item.currentPriceNum = item.targetPriceNum;
+    item.fitResolved = true;
+    checkFit(item.id, true);
+  });
+  renderGrid();
+}
 
 function updateTargetPrice(id, newTarget) {
   const item = ITEMS.find(i => i.id === id);
