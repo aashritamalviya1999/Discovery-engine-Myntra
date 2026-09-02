@@ -297,9 +297,24 @@
   }
   .stock-watch-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: var(--text-title); }
   
-  .target-price-input-group { display: flex; align-items: center; gap: 8px; }
-  .target-price-input-group label { font-size: 11px; color: var(--ink-soft); text-transform: uppercase; }
-  .target-price-input-group input { width: 100px; padding: 6px 10px; font-size: 13px; font-weight: 700; }
+  .target-price-input-group { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .target-price-input-group label { font-size: 11px; color: var(--ink-soft); text-transform: uppercase; font-weight: 700; }
+  .target-price-input-group input[type=number] { width: 110px; padding: 6px 10px; font-size: 13.5px; font-weight: 700; color: var(--gold); border: 1px solid var(--gold); background: var(--ink); }
+  
+  .preset-btn-group {
+    display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;
+  }
+  .preset-btn {
+    background: rgba(255,255,255,0.06); border: 1px solid var(--line); color: var(--text-main);
+    padding: 4px 8px; border-radius: 4px; font-size: 10.5px; font-weight: 700; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .preset-btn:hover { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .savings-tag {
+    font-size: 11px; font-weight: 700; color: var(--sage); background: rgba(16, 185, 129, 0.12);
+    padding: 2px 8px; border-radius: 4px; margin-left: auto;
+  }
 
   .price-distance-bar-track {
     height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; position: relative;
@@ -705,19 +720,32 @@ function renderGrid() {
         <!-- Stock Watch / Price Target Widget -->
         <div class="stock-watch-box">
           <div class="stock-watch-header">
-            <span>📈 Intent Watch (Stock Market Target)</span>
+            <span>🎯 Customer Price Target ("Stock Watch")</span>
             <span style="color: ${isPriceMet ? 'var(--sage)' : 'var(--amber)'};">
               ${isPriceMet ? '✓ Target Hit!' : '₹' + priceDiff + ' away'}
             </span>
           </div>
 
           <div class="target-price-input-group">
-            <label for="targetInput-${item.id}">My Target:</label>
+            <label for="targetInput-${item.id}">My Target Price:</label>
             <span>₹</span>
-            <input type="number" id="targetInput-${item.id}" value="${item.targetPriceNum}" onchange="updateTargetPrice('${item.id}', this.value)">
+            <input type="number" id="targetInput-${item.id}" value="${item.targetPriceNum}" min="100" max="${item.currentPriceNum}" onchange="updateTargetPrice('${item.id}', this.value)">
+            
+            ${item.currentPriceNum > item.targetPriceNum ? `
+              <span class="savings-tag">Saves ₹${item.currentPriceNum - item.targetPriceNum} (${Math.round(((item.currentPriceNum - item.targetPriceNum)/item.currentPriceNum)*100)}% OFF)</span>
+            ` : `<span class="savings-tag" style="color:var(--sage);">Target Met!</span>`}
           </div>
 
-          <div class="price-distance-bar-track">
+          <!-- Quick Preset Target Price Buttons -->
+          <div class="preset-btn-group">
+            <span style="font-size: 10px; color: var(--ink-soft); align-self: center;">Quick Targets:</span>
+            <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.95)})">5% OFF (₹${Math.round(item.currentPriceNum * 0.95)})</button>
+            <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.90)})">10% OFF (₹${Math.round(item.currentPriceNum * 0.90)})</button>
+            <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${Math.round(item.currentPriceNum * 0.80)})">20% OFF (₹${Math.round(item.currentPriceNum * 0.80)})</button>
+            <button class="preset-btn" onclick="updateTargetPrice('${item.id}', ${item.currentPriceNum})">Buy Now (₹${item.currentPriceNum})</button>
+          </div>
+
+          <div class="price-distance-bar-track" style="margin-top: 6px;">
             <div class="price-distance-bar-fill" style="width: ${pctProgress}%;"></div>
           </div>
 
@@ -728,7 +756,7 @@ function renderGrid() {
 
           ${!isPriceMet ? `
             <button class="sim-drop-btn" onclick="simulatePriceDrop('${item.id}')">
-              ⚡ Simulate Live Flash Price Drop (₹${item.currentPriceNum} ➔ ₹${item.targetPriceNum})
+              ⚡ Simulate Live Flash Price Drop to My Target (₹${item.currentPriceNum} ➔ ₹${item.targetPriceNum})
             </button>
           ` : ''}
         </div>
