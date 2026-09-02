@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FitCheck — Wishlist Fit Confidence Engine (Part 5 MVP)</title>
+<title>Myntra Smart Wishlist — Ready When You Are (Part 5 MVP)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -26,6 +26,7 @@
     --risk-bg: rgba(239, 68, 68, 0.15);
     --text-main: #F3F4F6;
     --text-title: #FFFFFF;
+    --purple: #8B5CF6;
   }
 
   body.light-theme {
@@ -126,11 +127,11 @@
   .ruler span { flex: 1; border-left: 1px solid rgba(255,255,255,0.15); height: 6px; }
   .ruler span:nth-child(5n+1) { height: 14px; border-left: 1px solid var(--primary); }
 
-  header { padding: 32px 0 24px; }
+  header { padding: 32px 0 20px; }
   .eyebrow-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 12px; }
-  .wordmark { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(36px, 5vw, 56px); color: var(--text-title); line-height: 1.1; margin-bottom: 12px; }
+  .wordmark { font-family: 'Fraunces', serif; font-weight: 700; font-size: clamp(36px, 5vw, 54px); color: var(--text-title); line-height: 1.1; margin-bottom: 12px; }
   .wordmark em { color: var(--gold); font-style: italic; }
-  .subhead { max-width: 620px; font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
+  .subhead { max-width: 650px; font-size: 15.5px; line-height: 1.6; color: var(--ink-soft); }
   
   .part5-tag {
     display: inline-block;
@@ -145,7 +146,7 @@
     margin-bottom: 12px;
   }
 
-  /* Fit Anchor Panel */
+  /* Fit Anchor & Intent Panel */
   .panel {
     background: var(--ink-panel);
     border: 1px solid var(--line);
@@ -155,12 +156,12 @@
     box-shadow: 0 8px 30px rgba(0,0,0,0.2);
   }
   .panel-title { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--text-title); margin-bottom: 6px; }
-  .panel-desc { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 22px; max-width: 600px; line-height: 1.5; }
+  .panel-desc { font-size: 13.5px; color: var(--ink-soft); margin-bottom: 22px; max-width: 640px; line-height: 1.5; }
   
   .anchor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; align-items: end; }
   .field { display: flex; flex-direction: column; gap: 6px; }
   .field label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-soft); font-weight: 700; }
-  select, input[type=text] {
+  select, input[type=number], input[type=text] {
     font-family: inherit; font-size: 14px; padding: 10px 14px;
     border: 1px solid var(--line); background: var(--ink); color: var(--text-title);
     border-radius: 8px; outline: none;
@@ -187,24 +188,145 @@
   }
   .anchor-status.show { display: block; }
 
+  /* Flowchart Section Styles */
+  .flowchart-panel {
+    background: var(--ink-panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin: 28px 0;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    text-align: center;
+  }
+  
+  .flow-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .flow-node {
+    width: 100%;
+    max-width: 440px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .flow-node strong { font-size: 13.5px; font-weight: 700; }
+  .flow-node span { font-size: 11.5px; font-weight: 500; }
+
+  .node-beige { background: #F5F2EB; border: 1px solid #D8D0C0; color: #15161C; }
+  .node-beige span { color: #525360; }
+
+  .node-purple { background: #EEF2FF; border: 1px solid #C7D2FE; color: #3730A3; }
+  .node-purple span { color: #4338CA; }
+
+  .node-green { background: #ECFDF5; border: 1px solid #A7F3D0; color: #14532D; }
+  .node-green span { color: #166534; }
+
+  .node-amber { background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; }
+  .node-amber span { color: #92400E; }
+
+  .node-mint { background: #E6F4EA; border: 1px solid #A7F3D0; color: #047857; }
+  .node-mint span { color: #065F46; }
+
+  .flow-arrow-down { font-size: 16px; color: var(--primary); font-weight: 800; }
+
+  .flow-branches {
+    display: flex;
+    gap: 14px;
+    width: 100%;
+    max-width: 540px;
+    justify-content: center;
+  }
+  .flow-branch-item { flex: 1; }
+
   /* Item Section */
-  .section-head { margin: 40px 0 20px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
+  .section-head { margin: 36px 0 20px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
   .section-head h2 { font-family: 'Fraunces', serif; font-weight: 600; font-size: 28px; color: var(--text-title); }
   .section-head p { font-size: 13.5px; color: var(--ink-soft); }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .filter-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .filter-tab-btn {
+    padding: 8px 16px; border: 1px solid var(--line); background: var(--ink-panel);
+    color: var(--ink-soft); border-radius: 20px; font-size: 12.5px; font-weight: 700; cursor: pointer;
+  }
+  .filter-tab-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 24px; }
 
   .card {
     background: var(--ink-panel); border: 1px solid var(--line); border-radius: 16px;
     padding: 24px; display: flex; flex-direction: column; gap: 14px; position: relative;
     overflow: hidden;
   }
+  .card.ready-to-buy {
+    border: 2px solid var(--sage);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+  }
+
+  .ready-banner {
+    background: linear-gradient(90deg, #10B981, #059669);
+    color: white; font-size: 11px; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 4px 12px; border-radius: 4px; display: inline-block;
+    align-self: flex-start; margin-bottom: 2px;
+  }
+
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
   .card-brand { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--primary); font-weight: 800; }
-  .card-name { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; color: var(--text-title); margin-top: 2px; }
-  .card-price { font-size: 15px; font-weight: 800; color: var(--gold); white-space: nowrap; }
-  .card-meta { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 12px; }
+  .card-name { font-family: 'Fraunces', serif; font-size: 19.5px; font-weight: 600; color: var(--text-title); margin-top: 2px; }
+  .card-price-box { text-align: right; }
+  .card-price { font-size: 16px; font-weight: 800; color: var(--gold); }
+  .original-price { font-size: 12px; color: var(--ink-soft); text-decoration: line-through; }
+
+  .card-meta { font-size: 12.5px; color: var(--ink-soft); line-height: 1.5; border-top: 1px solid var(--line); padding-top: 10px; }
+
+  /* Stock Watch / Target Price Widget */
+  .stock-watch-box {
+    background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .stock-watch-header { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; color: var(--text-title); }
   
+  .target-price-input-group { display: flex; align-items: center; gap: 8px; }
+  .target-price-input-group label { font-size: 11px; color: var(--ink-soft); text-transform: uppercase; }
+  .target-price-input-group input { width: 100px; padding: 6px 10px; font-size: 13px; font-weight: 700; }
+
+  .price-distance-bar-track {
+    height: 8px; background: var(--line); border-radius: 4px; overflow: hidden; position: relative;
+  }
+  .price-distance-bar-fill {
+    height: 100%; background: linear-gradient(90deg, #F59E0B, #10B981); border-radius: 4px; transition: width 0.4s ease;
+  }
+
+  .distance-status-text { font-size: 11.5px; font-weight: 600; color: var(--ink-soft); display: flex; justify-content: space-between; }
+  .distance-status-text strong { color: var(--sage); }
+
+  .sim-drop-btn {
+    background: rgba(245, 158, 11, 0.15); border: 1px dashed var(--gold); color: var(--gold);
+    padding: 6px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; text-align: center;
+    transition: all 0.2s;
+  }
+  .sim-drop-btn:hover { background: var(--gold); color: var(--ink); }
+
+  /* Buy Conditions Checklist */
+  .conditions-checklist {
+    background: var(--ink); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+    font-size: 11.5px; display: flex; flex-direction: column; gap: 4px;
+  }
+  .condition-item { display: flex; align-items: center; gap: 6px; color: var(--ink-soft); }
+  .condition-item.met { color: var(--sage); font-weight: 700; }
+  .condition-item.unmet { color: var(--amber); }
+
   .check-btn {
     padding: 12px 18px; background: linear-gradient(135deg, #EC008C, #D80E62); color: white;
     border: none; font-family: inherit; font-size: 13px; font-weight: 700; cursor: pointer;
@@ -223,40 +345,40 @@
 
   /* Result Output Card */
   .result {
-    display: none; margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 18px;
+    display: none; margin-top: 8px; border-top: 1px dashed var(--line); padding-top: 16px;
   }
   .result.show { display: block; animation: fadeIn 0.4s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  .result-header { display: flex; align-items: center; gap: 16px; margin-bottom: 14px; }
+  .result-header { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
   
   /* SVG Circular Gauge */
-  .gauge { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
+  .gauge { position: relative; width: 60px; height: 60px; flex-shrink: 0; }
   .gauge svg { transform: rotate(-90deg); }
   .gauge-track { fill: none; stroke: var(--line); stroke-width: 6; }
   .gauge-fill { fill: none; stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset 1s cubic-bezier(0.4, 0, 0.2, 1); }
   .gauge-num {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-    font-weight: 800; font-size: 15px; color: var(--text-title);
+    font-weight: 800; font-size: 14px; color: var(--text-title);
   }
 
   .verdict-block { flex: 1; }
-  .verdict { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; margin-bottom: 2px; }
-  .rec-size { font-size: 13px; color: var(--ink-soft); }
+  .verdict { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 700; margin-bottom: 2px; }
+  .rec-size { font-size: 12.5px; color: var(--ink-soft); }
   .rec-size b { color: var(--text-title); font-weight: 800; }
 
-  .reasons { list-style: none; margin: 0 0 12px; display: flex; flex-direction: column; gap: 6px; }
-  .reasons li { font-size: 12.5px; line-height: 1.5; padding-left: 16px; position: relative; color: var(--text-main); }
-  .reasons li::before { content: '•'; position: absolute; left: 4px; color: var(--primary); font-size: 14px; }
+  .reasons { list-style: none; margin: 0 0 10px; display: flex; flex-direction: column; gap: 6px; }
+  .reasons li { font-size: 12px; line-height: 1.5; padding-left: 14px; position: relative; color: var(--text-main); }
+  .reasons li::before { content: '•'; position: absolute; left: 2px; color: var(--primary); font-size: 14px; }
 
   .watchout {
-    font-size: 12px; padding: 10px 14px; border-radius: 8px; line-height: 1.5;
+    font-size: 11.5px; padding: 8px 12px; border-radius: 6px; line-height: 1.5;
     background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(245, 158, 11, 0.3);
   }
   .watchout b { color: #F59E0B; font-weight: 800; }
 
   .action-row {
-    display: flex; gap: 10px; margin-top: 14px;
+    display: flex; gap: 10px; margin-top: 12px;
   }
   .move-bag-btn {
     flex: 1; padding: 10px 14px; background: var(--sage); color: white; border: none;
@@ -272,68 +394,6 @@
   .v-likely .verdict { color: var(--amber); }
   .v-risk .gauge-fill { stroke: var(--risk); }
   .v-risk .verdict { color: var(--risk); }
-
-  /* Flowchart Section Styles */
-  .flowchart-panel {
-    background: var(--ink-panel);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 32px;
-    margin: 32px 0;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
-    text-align: center;
-  }
-  
-  .flow-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin-top: 24px;
-    max-width: 680px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .flow-node {
-    width: 100%;
-    max-width: 440px;
-    padding: 14px 20px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  .flow-node strong { font-size: 14px; font-weight: 700; }
-  .flow-node span { font-size: 12px; font-weight: 500; }
-
-  .node-beige { background: #F5F2EB; border: 1px solid #D8D0C0; color: #15161C; }
-  .node-beige span { color: #525360; }
-
-  .node-purple { background: #EEF2FF; border: 1px solid #C7D2FE; color: #3730A3; }
-  .node-purple span { color: #4338CA; }
-
-  .node-green { background: #ECFDF5; border: 1px solid #A7F3D0; color: #14532D; }
-  .node-green span { color: #166534; }
-
-  .node-amber { background: #FFFBEB; border: 1px solid #FDE68A; color: #78350F; }
-  .node-amber span { color: #92400E; }
-
-  .node-mint { background: #E6F4EA; border: 1px solid #A7F3D0; color: #047857; }
-  .node-mint span { color: #065F46; }
-
-  .flow-arrow-down { font-size: 18px; color: var(--ink-soft); font-weight: 800; }
-
-  .flow-branches {
-    display: flex;
-    gap: 16px;
-    width: 100%;
-    max-width: 580px;
-    justify-content: center;
-  }
-  .flow-branch-item { flex: 1; }
 
   footer { margin-top: 60px; padding-top: 24px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--ink-soft); line-height: 1.6; }
 </style>
@@ -356,12 +416,12 @@
     <header>
       <div class="part5-tag">Part 5 — Solution MVP Prototype</div>
       <div class="eyebrow-row">
-        <span>Non-Monetary Conversion Feature</span>
-        <span>Target Outcome: Wishlist → Bag Progression</span>
+        <span>Intent-Based Wishlist · "Ready When You Are"</span>
+        <span>Decision Management System</span>
       </div>
       <div class="ruler" id="ruler"></div>
-      <h1 class="wordmark">Fit<em>Check</em></h1>
-      <p class="subhead">Tell us one size that already fits you. FitCheck cross-maps brand size charts, fabric shrinkage, and community fit signals to predict your exact fit — before items sit unbought in your wishlist for weeks.</p>
+      <h1 class="wordmark">Smart <em>Wishlist</em> &amp; FitCheck</h1>
+      <p class="subhead">Transforming wishlists from passive bookmarks into an active Decision Management System. Tell Myntra your exact <strong>Target Price</strong> and <strong>Fit Anchor</strong> — items automatically progress to "Ready to Buy" when your conditions are met.</p>
     </header>
 
     <!-- STEP 1: FIT ANCHOR & PROFILE -->
@@ -430,10 +490,10 @@
     <!-- PRODUCT ARCHITECTURE & USER JOURNEY FLOWCHART -->
     <section class="flowchart-panel">
       <h3 style="font-family: 'Fraunces', serif; font-size: 22px; color: var(--text-title); margin-bottom: 6px;">
-        🗺️ FitCheck Product Architecture & User Journey Flow
+        🗺️ Solution Architecture & User Journey Flow
       </h3>
       <p style="font-size: 13px; color: var(--ink-soft); max-width: 580px; margin: 0 auto 16px;">
-        How FitCheck resolves decision uncertainty at the Wishlist stage to drive 30-day Wishlist → Purchase conversion.
+        How Smart Wishlist & FitCheck resolve decision uncertainty at the Wishlist stage to drive 30-day Wishlist → Purchase conversion.
       </p>
 
       <div class="flow-container">
@@ -446,15 +506,15 @@
 
         <!-- Step 2 -->
         <div class="flow-node node-beige">
-          <strong>Fit confidence badge</strong>
-          <span>auto-shown on every card</span>
+          <strong>Fit confidence badge & Target Price Watch</strong>
+          <span>auto-shown on every wishlisted item card</span>
         </div>
         <div class="flow-arrow-down">↓</div>
 
         <!-- Step 3 -->
         <div class="flow-node node-purple">
-          <strong>AI fit check</strong>
-          <span>checks item vs saved size</span>
+          <strong>AI fit check & Intent Conditions Evaluator</strong>
+          <span>checks item vs saved size + target buy price</span>
         </div>
         <div class="flow-arrow-down">↓</div>
 
@@ -462,14 +522,14 @@
         <div class="flow-branches">
           <div class="flow-branch-item">
             <div class="flow-node node-green">
-              <strong>High confidence</strong>
-              <span>size confirmed, moves to Bag</span>
+              <strong>High confidence / Target Met</strong>
+              <span>size confirmed & price hit ➔ moves to Bag</span>
             </div>
           </div>
           <div class="flow-branch-item">
             <div class="flow-node node-amber">
-              <strong>Low confidence</strong>
-              <span>alt size + day-3 nudge sent</span>
+              <strong>Low confidence / Price Gap</strong>
+              <span>alt size recommended + day-3 nudge sent</span>
             </div>
           </div>
         </div>
@@ -486,15 +546,20 @@
     <!-- STEP 2: WISHLIST ITEM SHOWCASE -->
     <div class="section-head">
       <div>
-        <h2>Step 2 — Test Wishlisted Items</h2>
-        <p>The 5 exact wishlisted items real users in our walkthrough interviews left unbought due to fit doubts.</p>
+        <h2>Step 2 — Wishlist Decision Management System</h2>
+        <p>Set your target buy price or simulate live stock-market price drops for wishlisted items.</p>
+      </div>
+      
+      <div class="filter-tabs">
+        <button class="filter-tab-btn active" id="tabAll" onclick="filterItems('all')">All Wishlist Items (5)</button>
+        <button class="filter-tab-btn" id="tabReady" onclick="filterItems('ready')">🎯 Ready to Buy Only (<span id="readyCount">0</span>)</button>
       </div>
     </div>
 
     <div class="grid" id="itemGrid"></div>
 
     <footer>
-      <p><strong>FitCheck MVP (Part 5 Solution Prototype):</strong> Fit predictions are generated by cross-mapping brand sizing matrices, fabric elastane/cotton composition, and community review signals (n=1,500 scraped dataset). Designed to resolve decision friction at the Wishlist → Bag stage without discounts or coupons.</p>
+      <p><strong>FitCheck & Intent Wishlist MVP (Part 5 Solution Prototype):</strong> Combines Opportunity #1 (Fit Uncertainty, 23/25) with Intent-Based Price Target Watch ("Stock Watch"). Features deterministic multi-signal fit reasoning and simulated live price triggers to propel Wishlist → Bag conversion without discounts.</p>
     </footer>
 
   </div>
@@ -505,27 +570,29 @@ const ITEMS = [
     id: 'jeans',
     brand: 'Roadster',
     name: 'Slim Fit Mid-Rise Jeans',
-    price: '₹1,499',
+    currentPriceNum: 1499,
+    originalPriceNum: 2499,
+    targetPriceNum: 1299,
     category: 'Jeans',
     meta: 'Denim (98% Cotton, 2% Elastane) · Mid-rise slim fit · Waist runs narrow',
-    signals: 'Community fit notes (n=340 reviews): Waist consistently runs ~0.5 size smaller than Zara/H&M; length is true; elastane stretch eases ~3% after 2 wears.',
+    signals: 'Community fit notes (n=340 reviews): Waist consistently runs ~0.5 size smaller than Zara/H&M; length is true.',
     matrix: {
       "Zara_L": { verdict: "Likely Fit", recSize: "32 (Size Up)", conf: 82, reasons: ["Roadster waist is cut 0.6 inch narrower than Zara L", "Elastane blend provides 3% flex after break-in"], watchOut: "If you prefer a relaxed waist fit, choose 32 instead of 30." },
-      "Zara_M": { verdict: "Great Fit", recSize: "30", conf: 91, reasons: ["Aligns with your Zara M waist profile", "Inseam length fits 5'2 to 5'6 frames well"], watchOut: "Denim stretches slightly after 2 wears; do not size up further." },
-      "default": { verdict: "Likely Fit", recSize: "Size Up 1", conf: 80, reasons: ["Roadster runs narrower at waistband than standard catalog chart", "98% cotton construction holds rigid waist structure"], watchOut: "Size up 1 waist size for comfortable movement." }
+      "default": { verdict: "Likely Fit", recSize: "Size Up 1", conf: 80, reasons: ["Roadster runs narrower at waistband than standard catalog chart"], watchOut: "Size up 1 waist size for comfortable movement." }
     }
   },
   {
     id: 'dress',
     brand: 'Anouk',
     name: 'Ethnic A-Line Midi Dress',
-    price: '₹2,199',
+    currentPriceNum: 2199,
+    originalPriceNum: 3499,
+    targetPriceNum: 1999,
     category: 'Dress',
     meta: 'Cotton-Blend · Model is 5\'9" · Hemline sits above ankle on model',
-    signals: 'Community fit notes (n=210 reviews): On wearers under 5\'4", hemline falls at floor length; bust/shoulder fits true; fabric has crisp A-line drape.',
+    signals: 'Community fit notes (n=210 reviews): On wearers under 5\'4", hemline falls at floor length; bust/shoulder fits true.',
     matrix: {
       "5'2": { verdict: "Fit Risk", recSize: "L (Needs Alteration)", conf: 64, reasons: ["Bust and waist fit true to size chart", "Height alert: Catalog model is 5'9\", but for your 5'2\" height, hemline falls at floor length"], watchOut: "Will require 2-inch hemline alteration or heels to avoid floor drag." },
-      "5'8": { verdict: "Great Fit", recSize: "L", conf: 94, reasons: ["Hemline hits perfectly at mid-calf for tall frames", "Bust darts align naturally"], watchOut: "Minimal fabric stretch; verify bust measurement." },
       "default": { verdict: "Likely Fit", recSize: "L", conf: 78, reasons: ["True to size at bust and shoulders", "Crisp cotton-blend holds structural A-line shape"], watchOut: "Check hemline length against your height." }
     }
   },
@@ -533,23 +600,26 @@ const ITEMS = [
     id: 'shoes',
     brand: 'HRX',
     name: 'Reactive Running Shoes',
-    price: '₹2,999',
+    currentPriceNum: 2999,
+    originalPriceNum: 4499,
+    targetPriceNum: 2499,
     category: 'Shoes',
-    meta: 'Knit upper · Standard width · Comparison to Nike/Adidas sizing',
-    signals: 'Community fit notes (n=290 reviews): Sizing runs true in length, but toe box is narrower than Nike Revolution; wide-footed wearers size up by 0.5.',
+    meta: 'Knit upper · Standard width · Sizing compared to Nike/Adidas',
+    signals: 'Community fit notes (n=290 reviews): Length matches Nike, but toe box is narrower.',
     matrix: {
-      "UK 8": { verdict: "Great Fit", recSize: "UK 8", conf: 88, reasons: ["Length matches standard UK 8 athletic lasts", "Engineered knit upper stretches comfortably over foot arch"], watchOut: "Narrower toe box than Nike; wear thin athletic socks." },
-      "default": { verdict: "Likely Fit", recSize: "Same as Anchor", conf: 84, reasons: ["Footbed length aligns with standard athletic sizing", "Flexible knit upper accommodates medium foot widths"], watchOut: "If you have wide feet, order half a size larger." }
+      "default": { verdict: "Great Fit", recSize: "UK 8", conf: 88, reasons: ["Footbed length aligns with standard athletic sizing", "Flexible knit upper accommodates medium foot widths"], watchOut: "If you have wide feet, order half a size larger." }
     }
   },
   {
     id: 'blazer',
     brand: 'Allen Solly',
     name: 'Tailored Fit Blazer',
-    price: '₹3,499',
+    currentPriceNum: 3499,
+    originalPriceNum: 5999,
+    targetPriceNum: 3499, // Target met by default!
     category: 'Blazer',
     meta: 'Poly-viscose blend (220 GSM) · Structured padded shoulder · Lined',
-    signals: 'Community fit notes (n=150 reviews): Shoulder seam sits slightly forward; sleeve length runs ~1cm long; fabric holds structured shape with zero stretch.',
+    signals: 'Community fit notes (n=150 reviews): Structured shoulder; sleeve length runs ~1cm long.',
     matrix: {
       "default": { verdict: "Great Fit", recSize: "L (True to Size)", conf: 90, reasons: ["Structured 220 GSM fabric maintains sharp shoulder posture", "Chest and waist circumference align with formal suiting charts"], watchOut: "Sleeves run slightly long (~1cm); may need minor sleeve cuff tuck." }
     }
@@ -558,12 +628,14 @@ const ITEMS = [
     id: 'kurti',
     brand: 'Libas',
     name: 'Cotton Straight Kurti Set',
-    price: '₹1,299',
+    currentPriceNum: 1299,
+    originalPriceNum: 2199,
+    targetPriceNum: 999,
     category: 'Kurti',
     meta: '100% Pure Cotton · Machine wash · Shrinkage expected',
-    signals: 'Community fit notes (n=260 reviews): Shrinks ~4-6% in chest and length after first machine wash; buyers recommend sizing up if machine washing.',
+    signals: 'Community fit notes (n=260 reviews): Shrinks ~4-6% in chest and length after first machine wash.',
     matrix: {
-      "default": { verdict: "Fit Risk", recSize: "XL (Size Up for Shrinkage)", conf: 72, reasons: ["100% pure un-preshrunk cotton construction", "Shrinks 4% to 6% in chest and armholes after initial warm wash"], watchOut: "Order 1 size up (XL) so post-wash shrinkage yields your ideal L fit." }
+      "default": { verdict: "Fit Risk", recSize: "XL (Size Up for Shrinkage)", conf: 72, reasons: ["100% pure un-preshrunk cotton construction", "Shrinks 4% to 6% in chest after initial warm wash"], watchOut: "Order 1 size up (XL) so post-wash shrinkage yields your ideal L fit." }
     }
   }
 ];
@@ -573,6 +645,7 @@ document.getElementById('ruler').innerHTML = Array(70).fill('<span></span>').joi
 
 let anchor = { brand: 'Zara', size: 'L', height: "5'2", fit: 'true' };
 let bagCount = 0;
+let activeFilter = 'all';
 
 document.getElementById('fitToggle').addEventListener('click', (e) => {
   const btn = e.target.closest('.toggle-btn');
@@ -588,47 +661,146 @@ document.getElementById('saveAnchor').addEventListener('click', () => {
   anchor.fit = document.querySelector('.toggle-btn.active').dataset.val;
 
   const status = document.getElementById('anchorStatus');
-  status.textContent = `Anchor profile saved: ${anchor.brand} ${anchor.size} (${anchor.fit === 'true' ? 'True to size' : anchor.fit}) · Height: ${anchor.height}. FitCheck is ready!`;
+  status.textContent = `Anchor profile saved: ${anchor.brand} ${anchor.size} (${anchor.fit === 'true' ? 'True to size' : anchor.fit}) · Height: ${anchor.height}. FitCheck active!`;
   status.classList.add('show');
+
+  // Re-run predictions across cards
+  ITEMS.forEach(item => checkFit(item.id, true));
 });
 
 function renderGrid() {
   const grid = document.getElementById('itemGrid');
-  grid.innerHTML = ITEMS.map(item => `
-    <div class="card" id="card-${item.id}">
-      <div class="card-top">
-        <div>
-          <div class="card-brand">${item.brand}</div>
-          <div class="card-name">${item.name}</div>
+  let readyCount = 0;
+
+  grid.innerHTML = ITEMS.map(item => {
+    const isPriceMet = item.currentPriceNum <= item.targetPriceNum;
+    const priceDiff = item.currentPriceNum - item.targetPriceNum;
+    const isReady = isPriceMet;
+
+    if (isReady) readyCount++;
+
+    if (activeFilter === 'ready' && !isReady) {
+      return '';
+    }
+
+    const pctProgress = Math.min(100, Math.max(10, Math.round((item.targetPriceNum / item.currentPriceNum) * 100)));
+
+    return `
+      <div class="card ${isReady ? 'ready-to-buy' : ''}" id="card-${item.id}">
+        ${isReady ? `<div class="ready-banner">🎯 READY TO BUY — TARGET PRICE MET</div>` : ''}
+        
+        <div class="card-top">
+          <div>
+            <div class="card-brand">${item.brand}</div>
+            <div class="card-name">${item.name}</div>
+          </div>
+          <div class="card-price-box">
+            <div class="card-price">₹${item.currentPriceNum.toLocaleString()}</div>
+            <div class="original-price">₹${item.originalPriceNum.toLocaleString()}</div>
+          </div>
         </div>
-        <div class="card-price">${item.price}</div>
+
+        <div class="card-meta">${item.meta}</div>
+
+        <!-- Stock Watch / Price Target Widget -->
+        <div class="stock-watch-box">
+          <div class="stock-watch-header">
+            <span>📈 Intent Watch (Stock Market Target)</span>
+            <span style="color: ${isPriceMet ? 'var(--sage)' : 'var(--amber)'};">
+              ${isPriceMet ? '✓ Target Hit!' : '₹' + priceDiff + ' away'}
+            </span>
+          </div>
+
+          <div class="target-price-input-group">
+            <label for="targetInput-${item.id}">My Target:</label>
+            <span>₹</span>
+            <input type="number" id="targetInput-${item.id}" value="${item.targetPriceNum}" onchange="updateTargetPrice('${item.id}', this.value)">
+          </div>
+
+          <div class="price-distance-bar-track">
+            <div class="price-distance-bar-fill" style="width: ${pctProgress}%;"></div>
+          </div>
+
+          <div class="distance-status-text">
+            <span>Current: ₹${item.currentPriceNum}</span>
+            <span>Target: ₹${item.targetPriceNum}</span>
+          </div>
+
+          ${!isPriceMet ? `
+            <button class="sim-drop-btn" onclick="simulatePriceDrop('${item.id}')">
+              ⚡ Simulate Live Flash Price Drop (₹${item.currentPriceNum} ➔ ₹${item.targetPriceNum})
+            </button>
+          ` : ''}
+        </div>
+
+        <!-- Buy Conditions Checklist -->
+        <div class="conditions-checklist">
+          <div class="condition-item ${isPriceMet ? 'met' : 'unmet'}">
+            <span>${isPriceMet ? '✓' : '○'}</span>
+            <span>Target Price: ≤ ₹${item.targetPriceNum} (${isPriceMet ? 'MET' : '₹' + priceDiff + ' away'})</span>
+          </div>
+          <div class="condition-item met">
+            <span>✓</span>
+            <span>Size Availability: Size In Stock</span>
+          </div>
+        </div>
+
+        <button class="check-btn" data-id="${item.id}" onclick="checkFit('${item.id}')">
+          <span class="spinner"></span><span class="btn-label">✨ Check Fit &amp; Buy Readiness</span>
+        </button>
+
+        <div class="result" id="result-${item.id}"></div>
       </div>
-      <div class="card-meta">${item.meta}</div>
-      <button class="check-btn" data-id="${item.id}" onclick="checkFit('${item.id}')">
-        <span class="spinner"></span><span class="btn-label">✨ Check My Fit</span>
-      </button>
-      <div class="result" id="result-${item.id}"></div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
+
+  document.getElementById('readyCount').textContent = readyCount;
 }
 
 renderGrid();
 
-function checkFit(id) {
+function updateTargetPrice(id, newTarget) {
+  const item = ITEMS.find(i => i.id === id);
+  if (!item) return;
+  item.targetPriceNum = Number(newTarget) || item.currentPriceNum;
+  renderGrid();
+}
+
+function simulatePriceDrop(id) {
+  const item = ITEMS.find(i => i.id === id);
+  if (!item) return;
+  item.currentPriceNum = item.targetPriceNum;
+  renderGrid();
+  checkFit(id);
+}
+
+function filterItems(type) {
+  activeFilter = type;
+  document.getElementById('tabAll').classList.toggle('active', type === 'all');
+  document.getElementById('tabReady').classList.toggle('active', type === 'ready');
+  renderGrid();
+}
+
+function checkFit(id, silent = false) {
   const item = ITEMS.find(i => i.id === id);
   const btn = document.querySelector(`.check-btn[data-id="${id}"]`);
   const resultBox = document.getElementById(`result-${id}`);
-  
-  btn.disabled = true;
-  btn.classList.add('loading');
-  btn.querySelector('.btn-label').textContent = 'Reasoning over size charts & fit signals...';
-  resultBox.classList.remove('show');
+  if (!btn || !resultBox) return;
+
+  if (!silent) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btn.querySelector('.btn-label').textContent = 'Evaluating Fit Anchor & Price Signals...';
+    resultBox.classList.remove('show');
+  }
 
   setTimeout(() => {
     let prediction;
     
     // Check specific matrix rules
-    if (id === 'dress' && anchor.height === "5'2") {
+    if (id === 'dress' && anchor.height === "5'0") {
+      prediction = item.matrix["5'2"];
+    } else if (id === 'dress' && anchor.height === "5'2") {
       prediction = item.matrix["5'2"];
     } else if (id === 'dress' && (anchor.height === "5'8" || anchor.height === "6'0")) {
       prediction = item.matrix["5'8"];
@@ -638,26 +810,32 @@ function checkFit(id) {
     }
 
     renderResult(id, prediction);
-    btn.disabled = false;
-    btn.classList.remove('loading');
-    btn.querySelector('.btn-label').textContent = '🔄 Re-check Fit';
-  }, 600);
+    if (!silent) {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      btn.querySelector('.btn-label').textContent = '🔄 Re-evaluate Fit & Readiness';
+    }
+  }, silent ? 0 : 500);
 }
 
 function renderResult(id, r) {
+  const item = ITEMS.find(i => i.id === id);
   const resultBox = document.getElementById(`result-${id}`);
+  if (!resultBox) return;
+
   const vClass = r.verdict === 'Great Fit' ? 'v-great' : (r.verdict === 'Fit Risk' ? 'v-risk' : 'v-likely');
   const conf = Number(r.conf) || 80;
   const circumference = 2 * Math.PI * 26;
   const offset = circumference - (conf / 100) * circumference;
+  const isPriceMet = item.currentPriceNum <= item.targetPriceNum;
 
   resultBox.className = `result show ${vClass}`;
   resultBox.innerHTML = `
     <div class="result-header">
       <div class="gauge">
-        <svg width="64" height="64" viewBox="0 0 64 64">
-          <circle class="gauge-track" cx="32" cy="32" r="26"></circle>
-          <circle class="gauge-fill" cx="32" cy="32" r="26"
+        <svg width="60" height="60" viewBox="0 0 60 60">
+          <circle class="gauge-track" cx="30" cy="30" r="26"></circle>
+          <circle class="gauge-fill" cx="30" cy="30" r="26"
             stroke-dasharray="${circumference}" stroke-dashoffset="${circumference}"></circle>
         </svg>
         <div class="gauge-num">${conf}%</div>
@@ -677,8 +855,8 @@ function renderResult(id, r) {
     </div>
 
     <div class="action-row">
-      <button class="move-bag-btn" onclick="addToBag('${id}')">
-        🛍️ Add Size ${r.recSize.split(' ')[0]} to Bag
+      <button class="move-bag-btn" onclick="addToBag('${id}', '${r.recSize}')">
+        🛍️ ${isPriceMet ? 'Target Price Met! Move to Bag' : 'Add Size ' + r.recSize.split(' ')[0] + ' to Bag'}
       </button>
     </div>
   `;
@@ -689,13 +867,13 @@ function renderResult(id, r) {
   });
 }
 
-function addToBag(id) {
+function addToBag(id, recSize) {
   bagCount++;
   const badge = document.getElementById('bagCounter');
   badge.textContent = `🛍️ Bag (${bagCount} items)`;
   badge.style.transform = 'scale(1.1)';
   setTimeout(() => badge.style.transform = 'scale(1)', 200);
-  alert('✨ Item added to Bag! Wishlist → Bag progression successful.');
+  alert(`✨ Item added to Bag! Wishlist → Bag progression successful for size ${recSize}.`);
 }
 </script>
 
