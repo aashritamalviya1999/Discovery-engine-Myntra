@@ -1,0 +1,262 @@
+
+=== SLIDE 1 ===
+  - GROWTH PM CASE STUDY · MYNTRA
+  - Convert High-Intent Wishlisters by Resolving Size & Fit Uncertainty — Without Monetary Subsidies
+  - Wishlist adds are a stronger-than-browse interest signal, but purchase intent varies across user segments.
+  - EXECUTIVE SUMMARY & STRATEGIC THESIS: Among high-intent wishlisters, conversion can stall even after product interest is established because shoppers cannot confidently predict cross-brand fit. FitCheck uses a known-good past fit as an anchor to provide personalized fit confidence, helping users progress from Saved to Ready to Buy without discounts or margin erosion.
+  - 51.3%
+  - High Intent / High Friction
+  - 770 / 1,500 conversations fall into the segment closest to purchase but blocked by friction.
+  - 23 / 25
+  - #1 Prioritized Opportunity
+  - Fit scored 23/25 on intent proximity, severity, addressability and evidence confidence.
+  - 83% (5/6)
+  - Surfaced Fit/Drape Doubt
+  - 5/6 interviewees surfaced fit uncertainty; 3/6 (50%) cited it as their primary blocker.
+  - 6 / 6 (100%)
+  - Outside-App Workarounds
+  - All 6 participants used outside-app workarounds to resolve fit uncertainty before deciding.
+  - TESTABLE ARTEFACTS & LIVE PROTOTYPES
+  - Publicly accessible tools built specifically for this case study submission:
+  - Open Discovery Engine 🔗
+  - Open Live Deployed MVP 🚀
+  - END-TO-END CONVERSION FLOW
+  - 1. DISCOVERY: 1,500 public conversations classified into Intent × Friction quadrants.
+  - 2. RESEARCH: 6 qualitative walkthroughs isolate cross-brand size distrust.
+  - 3. FITCHECK ENGINE: Garment attributes matched against user's known-good fit anchor.
+  - 4. READY TO BUY: Wishlist item flips to action-ready state upon confidence signal.
+  - 5. 30D CONVERSION: User moves item to Bag & signals stronger purchase commitment.
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 1
+
+=== SLIDE 2 ===
+  - BUSINESS METRIC DECOMPOSITION
+  - Wishlist-to-Bag Progression Is the Most Addressable Product Lever for 30-Day Conversion
+  - Decomposing the business North Star into controllable product outcomes, user behavioral stages, and non-goals.
+  - 30-Day Wishlist Buyer Conversion = (Unique users purchasing ≥1 item they wishlisted within 30 days of adding it) ÷ (Unique cohort users with ≥1 eligible wishlist add)
+  - Behavioral drivers of 30D conversion: Wishlist Revisit → Intent Persistence → Decision Confidence → Wishlist to Bag → Bag to Purchase
+  - 1. Wishlist Revisit
+  - User returns to saved item
+  - Supporting behaviorRetention trigger
+  - 2. Decision Resolution
+  - Fit uncertainty gets resolved
+  - Chosen frictionINTERVENTION ZONE
+  - 3. Wishlist → Bag
+  - User commits saved SKU to Bag
+  - Primary outcomeGoal: Uplift vs control
+  - 4. Bag → Purchase
+  - Checkout completes
+  - Downstream outcomeStandard checkout
+  - 5. 30-Day Purchase
+  - ≥1 wishlisted item purchased
+  - Business North Star30-Day Cohort
+  - STRATEGIC INTERVENTION FOCUS: WISHLIST → BAG
+  - • Discovery + interviews indicate that the most attractive controllable intervention point is between decision confidence and Wishlist → Bag.• For the fit-focused cohort, product interest is established; unresolved fit confidence remains the primary decision barrier.• FitCheck targets the two adjacent friction steps: resolve fit doubt → accelerate Wishlist-to-Bag conversion without monetary discounts.
+  - EXPLICIT NON-GOALS & SCOPE BOUNDARIES
+  - • We do NOT optimize generic wishlist additions or total app time. More bookmarking is not business success unless intent converts within 30 days.• We do NOT issue price cuts, coupons, or cashback incentives. The strategic constraint requires solving user decision uncertainty natively.• Baseline event instrumentation will validate true funnel drop-off rates across product categories.
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 2
+
+=== SLIDE 3 ===
+  - AI-POWERED DISCOVERY ENGINE
+  - AI-powered feedback intelligence pipeline : Classifying 1,500 Public Conversations into Intent × Friction Evidence
+  - Ingesting unstructured posts from Reddit, Play Store, and fashion forums into structured, decision-ready evidence objects.
+  - 1. INGESTION
+  - 1,500 public posts from Reddit, App/Play Store, YouTube reviews.
+  - 2. STRUCTURE
+  - 14-field multi-label schema (Intent, Friction, Workaround, Need).
+  - 3. SEGMENT
+  - LLM-tagged segmentation into 4 Intent × Friction quadrants.
+  - 4. PRIORITIZE
+  - Opportunity scoring: Prevalence + Intent + Severity + Addressability + Confidence /25.
+  - 5. AUDIT
+  - 300 records manually audited; 90% AI–human label agreement.
+  - STRUCTURED EVIDENCE OBJECT SAMPLE (RECORD #842)
+  - Intent: HIGH    Friction: SIZE / FIT    Workaround: PAST ORDERS    Source: REDDIT
+  - • Verbatim Post Snippet: "I love these Roadster slim jeans on Myntra, but size 30 is too tight around waist and 32 slips down. I've left them saved for 2 weeks while comparing waist measurements against 3 previous orders."• Model Inference: Intent Proximity = 0.94 (Near-term purchase); Friction Severity = High; Solvability = Non-Monetary Fit Anchor.• Value to PM: Enables systematic quantitative comparison across friction categories while maintaining strict provenance back to raw user feedback.
+  - QUALITY CONTROL & MODEL AUDIT
+  - 300 Records Manually Audited
+  - 270 / 300 Matched = 90% Agreement
+  - • Measured: 270/300 records matched on primary Intent + Friction labels (90% AI–human label agreement).• Stack: Python + GPT-4o API + GitHub Pages Explorer• Provenance links maintained for full auditability.
+  - Test Discovery Engine Live 🔗
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 3
+
+=== SLIDE 4 ===
+  - DISCOVERY ENGINE FINDINGS
+  - Size & Fit Uncertainty Ranks #1 — High Purchase Proximity and Non-Monetary Addressability
+  - Segmenting 1,500 conversations by Intent × Friction and scoring opportunity areas on a 25-point PM rubric.
+  - INTENT × FRICTION SEGMENTATION (n = 1,500)
+  - 51.3%
+  - HIGH INTENT / HIGH FRICTION51.3% (n=770) fall into High Intent / High Friction — the primary segment for conversion intervention.
+  - 22.0%
+  - LOW INTENT / HIGH FRICTIONPassive Browsing (n=330): Casual window shopping & price watching.
+  - 16.7%
+  - HIGH INTENT / LOW FRICTIONWaiting to Execute (n=250): High desire, awaiting payday/event date.
+  - 10.0%
+  - LOW INTENT / LOW FRICTIONMood-Board Archive (n=150): Long-term outfit bookmarking.
+  - OPPORTUNITY PRIORITIZATION (P·I·S·A·C /25 RUBRIC)
+  [TABLE]
+    Row 0: Opportunity Area | Breakdown (P·I·S·A·C) | Score & Status
+    Row 1: 1. Size & Fit Uncertainty | P:4  I:5  S:5  A:5  C:4 | 23 / 25 — #1 (PRIMARY WEDGE)
+    Row 2: 2. Comparison Paralysis | P:5  I:5  S:4  A:5  C:3 | 22 / 25 — #2 (Backlog)
+    Row 3: 3. Product Quality / Real-World Visual Evidence | P:5  I:4  S:3  A:4  C:3 | 19 / 25 — #3 (Backlog)
+    Row 4: 4. Price Volatility & Context | P:4  I:4  S:4  A:2  C:3 | 17 / 25 — #4 (Monetary Boundary)
+    Row 5: 5. Styling & Wardrobe Match | P:3  I:4  S:3  A:3  C:3 | 16 / 25 — #5 (Low Priority)
+  - KEY TAKEAWAY: FREQUENCY ≠ PRIORITY FOR GROWTH INTERVENTIONComparison friction appears slightly more often across browsing, but Size & Fit Uncertainty ranks #1 overall because affected users are closest to purchase, their friction is severe, and the problem is addressable without monetary discounts. (P=Prevalence, I=Intent, S=Severity, A=Addressability, C=Confidence)
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 4
+
+=== SLIDE 5 ===
+  - PRIMARY RESEARCH
+  - 6 Wishlist Walkthroughs Reveal Users Leave Myntra to Resolve Fit Uncertainty
+  - Reconstructing user decision paths from 'Saved' to 'Researched' to 'Stalled / Purchased' for near-term purchase intent.
+  - 5 / 6 (83%)
+  - surfaced size/drape uncertainty in decision journey
+  - 3 / 6 (50%)
+  - named cross-brand fit as their primary blocker
+  - 6 / 6 (100%)
+  - used outside-app workarounds to resolve uncertainty
+  - USER DECISION JOURNEY: Wishlist Add → 'Will this fit me?' → External Research → Still Uncertain → Delayed Purchase
+  [TABLE]
+    Row 0: P# | Profile | Saved SKU | Stated Blocker | Outside Workaround | Required Purchase Trigger
+    Row 1: P1 | Male (24) | Roadster Jeans | Fit / size (30 vs 32) | Compared 3 past orders | Reliable fit comparison tool
+    Row 2: P2 | Female (26) | Anouk Kurta Set | Bust/shoulder drape | YouTube try-on hauls | Real model height/body photos
+    Row 3: P3 | Male (22) | HRX Shoes | Foot width / sizing | Reddit sizing threads | Side-by-side spec comparison
+    Row 4: P4 | Female (29) | Libas Kurti Set | Post-wash shrinkage | Read negative reviews | Shrinkage rating guarantee
+    Row 5: P5 | Male (27) | Allen Solly Blazer | Arm length / shoulder | Ordered 2 sizes to return 1 | Precise shoulder anchor
+    Row 6: P6 | Male (23) | Highlander Cargos | Waist fit / length | Asked friends on WhatsApp | Virtual outfit drape preview
+  - USERS LEAVE MYNTRA TO RESOLVE FIT UNCERTAINTY
+  - 1. SAVE ITEM: User saves specific SKU & size in wishlist.
+  - 2. EXIT MYNTRA: Leaves app to search Reddit, YouTube, Instagram.
+  - 3. TRIANGULATE: Compares past kept orders & customer reviews.
+  - 4. DELAY PURCHASE: Uncertainty persists, purchase is postponed, and intent decays.
+  - “I love this pair of Roadster jeans, but my waist size is 31 - Roadster 30 is too tight and 32 slips off. I left it saved for 2 weeks while comparing waist measurements from 3 previous kept orders.” : P1 (Walkthrough Interview)
+  - Note: Primary research covered fit-sensitive fashion categories (apparel & footwear); MVP scope was subsequently narrowed to apparel.
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 5
+
+=== SLIDE 6 ===
+  - PROBLEM DEFINITION
+  - High-Intent Shoppers Stall at Commitment Because Cross-Brand Size Labels Don't Translate into Personal Fit Confidence
+  - Synthesizing findings across Business Metric → Product Outcome → AI Discovery → Primary Research → Problem Statement.
+  - EVIDENCE CHAIN: 30D Buyer Conversion → Wishlist to Bag → AI Discovery (Fit #1 23/25) → Interviews (5/6 Surface Fit) → Root Cause (Cross-Brand Size Distrust)
+  - CORE PROBLEM STATEMENT: High-intent apparel shoppers with a near-term purchase goal delay moving wishlisted items to Bag because they cannot confidently predict how their selected size will fit across different brands — forcing them to leave Myntra to triangulate fit from external reviews, past purchases, and try-on content before committing.
+  - TARGET USER SEGMENT
+  - High-intent Myntra apparel shoppers who have shortlisted specific SKUs with near-term purchase intent.
+  - DECISION TRIGGER
+  - Revisiting saved items to evaluate checkout readiness for an upcoming event, season change, or wardrobe update.
+  - CORE ROOT OBSTACLE
+  - Inability to translate standard size labels (S/M/L or 30/32) into personalized fit guidance.
+  - EXISTING WORKAROUND
+  - Leaving Myntra to browse Reddit sizing threads, Instagram try-ons, YouTube hauls, or measuring past orders.
+  - EXPECTED USER VALUE
+  - Confidently resolve fit & size decisions quickly in one in-app flow without ordering multiple sizes to return.
+  - EXPECTED BUSINESS VALUE
+  - Increase Wishlist-to-Bag progression and reduce decision latency without worsening fit-related returns.
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 6
+
+=== SLIDE 7 ===
+  - SOLUTION RATIONALE
+  - Smart Wishlist + FitCheck Resolves Declared Blocker Inside the Wishlist — No Discounts Required
+  - Designing a native decision-confidence loop that empowers shoppers to declare obstacles and receive personalized fit recommendations.
+  - 1. FIT ANCHOR
+  - User confirms 1 kept item profile (e.g., Roadster 30).
+  - 2. DECLARE BLOCKER
+  - User tags SKU: 'Waiting on Fit'.
+  - 3. FITCHECK ENGINE
+  - Uses a known-good fit anchor and available product information to build personal fit confidence.
+  - 4. READY TO BUY
+  - Wishlist state transitions upon confidence signal.
+  - 5. MOVE TO BAG
+  - User moves item to Bag, signaling stronger purchase commitment.
+  - WHY THIS FITS THE NON-MONETARY STRATEGIC BRIEF
+  - • Zero Subsidy & Zero Margin Erosion: The solution does not rely on price slashes, coupons, or cashback nudges.• Pure Informational Value: Uses a known-good fit anchor and available product information to build personal fit confidence.• Handing Control to User: Users explicitly state what they are waiting for, transforming wishlist from passive storage into an active decision dashboard.
+  - SCOPE DISCIPLINE & EXPERIMENTAL CONTROL
+  - • Isolated Causal Experiment: The FitCheck MVP isolates Fit-only to measure pure decision confidence uplift.• Architecture Extensibility: Architecture can later support other declared blockers such as organic price events; excluded from the Fit MVP experiment.• Testable Artefact: Prototype deployed and accessible live.
+  - Launch Live MVP Prototype 🚀
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 7
+
+=== SLIDE 8 ===
+  - DEPLOYED MVP PROTOTYPE
+  - Demonstrating the Decision-Resolution & State-Transition Interface Flow
+  - Testing the non-monetary decision-confidence loop before investing engineering in real-time fit ML models.
+  - LIVE MVP INTERFACE SCREENFLOW (SAME-CATEGORY MATCHING)
+  - 1. FIT ANCHOR SCREEN
+  - Roadster Slim Fit Jeans
+  - Size 30, Waist 30"
+  - ✓ Active Kept Anchor
+  - User inputs known-good fit item to establish baseline reference.
+  - 2. FITCHECK SIGNAL
+  - Highlander Cargo Pants
+  - Size 30, Waist 30.5"
+  - Tag: [Waiting on Fit]
+  - Prototype returns a High Fit Confidence signal.
+  - 3. READY TO BUY STATE
+  - Highlander Cargo Pants
+  - Recommended: Size 30
+  - ✓ Ready to Buy
+  - Wishlist item state flips; 1-tap 'Move to Bag' CTA unlocked.
+  - Test Live Deployed MVP Prototype 🚀
+  - LIVE MVP vs PROTOTYPE SCOPE
+  - LIVE TODAY IN MVP (FIT-ONLY FLOW):
+  - ✓ Set & Save Fit Anchor Profile (Roadster Slim Fit Jeans - Size 30)
+  - ✓ Declare 'Waiting on Fit' for primary MVP flow
+  - ✓ Run FitCheck signal & confidence state
+  - ✓ Transition status from 'Waiting on Fit' to 'Ready to Buy'
+  - ✓ Execute One-Tap 'Move to Bag' Action
+  - PROTOTYPE BREADTH vs EXPERIMENT SCOPE:
+  - ✓ Declare 'Waiting on Fit' for primary MVP flow
+  - ○ Prototype architecture supports Price/Both; excluded from Fit experiment
+  - PRODUCTION VALIDATION (UNVALIDATED BACKLOG):
+  - ○ Past-order API ingestion
+  - ○ Garment measurement ML model
+  - ○ Confidence calibration engine
+  - Note: Prototype breadth ≠ experimental scope. FitCheck isolates Fit-only for the primary A/B experiment.
+  - 60-SECOND EVALUATOR TESTING PATH: [1] Set Fit Anchor → [2] Select Item & Tag 'Waiting on Fit' → [3] Click FitCheck → [4] See 'Ready to Buy' State → [5] Move to Bag
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 8
+
+=== SLIDE 9 ===
+  - DEFINE SUCCESS
+  - We scale only if FitCheck lifts 30-day conversion without increasing fit-related returns.
+  - Structuring metrics into business impact, mechanism validation, leading indicators, quality metrics, and guardrails.
+  - BUSINESS NORTH STAR METRIC
+  - 30-Day Wishlist Buyer Conversion Rate (% unique wishlist users purchasing ≥1 saved SKU)
+  - PRIMARY MECHANISM METRIC
+  - Condition-Resolved to Bag Rate (% of fit-tagged items moved to Bag within 72h)
+  - KEY GUARDRAIL METRIC
+  - Fit-Related Return Rate (Must remain flat or drop; ensures fit accuracy)
+  - CAUSAL A/B TEST EXPERIMENT DESIGN & SAMPLE RIGOR
+  - • Population: High-intent users with eligible fit-sensitive wishlisted SKU
+  - • Control: Existing Wishlist   |   Treatment: Wishlist + FitCheck
+  - • Design: User-level randomization   |   30-day window   |   power-based sample
+  - • Scale if: 30D conversion ↑ and fit-related return rate ≤ control
+  [TABLE]
+    Row 0: Category | Metric Name | Exact Definition / Formula | Target / PM Rationale
+    Row 1: Leading Indicator | Fit Anchor Adoption Rate | % fit-tagged users with a saved anchor profile | Pilot hypothesis — to be calibrated post-baseline
+    Row 2: Leading Indicator | Blocker Declaration Rate | % saved items tagged with specific blocker | Pilot hypothesis — to be calibrated post-baseline
+    Row 3: Leading Indicator | Fit Resolution Coverage | % eligible FitChecks receiving recommendations | Measures system ability to return confident calls
+    Row 4: Quality / Validation | Post-Purchase Fit Agreement | % purchases where users report fit was accurate | Direct measure of fit recommendation precision
+    Row 5: Guardrail Metric | Fit-Related Return Rate | Returns per 100 purchases due to sizing/fit | Must remain flat or drop vs control cohort
+    Row 6: Guardrail Metric | Notification Opt-Out Rate | % users disabling FitCheck reminders | Prevents notification fatigue and trust erosion
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 9
+
+=== SLIDE 10 ===
+  - RISKS & MITIGATION
+  - Mitigating False Fit Confidence, Setup Friction, and Cold Start Through Phased Rollout
+  - Evaluating potential failure modes, business risks, and defining strict rollout gating principles.
+  - CRITICAL RISK: False fit confidence can turn a stalled wishlist into a costly return — worse than doing nothing.
+  [TABLE]
+    Row 0: Risk Area | Impact | Likelihood | Root Cause | Mitigation Strategy & Rollout Gate
+    Row 1: False Fit Confidence / Fit-Related Returns | HIGH | MED | AI overconfident without garment specs | Abstain below a calibrated confidence threshold; show confidence bands; gate rollout on return rate.
+    Row 2: Fit Anchor Setup Friction | MED | HIGH | Manual multi-field input deters users | Auto-infer anchor from kept orders; ask contextually when user adds item to wishlist.
+    Row 3: Cold Start / Sparse Brand Data | HIGH | MED | New brands or niche categories lack fit evidence | Blend size charts + material elasticity; output 'Not Enough Evidence' state instead of guessing.
+    Row 4: Research Sample Generalization | MED | MED | 6 qualitative interviews are directional | Determine sample size through power analysis using baseline conversion and predefined MDE; segment by category.
+    Row 5: Notification Fatigue / Nudge Erosion | MED | MED | Repeated 'Ready to Buy' alerts feel spammy | Cap reminders to 1 per week per user; digest updates into weekly wishlist recap; 1-tap opt-out.
+  - ROLLOUT PRINCIPLE: EARN TRUST BEFORE REACHOffline data calibration → Pilot in high-volume categories with sufficient fit evidence → Validate conversion + return guardrails → Expand category coverage. 'A wishlist should actively resolve decisions, not just store products.'
+  - Myntra · Growth PM Case Study · Wishlist-to-Purchase Conversion
+  - Slide 10

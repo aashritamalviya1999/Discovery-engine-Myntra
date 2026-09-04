@@ -1,0 +1,722 @@
+import os
+
+work_dir = r"C:\Users\sanja\.gemini\antigravity\scratch\myntra_wishlist_conversion"
+
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Growth PM Case Study · Myntra Wishlist Conversion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #0f172a;
+      color: #0f172a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* Top Control Bar */
+    .toolbar {
+      width: 100%;
+      background: #1e293b;
+      border-bottom: 1px solid #334155;
+      padding: 10px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #ffffff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .brand-tag {
+      background: #e11d48;
+      color: #ffffff;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-nav { background: #334155; color: #ffffff; }
+    .btn-nav:hover { background: #475569; }
+    .btn-pptx { background: #d97706; color: #ffffff; }
+    .btn-pptx:hover { background: #b45309; }
+    .btn-pdf { background: #0284c7; color: #ffffff; }
+    .btn-pdf:hover { background: #0369a1; }
+    .btn-app { background: #10b981; color: #ffffff; }
+    .btn-app:hover { background: #059669; }
+
+    select.slide-select {
+      background: #334155;
+      color: #ffffff;
+      border: 1px solid #475569;
+      padding: 7px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* Presentation Deck Stage */
+    .deck-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      width: 100%;
+      max-width: 1600px;
+    }
+
+    .slide-wrapper {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      overflow: hidden;
+      display: none; /* Handled via JS navigation */
+    }
+
+    .slide-wrapper.active {
+      display: block;
+    }
+
+    .slide {
+      width: 100%;
+      height: 100%;
+      padding: 3% 4%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+      background-color: #ffffff;
+      color: #0f172a;
+      overflow-y: auto;
+    }
+
+    /* Slide Content Typography */
+    .slide-kicker {
+      font-size: clamp(10px, 1.1vw, 16px);
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #e11d48;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .slide-title {
+      font-size: clamp(16px, 1.8vw, 28px);
+      font-weight: 800;
+      color: #0f172a;
+      line-height: 1.25;
+      margin-bottom: 4px;
+    }
+
+    .slide-subtitle {
+      font-size: clamp(11px, 1.1vw, 16px);
+      color: #475569;
+      margin-bottom: 14px;
+      line-height: 1.35;
+    }
+
+    .slide-footer {
+      margin-top: auto;
+      padding-top: 10px;
+      border-top: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: clamp(10px, 0.9vw, 14px);
+      color: #475569;
+    }
+
+    /* Grids & Cards */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+
+    .card {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: clamp(11px, 1.1vw, 16px);
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: clamp(10px, 0.95vw, 14px);
+      color: #334155;
+      line-height: 1.45;
+    }
+
+    .stat-card {
+      padding: 12px 14px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-left: 5px solid #e11d48;
+      border-radius: 8px;
+    }
+
+    .stat-num {
+      font-size: clamp(18px, 2.2vw, 32px);
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 2px;
+      line-height: 1.1;
+    }
+
+    .stat-desc {
+      font-size: clamp(10px, 0.95vw, 14px);
+      color: #475569;
+      line-height: 1.3;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid #cbd5e1;
+      font-size: clamp(10px, 0.9vw, 14px);
+    }
+
+    .custom-table th {
+      background: #1b264f;
+      color: #ffffff;
+      font-weight: 700;
+      text-align: left;
+      padding: 8px 12px;
+    }
+
+    .custom-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #cbd5e1;
+      color: #0f172a;
+      background: #f8fafc;
+    }
+
+    .custom-table tr:nth-child(even) td {
+      background: #ffffff;
+    }
+
+    .highlight-banner {
+      background: #f8fafc;
+      border-left: 5px solid #e11d48;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-top: 10px;
+      font-size: clamp(10px, 0.95vw, 14px);
+      line-height: 1.4;
+      color: #0f172a;
+    }
+
+    .highlight-banner.navy {
+      background: #1b264f;
+      color: #ffffff;
+      border-left-color: #d97706;
+    }
+
+    @media (max-width: 768px) {
+      .deck-container { padding: 10px; }
+      .grid-2, .grid-3, .grid-5 { grid-template-columns: 1fr; }
+      .slide-wrapper { aspect-ratio: auto; min-height: 550px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <div class="toolbar">
+    <div class="brand">
+      <span class="brand-tag">Top Scholar Deck</span>
+      <span>Myntra Wishlist Growth PM Case Study</span>
+    </div>
+
+    <div class="nav-controls">
+      <button class="btn btn-nav" onclick="prevSlide()">◀ Prev</button>
+      <select class="slide-select" id="slideSelect" onchange="jumpToSlide(this.value)">
+        <option value="1">Slide 1: Executive Summary & Mechanism</option>
+        <option value="2">Slide 2: Business Metric Decomposition</option>
+        <option value="3">Slide 3: AI Discovery Engine</option>
+        <option value="4">Slide 4: Discovery Findings</option>
+        <option value="5">Slide 5: Primary Research (Interviews)</option>
+        <option value="6">Slide 6: Problem Definition</option>
+        <option value="7">Slide 7: Solution Rationale</option>
+        <option value="8">Slide 8: Deployed MVP Architecture</option>
+        <option value="9">Slide 9: Define Success (Metrics)</option>
+        <option value="10">Slide 10: Risk Matrix & Rollout</option>
+      </select>
+      <button class="btn btn-nav" onclick="nextSlide()">Next ▶</button>
+    </div>
+
+    <div style="display: flex; gap: 8px;">
+      <a href="NL_Myntra.pptx" download class="btn btn-pptx">📥 Download PPTX</a>
+      <a href="NL_Myntra.pdf" target="_blank" class="btn btn-pdf">📄 View Vector PDF</a>
+      <a href="index.html" target="_blank" class="btn btn-app">⚡ Discovery Engine</a>
+      <a href="fitcheck.html?v=10" target="_blank" class="btn btn-app">👗 Live MVP</a>
+    </div>
+  </div>
+
+  <!-- Main Presentation Deck Stage -->
+  <div class="deck-container">
+
+    <!-- SLIDE 1 -->
+    <div class="slide-wrapper active" id="slide-1">
+      <div class="slide">
+        <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 24px; height: 100%; align-items: center;">
+          <div>
+            <div class="slide-kicker">GROWTH PM CASE STUDY · MYNTRA</div>
+            <h1 class="slide-title" style="font-size: clamp(20px, 2.2vw, 34px);">Convert more wishlisters by resolving the last uncertainty — not by discounting.</h1>
+            <p class="slide-subtitle" style="font-size: clamp(12px, 1.2vw, 18px); margin-bottom: 20px;">Smart Wishlist + FitCheck turns a passive save into a decision-ready state for high-intent apparel shoppers — and measures whether that confidence actually moves them to Bag and purchase within 30 days.</p>
+
+            <div class="grid-3" style="margin-bottom: 20px;">
+              <div class="stat-card">
+                <div class="stat-num" style="color: #e11d48;">51.3%</div>
+                <div class="stat-desc">of analyzed conversations fell in high-intent / high-friction</div>
+              </div>
+              <div class="stat-card" style="border-left-color: #d97706;">
+                <div class="stat-num" style="color: #d97706;">23/25</div>
+                <div class="stat-desc">Fit uncertainty ranked #1 on opportunity rubric</div>
+              </div>
+              <div class="stat-card" style="border-left-color: #10b981;">
+                <div class="stat-num" style="color: #10b981;">3 / 6</div>
+                <div class="stat-desc">interviews cited fit as their primary blocker</div>
+              </div>
+            </div>
+
+            <div style="font-size: clamp(10px, 0.9vw, 13px); color: #64748b;">
+              Zero monetary subsidies · 10-slide Top Scholar submission · 100% vector typography & crisp execution
+            </div>
+          </div>
+
+          <div class="card" style="background: #f8fafc; border-left: 5px solid #e11d48; padding: 20px; justify-content: center;">
+            <div style="font-size: 12px; font-weight: 700; color: #e11d48; letter-spacing: 1px; margin-bottom: 4px;">THE MECHANISM</div>
+            <div style="font-size: clamp(16px, 1.6vw, 24px); font-weight: 800; color: #0f172a; margin-bottom: 16px;">From “Saved” to “Ready to Buy”</div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: clamp(11px, 1vw, 15px);">
+              <div><strong style="color: #e11d48;">1. SAVED:</strong> Explicit interest, stopped short of buying</div>
+              <div><strong style="color: #e11d48;">2. FIT UNCERTAIN:</strong> Cross-brand size / drape unresolved</div>
+              <div><strong style="color: #e11d48;">3. FIT RESOLVED:</strong> FitCheck returns transparent confidence signal</div>
+              <div><strong style="color: #e11d48;">4. READY TO BUY:</strong> Decision resolved; item becomes action-ready</div>
+              <div><strong style="color: #e11d48;">5. BAG → PURCHASE:</strong> Commitment advances toward 30-day goal</div>
+            </div>
+
+            <div class="highlight-banner" style="margin-top: 18px; background: #fff1f2; text-align: center; font-weight: 700; color: #e11d48;">
+              Thesis: For high-intent wishlisters, decision confidence is the addressable growth lever.
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 1 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide-wrapper" id="slide-2">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">Business Metric Decomposition</div>
+          <h2 class="slide-title">The business metric moves only when wishlisted users progress from intent to commitment.</h2>
+          <div class="slide-subtitle">The brief is user-level, so the North Star must also be user-level — not an SKU conversion proxy.</div>
+
+          <div class="highlight-banner navy" style="margin-bottom: 16px; text-align: center; font-weight: 700;">
+            30-Day Wishlist Buyer Conversion = (Unique users who purchase ≥1 item they wishlisted within 30 days of that add) ÷ (Unique users with ≥1 eligible wishlist add in cohort window)
+          </div>
+
+          <div class="grid-5" style="margin-bottom: 16px;">
+            <div class="card"><div class="card-title">1. Wishlist Revisit</div><div class="card-desc">Return to saved item in ≤7d</div></div>
+            <div class="card" style="border-color: #e11d48; background: #fff1f2;"><div class="card-title" style="color: #e11d48;">2. Decision Resolution</div><div class="card-desc">Fit / comparison doubt is resolved</div></div>
+            <div class="card" style="border-color: #e11d48; background: #fff1f2;"><div class="card-title" style="color: #e11d48;">3. Wishlist → Bag</div><div class="card-desc">Commit the shortlisted item</div></div>
+            <div class="card"><div class="card-title">4. Bag → Purchase</div><div class="card-desc">Complete the transaction</div></div>
+            <div class="card"><div class="card-title">5. 30-Day Window</div><div class="card-desc">Do it before intent decays</div></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title" style="color: #e11d48;">Most Addressable Product Lever</div>
+              <div class="card-desc">High-intent users already like the item. FitCheck targets the two adjacent, controllable steps: resolve the decision blocker → increase Wishlist-to-Bag progression.</div>
+            </div>
+            <div class="card" style="background: #fffbeb; border-color: #d97706;">
+              <div class="card-title" style="color: #d97706;">What we do NOT optimize</div>
+              <div class="card-desc">Generic wishlist adds or time-in-app. More saving is not success unless saved intent converts within 30 days.</div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 2 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide-wrapper" id="slide-3">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">AI-Powered Discovery Engine</div>
+          <h2 class="slide-title">The discovery engine turns 1,500 messy conversations into ranked, traceable opportunities.</h2>
+          <div class="slide-subtitle">AI-powered feedback intelligence pipeline : Classifying 1,500 Public Conversations into Intent × Friction Evidence.</div>
+
+          <div class="grid-5" style="margin-bottom: 16px;">
+            <div class="card"><div class="card-title">1. INGEST</div><div class="card-desc">1,500 public conversations</div></div>
+            <div class="card"><div class="card-title">2. STRUCTURE</div><div class="card-desc">14-field multi-label schema</div></div>
+            <div class="card"><div class="card-title">3. SEGMENT</div><div class="card-desc">Intent × friction states</div></div>
+            <div class="card"><div class="card-title">4. PRIORITIZE</div><div class="card-desc">Opportunity score /25</div></div>
+            <div class="card"><div class="card-title">5. AUDIT</div><div class="card-desc">Human review + explorer</div></div>
+          </div>
+
+          <div class="grid-2" style="grid-template-columns: 1.5fr 1fr;">
+            <div class="card">
+              <div class="card-title">A record becomes a decision-ready evidence object — not just a sentiment label.</div>
+              <div style="display: flex; gap: 10px; margin: 10px 0; font-size: 13px; font-weight: 700;">
+                <span style="background: #fff1f2; color: #e11d48; padding: 4px 8px; border-radius: 4px;">Intent: HIGH</span>
+                <span style="background: #fef3c7; color: #d97706; padding: 4px 8px; border-radius: 4px;">Friction: FIT</span>
+                <span style="background: #ecfdf5; color: #10b981; padding: 4px 8px; border-radius: 4px;">Workaround: PAST ORDERS</span>
+              </div>
+              <div class="card-desc">Why it matters: this lets the PM compare opportunity areas by purchase proximity, severity and addressability — while still drilling back to source evidence.</div>
+            </div>
+            <div class="card" style="background: #1b264f; color: white; justify-content: center; text-align: center;">
+              <div style="font-size: 12px; font-weight: 700; color: #d97706; letter-spacing: 1px;">QUALITY CONTROL</div>
+              <div style="font-size: clamp(16px, 1.5vw, 22px); font-weight: 800; margin: 6px 0;">300 records manually reviewed</div>
+              <div style="font-size: clamp(13px, 1.1vw, 16px); font-weight: 700; color: #f8fafc;">270 / 300 label agreement = 90%</div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 3 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide-wrapper" id="slide-4">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">Discovery Findings</div>
+          <h2 class="slide-title">Fit uncertainty is the highest-value non-monetary wedge — not simply the most frequent complaint.</h2>
+          <div class="slide-subtitle">The engine separates purchase intent from friction, then scores opportunities on prevalence, intent proximity, severity, addressability and confidence.</div>
+
+          <div class="grid-2">
+            <div>
+              <div class="card-title" style="margin-bottom: 8px;">Intent × friction distribution (n = 1,500)</div>
+              <div class="grid-2" style="gap: 10px;">
+                <div class="card" style="background: #e11d48; color: white;"><div style="font-size: clamp(18px, 2vw, 28px); font-weight: 800;">51.3%</div><div style="font-size: 11px;">HIGH INTENT / HIGH FRICTION</div></div>
+                <div class="card" style="background: #fef3c7;"><div style="font-size: clamp(18px, 2vw, 28px); font-weight: 800; color: #d97706;">22.0%</div><div style="font-size: 11px; color: #0f172a;">LOW INTENT / HIGH FRICTION</div></div>
+                <div class="card" style="background: #ecfdf5;"><div style="font-size: clamp(18px, 2vw, 28px); font-weight: 800; color: #10b981;">16.7%</div><div style="font-size: 11px; color: #0f172a;">HIGH INTENT / LOW FRICTION</div></div>
+                <div class="card"><div style="font-size: clamp(18px, 2vw, 28px); font-weight: 800;">10.0%</div><div style="font-size: 11px;">LOW INTENT / LOW FRICTION</div></div>
+              </div>
+            </div>
+            <div>
+              <div class="card-title" style="margin-bottom: 8px;">Opportunity ranking (/25)</div>
+              <table class="custom-table">
+                <tr><td style="font-weight:700;">1. Size & Fit Uncertainty</td><td style="color:#e11d48; font-weight:800;">23 / 25 — #1</td></tr>
+                <tr><td>2. Comparison Paralysis</td><td>22 / 25 — #2</td></tr>
+                <tr><td>3. Product Quality / Real-World Visual Evidence</td><td>19 / 25 — #3</td></tr>
+                <tr><td>4. Price Volatility & Context</td><td>17 / 25 — #4</td></tr>
+                <tr><td>5. Styling & Wardrobe Match</td><td>16 / 25 — #5</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="highlight-banner" style="margin-top: 14px; font-weight: 700; color: #e11d48; background: #fff1f2;">Frequency ≠ priority. Fit wins because the affected users are closer to purchase, the friction is severe, and the problem is addressable without monetary incentives.</div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 4 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide-wrapper" id="slide-5">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">Primary Research</div>
+          <h2 class="slide-title">Interviews narrowed the hypothesis: fit appeared in 5/6 journeys and was the primary blocker for 3/6.</h2>
+          <div class="slide-subtitle">Six wishlist walkthroughs reconstructed the path from “saved” to “researched” to “delayed / bought” for near-term purchase intent.</div>
+
+          <div class="grid-3" style="margin-bottom: 14px;">
+            <div class="stat-card"><div class="stat-num">5 / 6</div><div class="stat-desc">mentioned fit or drape in decision journey</div></div>
+            <div class="stat-card" style="border-left-color: #e11d48; background: #fff1f2;"><div class="stat-num" style="color: #e11d48;">3 / 6</div><div class="stat-desc" style="color: #0f172a;">cited fit as their primary blocker</div></div>
+            <div class="stat-card"><div class="stat-num">6 / 6</div><div class="stat-desc">used an outside-app workaround</div></div>
+          </div>
+
+          <div class="grid-2">
+            <table class="custom-table">
+              <thead><tr><th>P#</th><th>Wishlisted item</th><th>Primary blocker</th></tr></thead>
+              <tbody>
+                <tr><td>P1</td><td>Roadster jeans</td><td style="font-weight:700; color:#e11d48;">Fit / size</td></tr>
+                <tr><td>P2</td><td>Anouk dress</td><td style="font-weight:700; color:#e11d48;">Fit & drape</td></tr>
+                <tr><td>P3</td><td>HRX shoes</td><td>Comparison</td></tr>
+                <tr><td>P4</td><td>Libas kurti set</td><td style="font-weight:700; color:#e11d48;">Post-wash fit</td></tr>
+                <tr><td>P5</td><td>Allen Solly blazer</td><td>Fabric quality</td></tr>
+                <tr><td>P6</td><td>Highlander cargos</td><td>Styling</td></tr>
+              </tbody>
+            </table>
+            <div class="card" style="border-left: 5px solid #e11d48; justify-content: center;">
+              <div class="card-title">Observed workaround loop:</div>
+              <div class="card-desc" style="line-height: 1.5;">
+                1. <strong>SAVE:</strong> Specific item / size<br>
+                2. <strong>LEAVE APP:</strong> Reddit · YouTube · Instagram<br>
+                3. <strong>TRIANGULATE:</strong> Past orders · reviews · social proof<br>
+                4. <strong>DELAY PURCHASE:</strong> Still not confident enough to commit
+              </div>
+              <div style="font-style: italic; margin-top: 10px; font-size: 13px; color: #e11d48; font-weight: 600;">“Roadster 30 is too tight; 32 slips off. I compared three previous orders.” — P1</div>
+            </div>
+          </div>
+          <div style="font-size: 11px; color: #64748b; margin-top: 10px;">
+            Note: Primary research covered fit-sensitive fashion categories (apparel & footwear); MVP scope was subsequently narrowed to apparel.
+          </div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 5 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide-wrapper" id="slide-6">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">Problem Definition</div>
+          <h2 class="slide-title">The root problem is not lack of desire — it is lack of trusted, personalized fit confidence at the commitment moment.</h2>
+          <div class="slide-subtitle">The thinking narrows consistently from the business metric to a specific user, moment, root cause and product outcome.</div>
+
+          <div class="highlight-banner navy" style="margin-bottom: 16px; font-size: clamp(11px, 1vw, 15px); line-height: 1.4;">
+            <strong>Problem Statement:</strong> High-intent apparel shoppers with a near-term purchase goal delay moving a wishlisted item to Bag because they cannot confidently predict how their selected size will fit across brands — so they leave Myntra to triangulate fit from reviews, past orders and try-on content before committing.
+          </div>
+
+          <div class="grid-3">
+            <div class="card"><div class="card-title" style="color:#e11d48;">WHO</div><div class="card-desc">High-intent apparel shoppers with a near-term purchase goal</div></div>
+            <div class="card"><div class="card-title" style="color:#e11d48;">WHEN</div><div class="card-desc">Revisiting a specific saved SKU to decide “buy now or wait?”</div></div>
+            <div class="card"><div class="card-title" style="color:#e11d48;">ROOT CAUSE</div><div class="card-desc">Size labels are not trusted as personal, cross-brand fit evidence</div></div>
+            <div class="card"><div class="card-title" style="color:#e11d48;">WORKAROUND</div><div class="card-desc">Reddit / YouTube / Instagram + comparing previous kept orders</div></div>
+            <div class="card"><div class="card-title" style="color:#e11d48;">USER VALUE</div><div class="card-desc">Decide fit without leaving Myntra or ordering “just to try”</div></div>
+            <div class="card"><div class="card-title" style="color:#e11d48;">BUSINESS VALUE</div><div class="card-desc">Increase Wishlist-to-Bag progression and reduce decision latency without worsening fit-related returns.</div></div>
+          </div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 6 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide-wrapper" id="slide-7">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">Solution Rationale</div>
+          <h2 class="slide-title">Smart Wishlist + FitCheck resolves the declared blocker inside the wishlist, then hands control back to the user.</h2>
+          <div class="slide-subtitle">The core MVP is a decision-confidence loop — not a discount, coupon, or forced checkout nudge.</div>
+
+          <div class="grid-5" style="margin-bottom: 16px;">
+            <div class="card"><div class="card-title">1. FIT ANCHOR</div><div class="card-desc">Confirm kept size: Roadster M</div></div>
+            <div class="card"><div class="card-title">2. WAITING ON FIT</div><div class="card-desc">Declare blocker: Waiting on Fit</div></div>
+            <div class="card"><div class="card-title">3. FITCHECK</div><div class="card-desc">Uses a known-good fit anchor and available product information to build personal fit confidence.</div></div>
+            <div class="card" style="border-color: #e11d48; background: #fff1f2;"><div class="card-title" style="color: #e11d48;">4. READY TO BUY</div><div class="card-desc">Resolve condition state</div></div>
+            <div class="card"><div class="card-title">5. MOVE TO BAG</div><div class="card-desc">Shopper commits & acts</div></div>
+          </div>
+
+          <div class="grid-2">
+            <div class="card" style="background: #ecfdf5; border-color: #10b981;">
+              <div class="card-title" style="color: #10b981;">Why this fits the brief</div>
+              <div class="card-desc">No subsidy. No coupon. The value is informational: translate fit evidence into a personal recommendation, then let the shopper decide.</div>
+            </div>
+            <div class="card" style="background: #fffbeb; border-color: #d97706;">
+              <div class="card-title" style="color: #d97706;">Scope discipline</div>
+              <div class="card-desc">Price / Both are expansion modes in the prototype. The causal experiment isolates Fit-only.</div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 7 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide-wrapper" id="slide-8">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">Deployed MVP Architecture</div>
+          <h2 class="slide-title">The deployed MVP is intentionally thin: it proves the decision-resolution loop before investing in real fit ML.</h2>
+          <div class="slide-subtitle">A top-scoring MVP is explicit about what is functional, what is simulated, and exactly what learning it unlocks.</div>
+
+          <div class="grid-2" style="margin-bottom: 14px;">
+            <div class="card">
+              <div class="card-title">Functional in the live prototype</div>
+              <ul style="font-size: 13px; color: #334155; padding-left: 18px; line-height: 1.6;">
+                <li>✓ Roadster Slim Fit Jeans — Size 30, Waist 30"</li>
+                <li>✓ Highlander Cargo Pants — Size 30, Waist 30.5"</li>
+                <li>✓ Set and save a Fit Anchor profile</li>
+                <li>✓ Declare the blocker: Fit / Price / Both</li>
+                <li>✓ Prototype returns a High Fit Confidence signal</li>
+              </ul>
+            </div>
+            <div class="card" style="background: #1b264f; color: white;">
+              <div class="card-title" style="color: #d97706;">Production Validation Backlog</div>
+              <ul style="font-size: 13px; color: #e2e8f0; padding-left: 18px; line-height: 1.6;">
+                <li>• Real order / return-history ingestion</li>
+                <li>• Production fit model + category calibration</li>
+                <li>• Live inventory / price event integrations</li>
+                <li>• Notification preferences + caps</li>
+              </ul>
+            </div>
+          </div>
+          <div class="highlight-banner" style="text-align: center; font-weight: 700;">60-second evaluator path: [1] Set anchor → [2] Choose Fit → [3] Run FitCheck → [4] See Ready → [5] Move to Bag</div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 8 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide-wrapper" id="slide-9">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">Define Success & Experiment Design</div>
+          <h2 class="slide-title">Success is a causal lift in 30-day wishlist buyers, with faster fit-to-bag progression and no return penalty.</h2>
+          <div class="slide-subtitle">The metric stack separates business impact, mechanism validation, leading indicators and guardrails — each with a clear decision use.</div>
+
+          <div class="card" style="background: #f8fafc; border-left: 5px solid #0284c7; padding: 12px; margin-bottom: 14px;">
+            <div style="font-size: 11px; font-weight: 700; color: #0284c7; letter-spacing: 1px; margin-bottom: 4px;">A/B EXPERIMENT DESIGN (FIT-ONLY CAUSAL ISOLATION)</div>
+            <div style="font-size: 12px; color: #334155; line-height: 1.5;">
+              <strong>Population:</strong> High-intent wishlisters with an eligible fit-sensitive SKU | <strong>Control:</strong> Standard Wishlist UI | <strong>Treatment:</strong> Smart Wishlist + FitCheck MVP<br>
+              <strong>Design:</strong> 50/50 user-level randomized split over 30 days | <strong>Sample:</strong> Power analysis determines size based on baseline conversion & MDE<br>
+              <strong style="color: #e11d48;">Scale if:</strong> 30D conversion ↑ and fit-related return rate ≤ control
+            </div>
+          </div>
+
+          <table class="custom-table">
+            <thead><tr><th>Metric</th><th>Type</th><th>Definition</th><th>Why it matters</th></tr></thead>
+            <tbody>
+              <tr><td style="font-weight:700;">30D Wishlist Conversion</td><td>North Star</td><td>% wishlisters buying ≥1 saved item in 30d</td><td>Primary business goal</td></tr>
+              <tr><td style="font-weight:700;">Fit-Resolved → Bag Rate</td><td>Mechanism</td><td>% FitCheck users moving item to Bag in 72h</td><td>Proves decision resolution</td></tr>
+              <tr><td style="font-weight:700;">Fit Return Rate</td><td>Guardrail</td><td>Returns flagged for size/fit error</td><td>Prevents false confidence</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 9 / 10</span></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10 -->
+    <div class="slide-wrapper" id="slide-10">
+      <div class="slide">
+        <div>
+          <div class="slide-kicker">Risks & Rollout Strategy</div>
+          <h2 class="slide-title">The biggest failure mode is false confidence; rollout should privilege abstention, trust and learning over reach.</h2>
+          <div class="slide-subtitle">Evaluating potential failure modes, business risks, and defining strict rollout gating principles.</div>
+
+          <div class="highlight-banner" style="background: #fff1f2; border-left-color: #e11d48; margin-bottom: 12px; font-weight: 700; color: #e11d48;">
+            CRITICAL RISK: False fit confidence can turn a stalled wishlist into a costly return — worse than doing nothing.
+          </div>
+
+          <table class="custom-table" style="margin-bottom: 14px;">
+            <thead><tr><th>Risk Area</th><th>Impact</th><th>Likelihood</th><th>Root Cause</th><th>Mitigation Strategy & Rollout Gate</th></tr></thead>
+            <tbody>
+              <tr><td style="font-weight:700;">False Fit Confidence</td><td style="color:#e11d48; font-weight:700;">HIGH</td><td>MED</td><td>AI overconfident without garment specs</td><td>Abstain below threshold; show confidence bands</td></tr>
+              <tr><td style="font-weight:700;">Fit Anchor Friction</td><td>MED</td><td style="color:#d97706; font-weight:700;">HIGH</td><td>Manual setup deters users</td><td>Auto-infer anchor from kept orders contextually</td></tr>
+              <tr><td style="font-weight:700;">Cold Start / Sparse Data</td><td style="color:#e11d48; font-weight:700;">HIGH</td><td>MED</td><td>New brands lack evidence</td><td>Blend size charts + material; output 'Not Enough Evidence'</td></tr>
+            </tbody>
+          </table>
+
+          <div class="highlight-banner navy" style="text-align: center; font-weight: 700;">ROLLOUT PRINCIPLE: EARN TRUST BEFORE REACH — Offline data calibration → Pilot in high-volume categories → Validate conversion & return guardrails → Expand category coverage.</div>
+        </div>
+        <div class="slide-footer"><span>Myntra · Wishlist-to-Purchase Growth Case Study</span><span>Slide 10 / 10</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 10;
+
+    function showSlide(n) {
+      if (n < 1) n = 1;
+      if (n > totalSlides) n = totalSlides;
+      currentSlide = n;
+
+      document.querySelectorAll('.slide-wrapper').forEach((el, idx) => {
+        if (idx === currentSlide - 1) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+
+      document.getElementById('slideSelect').value = currentSlide;
+    }
+
+    function prevSlide() { showSlide(currentSlide - 1); }
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function jumpToSlide(n) { showSlide(parseInt(n)); }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>
+"""
+
+files_to_write = [
+    "presentation_pdf.html",
+    "presentation.html",
+    "slides.html"
+]
+
+for filename in files_to_write:
+    target = os.path.join(work_dir, filename)
+    with open(target, "w", encoding="utf-8") as f:
+        f.write(html_content)
+    print(f"Successfully generated responsive presentation viewer at: {target}")
