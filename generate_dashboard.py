@@ -761,7 +761,7 @@ html_template = f"""<!DOCTYPE html>
             <div class="logo">M</div>
             <div>
                 <h1>Myntra Wishlist <span>Discovery Engine</span></h1>
-                <p>Growth Strategy & Multi-Label Intent Pipeline (Sampled Conversations n=150)</p>
+                <p>Growth Strategy & Multi-Label Intent Pipeline (Sampled Conversations n=1,500)</p>
             </div>
         </div>
         <div class="controls-header">
@@ -781,12 +781,12 @@ html_template = f"""<!DOCTYPE html>
             <span class="meta-badge" style="background-color: var(--primary); color: white;">Core Thesis</span>
         </div>
         <div class="exec-summary-text">
-            Wishlist non-conversion appears to contain two fundamentally different user states: <strong>low-intent storage</strong> and <strong>high-intent decision friction</strong>. Within the analyzed sample (n=150), <strong>51.3% of conversations</strong> were classified as high-intent / high-friction. The strongest addressable frictions were <strong>fit uncertainty</strong>, <strong>comparison paralysis</strong>, and <strong>product-reality uncertainty</strong>. This suggests the growth opportunity is not to increase generic wishlist engagement, but to <strong>identify high-intent wishlist states and resolve the final uncertainty blocking checkout.</strong>
+            Wishlist non-conversion appears to contain two fundamentally different user states: <strong>low-intent storage</strong> and <strong>high-intent decision friction</strong>. Within the analyzed sample (n=1,500), <strong>51.3% of conversations</strong> were classified as high-intent / high-friction. The strongest addressable frictions were <strong>fit uncertainty</strong>, <strong>comparison paralysis</strong>, and <strong>product-reality uncertainty</strong>. This suggests the growth opportunity is not to increase generic wishlist engagement, but to <strong>identify high-intent wishlist states and resolve the final uncertainty blocking checkout.</strong>
         </div>
         <div class="exec-summary-highlights">
             <div class="highlight-item">🎯 Primary Opportunity: <span style="color: var(--primary);">Size & Fit Confidence (Score: 23/25)</span></div>
             <div class="highlight-item">🥈 Secondary Opportunity: <span style="color: #818CF8;">Comparison Confidence (Score: 22/25)</span></div>
-            <div class="highlight-item">🛡️ AI Validation: <span style="color: #10B981;">90% friction-tag agreement on 20% random audit sample (n=30)</span></div>
+            <div class="highlight-item">🛡️ AI Validation: <span style="color: #10B981;">90% friction-tag agreement on 20% random audit sample (n=3000)</span></div>
         </div>
     </div>
 
@@ -822,7 +822,7 @@ html_template = f"""<!DOCTYPE html>
         </div>
 
         <div class="disclaimer-box">
-            ⚠️ <strong>Methodological Disclaimer (Directional, Not Population-Representative):</strong> Public social conversations on Reddit, Play Store, App Store, and fashion blogs are self-selected and cannot estimate exact population incidence across Myntra’s entire user base. Percentages represent prevalence within the analyzed sample (<strong>n=150</strong>) to compare relative signals and friction density, not infer population incidence.
+            ⚠️ <strong>Methodological Disclaimer (Directional, Not Population-Representative):</strong> Public social conversations on Reddit, Play Store, App Store, and fashion blogs are self-selected and cannot estimate exact population incidence across Myntra’s entire user base. Percentages represent prevalence within the analyzed sample (<strong>n=1,500</strong>) to compare relative signals and friction density, not infer population incidence.
         </div>
 
         <div class="audit-box">
@@ -862,7 +862,7 @@ html_template = f"""<!DOCTYPE html>
             </div>
 
             <div>
-                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Multi-channel conversation breakdown (Sample n=150)</p>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Multi-channel conversation breakdown (Sample n=1,500)</p>
                 <table class="sources-table" id="sourcesTable">
                     <thead>
                         <tr>
@@ -878,7 +878,7 @@ html_template = f"""<!DOCTYPE html>
             </div>
 
             <div style="margin-top: 10px;">
-                <h4 style="font-size: 13px; color: var(--text-title); margin-bottom: 6px;">04 — Decision Friction Landscape (Multi-Label Prevalence n=150)</h4>
+                <h4 style="font-size: 13px; color: var(--text-title); margin-bottom: 6px;">04 — Decision Friction Landscape (Multi-Label Prevalence n=1,500)</h4>
                 <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">*Conversations tagged with multiple themes; categories do not sum to 100%.</p>
                 
                 <div class="chart-container">
